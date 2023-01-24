@@ -7,8 +7,10 @@
       <mat-icon class="mat-18 py-1">menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>HOME</button>
-      <button mat-menu-item>HISTORICO</button>
+      <button mat-menu-item #home> <a routerLink="/home" #home>HOME</a>
+      </button>
+      <button mat-menu-item #historico> <a routerLink="/historico" #historico>HISTORICO</a>
+      </button>
     </mat-menu>
   </div>
 </mat-toolbar>
