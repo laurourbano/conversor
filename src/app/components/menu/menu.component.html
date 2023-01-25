@@ -1,10 +1,17 @@
-<mat-toolbar color="primary" class="container-fluid">
-  <nav class="navbar navbar-dark">
-    <a class="navbar-brand" routerLink="">{{ title }}</a>
-  </nav>
-  <div>
-    <a class="btn btn-outline-light mx-2" routerLink="">{{ home }}</a>
-    <a class="btn btn-outline-light mx-2" routerLink="historico">{{ historico }}</a>
-  </div>
+<mat-toolbar color="primary" class="header mat-elevation-z4 container-fluid">
+  <span>
+    <a class="navbar-brand" routerLink="">
+      <mat-icon class="mat-18">currency_exchange</mat-icon>
+      {{ title }}
+    </a>
+  </span>
 
+
+  <button mat-raised-button [matMenuTriggerFor]="menuRef" color="Primary">
+    <mat-icon class="mat-18">menu</mat-icon>
+  </button>
+
+  <mat-menu #menuRef="matMenu" x-position="after" y-position="below" [overlapTrigger]="false">
+    <button mat-menu-item (click)="aoClickar()" *ngFor="let titulo of titulos">{{titulo}}</button>
+  </mat-menu>
 </mat-toolbar>
