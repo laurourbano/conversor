@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HistoricoComponent } from './components/historico/historico.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
-  /*
+
   { path: '', component: HomeComponent },
-  { pathMatch: 'full', component: HistoricoComponent }
-  */
+  { path: 'conversor/historico', component: HistoricoComponent },
+  { path: '**', redirectTo: '' }
+
 ];
 
 @NgModule({
