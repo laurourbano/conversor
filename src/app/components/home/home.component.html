@@ -1,11 +1,12 @@
 <div class="example-container">
   <div class="container-fluid my-4">
     <mat-form-field appearance="fill" floatLabel="always">
-      <mat-label>Valor</mat-label>
+      <mat-label>Valor</mat-label> 
       <input matInput type="number" class="example-right-align" placeholder="0">
       <span matTextPrefix>$&nbsp;</span>
     </mat-form-field>
-    <button class="btn btn-outline-primary mx-2" color="primary" type="submit"
-      (click)=(lauro())><mat-icon class="mat-18">currency_exchange</mat-icon></button>
+    <button class="btn btn-outline-primary mx-2" color="primary" type="submit" (click)=(submitForm())>
+      <mat-icon class="mat-18">currency_exchange</mat-icon>
+    </button>
   </div>
 </div>

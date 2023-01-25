@@ -17,6 +17,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HistoricoComponent } from './components/historico/historico.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { ConversorService } from './services/conversor.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { MenuComponent } from './components/menu/menu.component';
     HomeComponent,
     MenuComponent,
   ],
-  providers: [],
+  providers: [ ConversorService ],
   bootstrap: [ AppComponent ],
   imports: [
     AppRoutingModule,
@@ -45,6 +46,8 @@ import { MenuComponent } from './components/menu/menu.component';
   exports: [
     FooterComponent,
     HomeComponent,
-  ]
+    HistoricoComponent,
+  ],
+
 })
 export class AppModule { }

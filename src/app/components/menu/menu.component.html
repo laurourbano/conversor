@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="header mat-elevation-z4 container-fluid">
+<mat-toolbar color="secondary" class="header mat-elevation-z4 container-fluid">
   <span>
     <a class="navbar-brand" routerLink="">
       <mat-icon class="mat-18">currency_exchange</mat-icon>
@@ -12,6 +12,7 @@
   </button>
 
   <mat-menu #menuRef="matMenu" x-position="after" y-position="below" [overlapTrigger]="false">
-    <button mat-menu-item (click)="aoClickar()" *ngFor="let titulo of titulos">{{titulo}}</button>
+    <a routerLink=""><button mat-menu-item >HOME </button></a>
+    <a routerLink="historico"><button mat-menu-item >HISTORICO</button></a>
   </mat-menu>
 </mat-toolbar>

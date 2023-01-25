@@ -10,17 +10,12 @@ import { Conversao } from 'src/app/interfaces/conversao';
 })
 export class HistoricoComponent {
   public conversoes?: Conversao[];
+
   title = "Conversor de Moedas";
   historico = 'Histórico de Conversões';
   home = 'Home';
 
-  constructor(private ConversorService: ConversorService, private router: Router){}
-  ngOnInit(){
-    this.getListaConversoes();
-  }
-  getListaConversoes(){
-    this.ConversorService.getListaConversoes().subscribe((Conversoes:Conversao[])=>{
-      this.conversoes = Conversoes;
-    });
-  }
+  constructor(private router?: Router){}
+
+
 }

@@ -12,6 +12,6 @@ export class MenuComponent {
   titulos = [ 'Home', 'Histórico de Conversões' ]
 
   aoClickar() {
-    console.log(`Cliquei`)
+    console.log(`Cliquei no menu`)
   }
 }

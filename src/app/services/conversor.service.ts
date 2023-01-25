@@ -11,7 +11,7 @@ export class ConversorService {
 
   constructor(private http: HttpClient) { }
 
-  getListaConversoes(): Observable<Conversao[]> {
+  public getListaConversoes(): Observable<Conversao[]> {
     const url = `${ environment.conversorApiUrl }/latest`;
     return this.http.get<Conversao[]>(url);
   }
