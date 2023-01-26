@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+
 import { Conversao } from './../interfaces/conversao';
 
 @Injectable({
@@ -9,10 +10,39 @@ import { Conversao } from './../interfaces/conversao';
 })
 export class ConversorService {
 
-  constructor(private http: HttpClient) { }
+  url = 'https://api.exchangerate.host'; // api rest fake
+  requestUrl = `${ this.url }/latest`;
 
-  public getListaConversoes(): Observable<Conversao[]> {
-    const url = `${ environment.conversorApiUrl }/latest`;
-    return this.http.get<Conversao[]>(url);
+  constructor(private httpClient: HttpClient) { }
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
+  public getConversoes(): Observable<Conversao[]> {
+    return this.httpClient.get<Conversao[]>(this.requestUrl)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+
+  public salvaConversoes(Conversao: Conversao): Observable<Conversao> {
+    return this.httpClient.post<Conversao>(this.requestUrl, JSON.stringify(Conversao), this.httpOptions).pipe(
+      retry(2), catchError(this.handleError)
+    )
+  }
+
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else {
+      errorMessage = `Código do erro: ${ error.status }, ` + `menssagem: ${ error.message }`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+  };
+
 }
+
+

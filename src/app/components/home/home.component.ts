@@ -1,20 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 import { ConversorService } from './../../services/conversor.service';
-import { Router } from '@angular/router';
+import { Conversao } from 'src/app/interfaces/conversao';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: [ './home.component.css' ]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  conversao = {} as Conversao
+  conversoes!: Conversao[];
 
-  constructor(private router?: Router) { };
+  constructor(private conversorService: ConversorService, private router: Router) { };
 
+  ngOnInit(): void {
+  }
 
   submitForm(): void {
-    return console.log('preto');
+    return console.log();
   };
 
 };
+
+
