@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { ConversorService } from './../../services/conversor.service';
-import { Conversao } from 'src/app/interfaces/conversao';
 
 @Component({
   selector: 'app-home',
@@ -11,17 +11,25 @@ import { Conversao } from 'src/app/interfaces/conversao';
   styleUrls: [ './home.component.css' ]
 })
 export class HomeComponent implements OnInit {
-  conversao = {} as Conversao
-  conversoes!: Conversao[];
 
-  constructor(private conversorService: ConversorService, private router: Router) { };
+  lista = new MatTableDataSource<any>([]);
+  colunas: string[] = [ 'sigla', 'descricao' ];
+
+  constructor(private conversaoService: ConversorService) { }
 
   ngOnInit(): void {
+    this.conversaoService.cotacaoAtual().subscribe((resultado) => {
+      this.lista.data = Object.values(resultado.symbols);
+      console.log(resultado.symbols)
+    })
   }
 
-  submitForm(): void {
-    return console.log();
-  };
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  ngAfterViewInit(): void {
+    this.lista.paginator = this.paginator;
+    this.lista.sort = this.sort;
+  }
 
 };
 

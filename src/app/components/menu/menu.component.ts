@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Conversao } from 'src/app/interfaces/conversao';
 
 @Component({
@@ -14,4 +14,5 @@ export class MenuComponent {
   aoClickar() {
     console.log(`Cliquei no menu`)
   }
+
 }

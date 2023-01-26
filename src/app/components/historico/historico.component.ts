@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Conversao } from 'src/app/interfaces/conversao';
+import { ConversorService } from 'src/app/services/conversor.service';
 
 @Component({
   selector: 'app-historico',
@@ -9,32 +12,37 @@ import { Conversao } from 'src/app/interfaces/conversao';
 })
 export class HistoricoComponent {
   public conversoes?: Conversao[];
-  displayedColumns: string[] = [ 'position', 'name', 'weight', 'symbol', 'delete' ];
-  dataSource = ELEMENT_DATA;
+
+  lista = new MatTableDataSource<any>([]);
+  colunas: string[] = [
+    'Data da Conversão',
+    'Hora da Conversão',
+    'Valor Informado',
+    'Moeda Selecionada',
+    'Moeda Convertida',
+    'Resultado',
+    'Taxa',
+    'Ações'
+  ];
 
   title = "Conversor de Moedas";
   historico = 'Histórico de Conversões';
   home = 'Home';
 
-  constructor(private router?: Router) { }
+  constructor(private conversaoService: ConversorService) { }
+
+  ngOnInit(): void {
+    this.conversaoService.cotacaoAtual().subscribe((resultado) => {
+      this.lista.data = Object.values(resultado.symbols);
+      console.log(resultado.symbols)
+    })
+  }
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  ngAfterViewInit(): void {
+    this.lista.paginator = this.paginator;
+    this.lista.sort = this.sort;
+  }
 
 }
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  delete: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', delete: 'x' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', delete: 'x' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li', delete: 'x' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be', delete: 'x' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B', delete: 'x' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C', delete: 'x' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N', delete: 'x' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O', delete: 'x' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F', delete: 'x' },
-];

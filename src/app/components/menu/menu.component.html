@@ -6,13 +6,9 @@
     </a>
   </span>
 
+  <div>
+    <a routerLink=""><button class="btn btn-dark">HOME </button></a>
+    <a routerLink="historico"><button class="btn btn-dark">HISTORICO</button></a>
+  </div>
 
-  <button mat-raised-button [matMenuTriggerFor]="menuRef" class="btn btn-outline-primary p-3 d-flex">
-    <mat-icon class="mat-18 text-center">menu</mat-icon>
-  </button>
-
-  <mat-menu #menuRef="matMenu" x-position="after" y-position="below" [overlapTrigger]="false">
-    <a routerLink=""><button mat-menu-item >HOME </button></a>
-    <a routerLink="historico"><button mat-menu-item >HISTORICO</button></a>
-  </mat-menu>
 </mat-toolbar>
