@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,14 +15,14 @@ export class HistoricoComponent {
 
   lista = new MatTableDataSource<any>([]);
   colunas: string[] = [
-    'Data da Conversão',
-    'Hora da Conversão',
-    'Valor Informado',
-    'Moeda Selecionada',
-    'Moeda Convertida',
-    'Resultado',
-    'Taxa',
-    'Ações'
+    'data',
+    'hora',
+    'valor',
+    'moedaSelecionada',
+    'moedaConvertida',
+    'resultado',
+    'taxa',
+    'acoes'
   ];
 
   title = "Conversor de Moedas";
@@ -32,9 +32,9 @@ export class HistoricoComponent {
   constructor(private conversaoService: ConversorService) { }
 
   ngOnInit(): void {
-    this.conversaoService.cotacaoAtual().subscribe((resultado) => {
-      this.lista.data = Object.values(resultado.symbols);
-      console.log(resultado.symbols)
+    this.conversaoService.cotacaoAtual().subscribe((res) => {
+      this.lista.data = Object.values(res.symbols);
+      console.log(res.symbols)
     })
   }
 
