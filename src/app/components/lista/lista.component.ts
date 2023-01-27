@@ -1,11 +1,11 @@
-import { MoedasService } from './../../services/moeda.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { Moeda } from 'src/app/interfaces/moeda';
-import { ConversorService } from 'src/app/services/conversor.service';
+import { MoedasService } from './../../services/moeda.service';
 
 @Component({
   selector: 'app-lista',
@@ -17,7 +17,8 @@ export class ListaComponent {
   lista = new MatTableDataSource<Moeda>([]);
   colunas: string[] = [ 'code', 'description' ];
 
-  constructor(private MoedasService: MoedasService) { }
+  constructor(private MoedasService: MoedasService, private _liveAnnouncer: LiveAnnouncer) {
+  }
 
   ngOnInit(): void {
     this.MoedasService.gerarCotacao().subscribe((res) => {
@@ -33,4 +34,12 @@ export class ListaComponent {
     this.lista.sort = this.sort;
   }
 
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 }
+

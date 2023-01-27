@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,6 +50,7 @@ import { ConversorService } from './services/conversor.service';
     MatMenuModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatSortModule,
     MatTableModule,
     MatToolbarModule,
     NgbModule,
