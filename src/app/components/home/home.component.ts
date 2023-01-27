@@ -1,10 +1,9 @@
-import { MoedasService } from './../../services/moeda.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Moeda } from 'src/app/interfaces/moeda';
-import { ConversorService } from './../../services/conversor.service';
+import { MoedasService } from './../../services/moeda.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +19,11 @@ export class HomeComponent implements OnInit {
     this.MoedasService.gerarCotacao().subscribe((res) => {
       this.lista.data = Object.values(res.symbols);
       console.log(res.symbols)
+    });
+    this.MoedasService.gerarCotacao().forEach((e) => {
+      console.log(this.lista.data.values())
     })
+
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -30,26 +33,10 @@ export class HomeComponent implements OnInit {
     this.lista.sort = this.sort;
   }
 
-  cars: Car[] = [
-    { value: 'ford', viewValue: 'Ford' },
-    { value: 'chevrolet', viewValue: 'Chevrolet' },
-    { value: 'dodge', viewValue: 'Dodge' },
-  ];
-  
-  selectedCar = this.cars[ 0 ].value;
+  moedas: Moeda[] = []
 
-  selectCar(event: Event) {
-    this.selectedCar = (event.target as HTMLSelectElement).value;
-  }
+  moedaConvertida = Object.values(this.lista.data);
+  moedaSelecionada = Object.values(this.lista.data);
 
-}
 
-interface Food {
-  value: string;
-  viewValue: string;
-}
-
-interface Car {
-  value: string;
-  viewValue: string;
 }

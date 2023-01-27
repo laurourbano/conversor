@@ -1,7 +1,10 @@
 <div class="example-container container-fluid justify-content-between flex-wrap bg-dark">
-  <div class="pt-5 w-25">
-    <div class="d-flex">
-      <div>
+  <div class="pt-5 w-100 d-flex">
+    <div class="">
+      <div class="m-2 text-light">
+        <h4>
+          Digite um valor para ser convertido:
+        </h4>
         <mat-form-field appearance="fill" floatLabel="always">
           <mat-label>Valor</mat-label>
           <input matInput type="number" class="example-right-align" placeholder="0">
@@ -9,35 +12,43 @@
         </mat-form-field>
       </div>
 
-      <div class="text-light">
-        <mat-form-field appearance="fill">
-          <mat-label>Favorite Car</mat-label>
-          <select matNativeControl (change)="selectCar($event)">
-            <option value=""></option>
-            <option *ngFor="let option of cars" [value]="option.value" [selected]="selectedCar === option.value">
-              {{ option.viewValue }}</option>
-          </select>
-        </mat-form-field>
-        <p>Moeda a ser convertida: {{selectedCar}}</p>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Favorite Car</mat-label>
-          <select matNativeControl (change)="selectCar($event)">
-            <option value=""></option>
-            <option *ngFor="let option of cars" [value]="option.value" [selected]="selectedCar === option.value">
-              {{ option.viewValue }}</option>
-          </select>
-        </mat-form-field>
-        <p>Moeda para conversão: {{selectedCar}}</p>
+      <div class="text-light m-2 d-flex">
+        <form class="m-2">
+          <h4>Selecione a moeda para converter: </h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Para converter</mat-label>
+            <select matNativeControl [(ngModel)]="moedaSelecionada" name="moeda">
+              <option value="" selected></option>
+              <option *ngFor="let moeda of moedas" [value]="moedas">
+                {{ moedas }}
+              </option>
+            </select>
+          </mat-form-field>
+          <p> Moeda Selecionada: {{ moedaSelecionada }} </p>
+        </form>
+        <form class="m-2">
+          <h4>Escolha para qual moeda será convertida: </h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Convertida para</mat-label>
+            <select matNativeControl [(ngModel)]="moedaSelecionada" name="moeda">
+              <option value="" selected></option>
+              <option *ngFor="let moeda of moedas" [value]="moedas">
+                {{ moedas }}
+              </option>
+            </select>
+          </mat-form-field>
+          <p> Moeda Selecionada: {{ moedaSelecionada }} </p>
+        </form>
       </div>
 
-      <button class="btn btn-success w-50 align-self-start d-flex p-2 m-2" color="primary" type="submit">
-        <mat-icon class="mat-18 mx-1" title="Converter">currency_exchange</mat-icon> Converter
+      <button class="btn btn-success w-100" color="primary" type="submit">
+        <mat-icon class="mat-18" title="Converter">currency_exchange</mat-icon> Converter
       </button>
     </div>
 
-    <div class="my-3">
+    <div class="m-2">
       <p class="text-light"><strong>Resultado: </strong></p>
+      <p class="text-light border-success m-2 w-100">R$ 100,00 reais convertidos para Dólar serão $ 549,10</p>
     </div>
 
   </div>
