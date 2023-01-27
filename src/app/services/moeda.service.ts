@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class MoedasService {
 
   private readonly APILatest = 'https://api.exchangerate.host/symbols';
+  Moeda: any;
   constructor(private http: HttpClient) { }
 
   gerarCotacao(): Observable<any> {

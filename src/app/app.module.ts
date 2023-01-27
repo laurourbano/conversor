@@ -37,6 +37,11 @@ import { ConversorService } from './services/conversor.service';
   ],
   providers: [ ConversorService ],
   bootstrap: [ AppComponent ],
+  exports: [
+    FooterComponent,
+    HomeComponent,
+    HistoricoComponent,
+  ],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -56,12 +61,7 @@ import { ConversorService } from './services/conversor.service';
     NgbModule,
     MatDialogModule,
     MatAutocompleteModule,
-  ],
-  exports: [
-    FooterComponent,
-    HomeComponent,
-    HistoricoComponent,
-  ],
 
+  ]
 })
 export class AppModule { }

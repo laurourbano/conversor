@@ -1,15 +1,20 @@
-<mat-toolbar color="secondary" class="header container-fluid">
-  <span>
-    <a class="navbar-brand" routerLink="">
-      <mat-icon class="mat-18">currency_exchange</mat-icon>
-      {{ title }}
-    </a>
-  </span>
-
-  <div>
-    <a routerLink=""><button class="btn btn-dark">HOME </button></a>
-    <a routerLink="lista"><button class="btn btn-dark">LISTA DE MOEDAS</button></a>
-    <a routerLink="historico"><button class="btn btn-dark">HISTORICO</button></a>
-  </div>
-
-</mat-toolbar>
+<nav class="nav navbar-dark bg-dark d-flex justify-content-between border-bottom">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs pt-4 d-flex">
+    <div class="d-flex">
+      <li [ngbNavItem]="1">
+        <a class="bg-dark text-light border-0" ngbNavLink routerLink="">CONVERSOR DE MOEDAS</a>
+      </li>
+    </div>
+    <div class="d-flex">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink routerLink="">HOME</a>
+      </li>
+      <li [ngbNavItem]="2">
+        <a ngbNavLink routerLink="lista">LISTA DE MOEDAS</a>
+      </li>
+      <li [ngbNavItem]="3">
+        <a ngbNavLink routerLink="historico">HISTORICO</a>
+      </li>
+    </div>
+  </ul>
+</nav>
