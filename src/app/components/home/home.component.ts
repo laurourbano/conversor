@@ -11,11 +11,12 @@ import { MoedaService } from 'src/app/services/moeda.service';
 })
 export class HomeComponent implements OnInit {
   moedas: Moeda[] = [];
+  //conversao: Conversao;
   form: FormGroup;
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor: number = 0;
-  resultado: any = 'lauro';
+  resultado: number = 0;
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
@@ -28,8 +29,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe((res) => {
       let resultado = Object.keys(res.symbols).map(function (moeda) {
-        let retorno = res.symbols[ moeda ]
-        return retorno
+        let result = res.symbols[ moeda ]
+        return result
       });
       this.moedas = resultado
       /*console.log(resultado)
@@ -40,8 +41,8 @@ export class HomeComponent implements OnInit {
 
   converter() {
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-      this.resultado = res[ "retorno" ];
-      console.log(`${ res[ "retorno" ] }
+      this.resultado = res[ 'result' ];
+      console.log(`${ res[ 'result' ] }
 retorno`)
     });
     console.log('clicou')
