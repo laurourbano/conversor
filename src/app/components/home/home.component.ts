@@ -42,16 +42,16 @@ export class HomeComponent implements OnInit {
   converter() {
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
       this.resultado = res[ 'result' ];
-      console.log(`${ res[ 'result' ] }
-retorno`)
+/*
+      console.log(`${ res[ 'result' ] }retorno`)
+*/
     });
+/*
     console.log('clicou')
-    console.log(`${ this.moedaSelecionada }
-selecionada`)
-    console.log(`${ this.moedaConvertida }
-convertida`)
-    console.log(`${ this.valor }
-valor`)
+    console.log(`${ this.moedaSelecionada } selecionada`)
+    console.log(`${ this.moedaConvertida } convertida`)
+    console.log(`${ this.valor } valor`)
+*/
   }
 }
 
