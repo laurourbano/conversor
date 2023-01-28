@@ -5,7 +5,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { Moeda } from 'src/app/interfaces/moeda';
-import { MoedasService } from './../../services/moeda.service';
+import { MoedaService } from './../../services/moeda.service';
 
 @Component({
   selector: 'app-lista',
@@ -17,11 +17,11 @@ export class ListaComponent {
   lista = new MatTableDataSource<Moeda>([]);
   colunas: string[] = [ 'code', 'description' ];
 
-  constructor(private MoedasService: MoedasService, private _liveAnnouncer: LiveAnnouncer) {
+  constructor(private MoedaService: MoedaService) {
   }
 
   ngOnInit(): void {
-    this.MoedasService.gerarCotacao().subscribe((res) => {
+    this.MoedaService.gerarCotacao().subscribe((res) => {
       this.lista.data = Object.values(res.symbols);
       console.log(res.symbols)
     })
@@ -29,16 +29,17 @@ export class ListaComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   ngAfterViewInit(): void {
     this.lista.paginator = this.paginator;
     this.lista.sort = this.sort;
   }
 
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.lista.filter = filterValue.trim().toLowerCase();
+    if (this.lista.paginator) {
+      this.lista.paginator.firstPage();
     }
   }
 }

@@ -1,3 +1,5 @@
+import { ListaComponent } from './components/lista/lista.component';
+import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,8 +23,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HistoricoComponent } from './components/historico/historico.component';
-import { HomeComponent } from './components/home/home.component';
-import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ConversorService } from './services/conversor.service';
 
@@ -31,15 +31,14 @@ import { ConversorService } from './services/conversor.service';
     AppComponent,
     FooterComponent,
     HistoricoComponent,
-    HomeComponent,
     MenuComponent,
-    ListaComponent,
+    HomeComponent,
+    ListaComponent
   ],
-  providers: [ ConversorService ],
+  providers: [ ConversorService, ],
   bootstrap: [ AppComponent ],
   exports: [
     FooterComponent,
-    HomeComponent,
     HistoricoComponent,
   ],
   imports: [

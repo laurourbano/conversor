@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
+
+import { FormControl, FormGroup } from '@angular/forms';
 import { Moeda } from 'src/app/interfaces/moeda';
-import { MoedasService } from './../../services/moeda.service';
+import { MoedaService } from 'src/app/services/moeda.service';
 
 @Component({
   selector: 'app-home',
@@ -11,32 +10,47 @@ import { MoedasService } from './../../services/moeda.service';
   styleUrls: [ './home.component.css' ]
 })
 export class HomeComponent implements OnInit {
-  lista = new MatTableDataSource<any>([]);
+  moedas: Moeda[] = [];
+  form: FormGroup;
+  moedaSelecionada!: string;
+  moedaConvertida!: string;
+  valor: number = 0;
+  resultado: any = 'lauro';
 
-  constructor(private MoedasService: MoedasService) { }
-
-  ngOnInit(): void {
-    this.MoedasService.gerarCotacao().subscribe((res) => {
-      this.lista.data = Object.values(res.symbols);
-      console.log(res.symbols)
+  constructor(private moedaService: MoedaService) {
+    this.form = new FormGroup({
+      moedaSelecionada: new FormControl(''),
+      moedaConvertida: new FormControl(''),
+      valor: new FormControl('')
     });
-    this.MoedasService.gerarCotacao().forEach((e) => {
-      console.log(this.lista.data.values())
+    return
+  }
+  ngOnInit(): void {
+    this.moedaService.gerarCotacao().subscribe((res) => {
+      let resultado = Object.keys(res.symbols).map(function (moeda) {
+        let retorno = res.symbols[ moeda ]
+        return retorno
+      });
+      this.moedas = resultado
+      /*console.log(resultado)
+      console.log(res.symbols)*/
     })
 
   }
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  ngAfterViewInit(): void {
-    this.lista.paginator = this.paginator;
-    this.lista.sort = this.sort;
+  converter() {
+    this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
+      this.resultado = res[ "retorno" ];
+      console.log(`${ res[ "retorno" ] }
+retorno`)
+    });
+    console.log('clicou')
+    console.log(`${ this.moedaSelecionada }
+selecionada`)
+    console.log(`${ this.moedaConvertida }
+convertida`)
+    console.log(`${ this.valor }
+valor`)
   }
-
-  moedas: Moeda[] = []
-
-  moedaConvertida = Object.values(this.lista.data);
-  moedaSelecionada = Object.values(this.lista.data);
-
-
 }
+

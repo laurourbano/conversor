@@ -5,13 +5,19 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MoedasService {
+export class MoedaService {
 
-  private readonly APILatest = 'https://api.exchangerate.host/symbols';
-  Moeda: any;
+  private readonly api = 'https://api.exchangerate.host';
+
   constructor(private http: HttpClient) { }
 
-  gerarCotacao(): Observable<any> {
-    return this.http.get<any>(this.APILatest);
+  public gerarCotacao(): Observable<any> {
+    return this.http.get<any>(`${ this.api }/symbols`);
   }
+
+  public converter(moedaSelecionada: string, moedaConvertida: string, valor: number) {
+    const url = `${ this.api }/convert?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }`;
+    return this.http.get(url);
+  }
+
 }
