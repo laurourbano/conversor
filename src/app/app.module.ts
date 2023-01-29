@@ -27,40 +27,39 @@ import { MenuComponent } from './components/menu/menu.component';
 import { ConversorService } from './services/conversor.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    HistoricoComponent,
-    MenuComponent,
-    HomeComponent,
-    ListaComponent
-  ],
-  providers: [ ConversorService, ],
-  bootstrap: [ AppComponent ],
-  exports: [
-    FooterComponent,
-    HistoricoComponent,
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatPaginatorModule,
-    MatSelectModule,
-    MatSortModule,
-    MatTableModule,
-    MatToolbarModule,
-    NgbModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-
-  ]
+    declarations: [
+        AppComponent,
+        FooterComponent,
+        HistoricoComponent,
+        MenuComponent,
+        HomeComponent,
+        ListaComponent
+    ],
+    providers: [ConversorService,],
+    bootstrap: [AppComponent],
+    exports: [
+        FooterComponent,
+        HistoricoComponent,
+    ],
+    imports: [
+        AppRoutingModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatSelectModule,
+        MatSortModule,
+        MatTableModule,
+        MatToolbarModule,
+        NgbModule,
+        MatDialogModule,
+        MatAutocompleteModule,
+    ]
 })
 export class AppModule { }

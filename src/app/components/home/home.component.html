@@ -1,53 +1,61 @@
 <div class="container-fluid bg-dark">
-  <div class="row justify-content-start">
-    <div class="col-md-6">
-      <mat-form-field form-field class="w-100">
-        <mat-label>Moeda selecionada</mat-label>
-        <mat-select [(value)]="moedaSelecionada">
-          <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
-            {{moeda.code}} - {{moeda.description}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+  <div class="w-100 pt-5 container">
+    <div class="row justify-content-start">
+      <div class="col-md-6">
+        <mat-form-field form-field class="w-100">
+          <mat-label>Moeda selecionada</mat-label>
+          <mat-select [(value)]="moedaSelecionada">
+            <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
+              {{moeda.code}} - {{moeda.description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Moeda convertida</mat-label>
+          <mat-select [(value)]="moedaConvertida">
+            <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
+              {{moeda.code}} - {{moeda.description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md-6">
-      <mat-form-field class="w-100">
-        <mat-label>Moeda convertida</mat-label>
-        <mat-select [(value)]="moedaConvertida">
-          <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
-            {{moeda.code}} - {{moeda.description}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="row justify-content-start">
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Valor a ser convertido</mat-label>
+          <input matInput [(ngModel)]="valor" type="number">
+        </mat-form-field>
+      </div>
     </div>
-  </div>
-  <div class="row justify-content-start">
-  </div>
+    <div class="row justify-content-start">
 
-  <div class="row justify-content-start">
-    <div class="col-md-6">
-      <mat-form-field class="w-100">
-        <mat-label>Valor a ser convertido</mat-label>
-        <input matInput [(ngModel)]="valor" type="number">
-      </mat-form-field>
+      <div class="col-md-6">
+        <button mat-button class="w-100 btn btn-success btn-lg d-flex justify-content-center mb-3"
+          (click)="converter()">
+          <mat-icon class="mat-18 m-1">currency_exchange</mat-icon>
+          Converter
+        </button>
+      </div>
     </div>
-    <div class="col-md-6">
-    </div>
-    <div class="col-md-6">
-      <mat-form-field class="w-100">
-        <mat-label>Resultado</mat-label>
-        <input matInput [(ngModel)]="resultado" type="number" disabled>
-      </mat-form-field>
-    </div>
-    <div class="col-md-6">
-      <mat-form-field class="w-100">
-        <mat-label>Taxa aplicada</mat-label>
-        <input matInput [(ngModel)]="taxa" type="number" disabled>
-      </mat-form-field>
-    </div>
-  </div>
+    <div class="row justify-content-start">
 
-  <!--USANDO PARA DEBUGAR
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Resultado</mat-label>
+          <input matInput [(ngModel)]="resultado" type="number" disabled>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Taxa aplicada</mat-label>
+          <input matInput [(ngModel)]="taxa" type="number" disabled>
+        </mat-form-field>
+      </div>
+
+      <!--USANDO PARA DEBUGAR
   <div class="row justify-content-center">
     <div class="col-md-6">
       <p class="text-light">valor para debug</p>
@@ -60,12 +68,7 @@
   </div>
   USANDO PARA DEBUGAR-->
 
-  <div class="row justify-content-center">
-    <div class="col-md-4">
-      <button mat-button class="w-100 btn btn-success btn-lg d-flex justify-content-center" (click)="converter()">
-        <mat-icon class="mat-18 m-1">currency_exchange</mat-icon>
-        Converter
-      </button>
     </div>
+
   </div>
 </div>

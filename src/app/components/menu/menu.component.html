@@ -1,20 +1,19 @@
-<nav class="nav navbar-dark bg-dark d-flex justify-content-between border-bottom">
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs pt-4 d-flex">
-    <div class="d-flex">
-      <li [ngbNavItem]="1">
-        <a class="bg-dark text-light border-0" ngbNavLink routerLink="">CONVERSOR DE MOEDAS</a>
-      </li>
+<nav class="nav navbar-dark bg-dark d-lg d-flex justify-content-between border-bottom pt-3 ">
+  <div class="container-fluid d-flex justify-content-between">
+    <div class="d-flex justify-content-center align-self-center m-0 text-light">
+      <h1 class="bg-dark  border-0 ">CONVERSOR DE MOEDAS </h1>
+      <h4 class="d-flex align-items-end mx-2"> / {{active}}</h4>
     </div>
-    <div class="d-flex">
-      <li [ngbNavItem]="1">
-        <a ngbNavLink routerLink="">HOME</a>
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-flex m-0 p-0">
+      <li [ngbNavItem]="'HOME'">
+        <a ngbNavLink routerLink="" id="home" class="m-0">HOME</a>
       </li>
-      <li [ngbNavItem]="2">
-        <a ngbNavLink routerLink="lista">LISTA DE MOEDAS</a>
+      <li [ngbNavItem]="'LISTA DE MOEDAS'">
+        <a ngbNavLink routerLink="lista" class="m-0">LISTA DE MOEDAS</a>
       </li>
-      <li [ngbNavItem]="3">
-        <a ngbNavLink routerLink="historico">HISTORICO</a>
+      <li [ngbNavItem]="'HISTORICO DE CONVERSÕES'">
+        <a ngbNavLink routerLink="historico" class="m-0">HISTORICO</a>
       </li>
-    </div>
-  </ul>
+    </ul>
+  </div>
 </nav>

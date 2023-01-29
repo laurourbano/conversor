@@ -1,5 +1,5 @@
-<div class="container-fluid d-flex bg-dark">
-  <div class="w-100 pt-5 m-2 container">
+<div class="container-fluid d-flex bg-dark justify-content-center">
+  <div class="w-100 pt-3 m-2 container justify-content-center">
     <mat-form-field>
       <mat-label>Filtro de Moedas</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Selecione a moeda..." #input>
@@ -19,6 +19,7 @@
 
       <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>>
       <mat-row *matRowDef="let row; columns: colunas;"></mat-row>>
+
     </mat-table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Página de Moedas">
