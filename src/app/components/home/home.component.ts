@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   moedaConvertida!: string;
   valor: number = 0;
   resultado: number = 0;
+  taxa: number = 0;
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
@@ -42,16 +43,9 @@ export class HomeComponent implements OnInit {
   converter() {
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
       this.resultado = res[ 'result' ];
-/*
-      console.log(`${ res[ 'result' ] }retorno`)
-*/
+      this.taxa = res[ 'info' ][ 'rate' ];
     });
-/*
-    console.log('clicou')
-    console.log(`${ this.moedaSelecionada } selecionada`)
-    console.log(`${ this.moedaConvertida } convertida`)
-    console.log(`${ this.valor } valor`)
-*/
+
   }
 }
 

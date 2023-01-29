@@ -16,7 +16,7 @@ export class MoedaService {
   }
 
   public converter(moedaSelecionada: string, moedaConvertida: string, valor: number) {
-    const url = `${ this.api }/convert?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }`;
+    const url = `${ this.api }/convert?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }&places=2`;
     return this.http.get(url);
   }
 
