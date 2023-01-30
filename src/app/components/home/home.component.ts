@@ -10,8 +10,8 @@ import { MoedaService } from 'src/app/services/moeda.service';
   styleUrls: [ './home.component.css' ]
 })
 export class HomeComponent implements OnInit {
+
   moedas: Moeda[] = [];
-  //conversao: Conversao;
   form: FormGroup;
   moedaSelecionada!: string;
   moedaConvertida!: string;

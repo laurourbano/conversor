@@ -16,8 +16,8 @@ export class ListaComponent {
 
   colunas: string[] = [ 'code', 'description' ];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource = new MatTableDataSource<Moeda>([]);
 
@@ -29,7 +29,22 @@ export class ListaComponent {
       console.log(this.dataSource)
     })
   }
+  sortData(sort: Sort) {
+    const data = this.dataSource.data.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSource.data = data;
+      return;
+    }
 
+    this.dataSource.data = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'code': return this.compare(a.code, b.code, isAsc);
+        case 'description': return this.compare(a.description, b.description, isAsc);
+        default: return 0;
+      }
+    });
+  }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -49,6 +64,16 @@ export class ListaComponent {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.sort && !changes.sort.firstChange) {
+      this.sortData(changes.sort.currentValue);
+    }
+  }
+
+  compare(a: string | number, b: string | number, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  
 
 }
 

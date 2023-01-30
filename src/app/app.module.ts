@@ -17,6 +17,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { SimpleChanges } from '@angular/core';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,6 +65,7 @@ import { MoedaService } from './services/moeda.service';
     MatDialogModule,
     MatAutocompleteModule,
     NgbCollapseModule,
+    SimpleChanges,
   ]
 })
 export class AppModule { }
