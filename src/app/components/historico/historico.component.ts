@@ -13,7 +13,7 @@ import { ConversorService } from 'src/app/services/conversor.service';
 export class HistoricoComponent {
   public conversoes?: Conversao[];
 
-  lista = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<any>([]);
   colunas: string[] = [
     'data',
     'hora',
@@ -32,17 +32,18 @@ export class HistoricoComponent {
   constructor(private conversaoService: ConversorService) { }
 
   ngOnInit(): void {
-    this.conversaoService.cotacaoAtual().subscribe((res) => {
+    //novalista cria conversao
+    /*this.conversaoService.cotacaoAtual().subscribe((res) => {
       this.lista.data = Object.values(res.symbols);
       console.log(res.symbols)
-    })
+    })*/
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   ngAfterViewInit(): void {
-    this.lista.paginator = this.paginator;
-    this.lista.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
 }

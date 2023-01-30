@@ -1,5 +1,14 @@
 <div class="container-fluid bg-dark">
-  <div class="w-100 pt-5 container">
+  <div class="w-100 pt-1 container">
+    <div class="bg-transparent border-rounded rounded-2 shadow p-3 my-1">
+      <h2 class="text-light">Aqui você poderá escolher entre diversas moedas e realizar a conversão destas
+        moedas de maneira descomplicada:
+      </h2>
+      <p class="text-small text-white-50">basta selecionar a moeda que deseja converter, a moeda que deseja descobrir e
+        informar o valor a ser convertido. Depois disso é só clicar em converter e obter o resultado em segundos
+      </p>
+    </div>
+
     <div class="row justify-content-start">
       <div class="col-md-6">
         <mat-form-field form-field class="w-100">
@@ -22,16 +31,13 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row justify-content-start">
+    <div class="row justify-content-start mb-1">
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Valor a ser convertido</mat-label>
           <input matInput [(ngModel)]="valor" type="number">
         </mat-form-field>
       </div>
-    </div>
-    <div class="row justify-content-start">
-
       <div class="col-md-6">
         <button mat-button class="w-100 btn btn-success btn-lg d-flex justify-content-center mb-3"
           (click)="converter()">
@@ -40,15 +46,18 @@
         </button>
       </div>
     </div>
-    <div class="row justify-content-start">
-
-      <div class="col-md-6">
+    <div class="row p-1 bg-secondary h-100 m-auto">
+      <div class="col-md-12">
+      </div>
+    </div>
+    <div class="row justify-content-start mt-1">
+      <div class="col-md-6 mt-1">
         <mat-form-field class="w-100">
           <mat-label>Resultado</mat-label>
           <input matInput [(ngModel)]="resultado" type="number" disabled>
         </mat-form-field>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-1">
         <mat-form-field class="w-100">
           <mat-label>Taxa aplicada</mat-label>
           <input matInput [(ngModel)]="taxa" type="number" disabled>

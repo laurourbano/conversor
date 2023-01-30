@@ -2,18 +2,20 @@
   <div class="w-100 pt-3 m-2 container justify-content-center">
     <mat-form-field>
       <mat-label>Filtro de Moedas</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Selecione a moeda..." #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. BRL" #input>
     </mat-form-field>
 
-    <mat-table mat-table matSort [dataSource]="lista" class="mat-elevation-z4">
+    <mat-table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+      class="mat-elevation-z8">
 
       <ng-container matColumnDef="code">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="sigla"> Sigla </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header="sigla" sortActionDescription="Sort by sigla"> Sigla
+        </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{ row.code }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="descricao"> Descrição </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header="descricao" sortActionDescription="Sort by descrição"> Descrição </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{ row.description }} </mat-cell>
       </ng-container>
 

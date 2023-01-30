@@ -34,8 +34,6 @@ export class HomeComponent implements OnInit {
         return result
       });
       this.moedas = resultado
-      /*console.log(resultado)
-      console.log(res.symbols)*/
     })
 
   }

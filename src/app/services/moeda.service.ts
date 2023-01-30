@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MoedaService {
 
-  private readonly api = 'https://api.exchangerate.host';
+  private api = 'https://api.exchangerate.host';
 
   constructor(private http: HttpClient) { }
 

@@ -1,19 +1,38 @@
-<nav class="nav navbar-dark bg-dark d-lg d-flex justify-content-between border-bottom pt-3 ">
-  <div class="container-fluid d-flex justify-content-between">
-    <div class="d-flex justify-content-center align-self-center m-0 text-light">
-      <h1 class="bg-dark  border-0 ">CONVERSOR DE MOEDAS </h1>
-      <h4 class="d-flex align-items-end mx-2"> / {{active}}</h4>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <div class="container-fluid ">
+
+    <div class=" align-self-center m-0 text-light">
+
+      <h4 class="bg-dark">CONVERSOR DE MOEDAS</h4>
+      <small class="text-small">{{active}}</small>
+
     </div>
-    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-flex m-0 p-0">
-      <li [ngbNavItem]="'HOME'">
-        <a ngbNavLink routerLink="" id="home" class="m-0">HOME</a>
-      </li>
-      <li [ngbNavItem]="'LISTA DE MOEDAS'">
-        <a ngbNavLink routerLink="lista" class="m-0">LISTA DE MOEDAS</a>
-      </li>
-      <li [ngbNavItem]="'HISTORICO DE CONVERSÕES'">
-        <a ngbNavLink routerLink="historico" class="m-0">HISTORICO</a>
-      </li>
-    </ul>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse d-lg-flex justify-content-end">
+
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-sm-block d-lg-flex">
+
+        <li [ngbNavItem]="'HOME'">
+
+          <a ngbNavLink routerLink="" id="home" class="m-0" (click)="isMenuCollapsed = true">HOME</a>
+
+        </li>
+        <li [ngbNavItem]="'LISTA DE MOEDAS'">
+
+          <a ngbNavLink routerLink="lista" class="m-0" (click)="isMenuCollapsed = true">LISTA DE MOEDAS</a>
+
+        </li>
+        <li [ngbNavItem]="'HISTORICO DE CONVERSÕES'">
+
+          <a ngbNavLink routerLink="historico" class="m-0" (click)="isMenuCollapsed = true">HISTORICO</a>
+
+        </li>
+
+      </ul>
+
+    </div>
+
   </div>
+
 </nav>

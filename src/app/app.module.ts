@@ -1,5 +1,3 @@
-import { ListaComponent } from './components/lista/lista.component';
-import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -18,48 +16,53 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HistoricoComponent } from './components/historico/historico.component';
+import { HomeComponent } from './components/home/home.component';
+import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ConversorService } from './services/conversor.service';
+import { MoedaService } from './services/moeda.service';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        FooterComponent,
-        HistoricoComponent,
-        MenuComponent,
-        HomeComponent,
-        ListaComponent
-    ],
-    providers: [ConversorService,],
-    bootstrap: [AppComponent],
-    exports: [
-        FooterComponent,
-        HistoricoComponent,
-    ],
-    imports: [
-        AppRoutingModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        HttpClientModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatSelectModule,
-        MatSortModule,
-        MatTableModule,
-        MatToolbarModule,
-        NgbModule,
-        MatDialogModule,
-        MatAutocompleteModule,
-    ]
+  declarations: [
+    AppComponent,
+    FooterComponent,
+    HistoricoComponent,
+    MenuComponent,
+    HomeComponent,
+    ListaComponent
+  ],
+  providers: [ ConversorService, MoedaService ],
+  bootstrap: [ AppComponent ],
+  exports: [
+    FooterComponent,
+    HistoricoComponent,
+  ],
+  imports: [
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatSortModule,
+    MatTableModule,
+    MatToolbarModule,
+    NgbModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    NgbCollapseModule,
+  ]
 })
 export class AppModule { }
