@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex">
 
-  <div class="container-fluid ">
+  <div class="container-fluid d-flex">
 
     <div class=" align-self-center m-0 text-light">
 
@@ -9,9 +9,9 @@
 
     </div>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
-    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse d-lg-flex justify-content-end">
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
 
-      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-sm-block d-lg-flex">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-sm-block">
 
         <li [ngbNavItem]="'HOME'">
 
