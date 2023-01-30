@@ -9,9 +9,10 @@
 
     </div>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
 
-      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-sm-block">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
 
         <li [ngbNavItem]="'HOME'">
 

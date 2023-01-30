@@ -1,9 +1,8 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, ViewChild } from '@angular/core';
+import { Component, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SimpleChanges } from '@angular/core';
 
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from './../../services/moeda.service';
@@ -13,16 +12,26 @@ import { MoedaService } from './../../services/moeda.service';
   templateUrl: './lista.component.html',
   styleUrls: [ './lista.component.css' ]
 })
-export class ListaComponent {
+export class ListaComponent implements Moeda {
 
   colunas: string[] = [ 'code', 'description' ];
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   dataSource = new MatTableDataSource<Moeda>([]);
 
   constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
+
+  getSortData(): string {
+    throw new Error('Method not implemented.');
+  }
+  id!: string;
+  start!: SortDirection;
+  disableClear!: boolean;
+
+  description: string = '';
+  code: string = '';
 
   ngOnInit(): void {
     this.MoedaService.gerarCotacao().subscribe((res) => {
@@ -46,6 +55,7 @@ export class ListaComponent {
       }
     });
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -66,15 +76,14 @@ export class ListaComponent {
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.sort && !changes.sort.firstChange) {
-      this.sortData(changes.sort.currentValue);
+    if (changes[ 'sort' ] && !changes[ 'sort' ].firstChange) {
+      this.sortData(changes[ 'sort' ].currentValue);
     }
   }
 
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  
 
 }
 

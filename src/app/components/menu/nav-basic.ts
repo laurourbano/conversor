@@ -10,4 +10,5 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NgbdNavBasic {
   active = "HOME";
+  isMenuCollapsed = true;
 }
