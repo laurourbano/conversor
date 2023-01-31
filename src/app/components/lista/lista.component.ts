@@ -19,7 +19,7 @@ export class ListaComponent implements Moeda {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-  dataSource = new MatTableDataSource<Moeda>([]);
+  dataSource = new MatTableDataSource<any>([]);
 
   constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
 
@@ -37,7 +37,9 @@ export class ListaComponent implements Moeda {
     this.MoedaService.gerarCotacao().subscribe((res) => {
       this.dataSource.data = Object.values(res.symbols);
       console.log(this.dataSource)
-    })
+    });
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
   sortData(sort: Sort) {
     const data = this.dataSource.data.slice();
