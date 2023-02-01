@@ -22,10 +22,10 @@ export class ListaComponent implements Moeda {
   dataSource = new MatTableDataSource<any>([]);
 
   constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
-
   getSortData(): string {
-    throw new Error('Method not implemented.');
+    return '';
   }
+
   id!: string;
   start!: SortDirection;
   disableClear!: boolean;

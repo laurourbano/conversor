@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Conversao } from 'src/app/interfaces/conversao';
 
 @Component({
   selector: 'app-menu',
@@ -7,7 +6,6 @@ import { Conversao } from 'src/app/interfaces/conversao';
   styleUrls: [ './menu.component.css' ]
 })
 export class MenuComponent {
-  public conversoes?: Conversao[];
   title = "Conversor de Moedas";
   titulos = [ 'Home', 'Histórico de Conversões' ]
   active = "HOME";

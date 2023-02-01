@@ -14,15 +14,24 @@ export class HomeComponent implements OnInit, Conversao {
 
   moedas: Moeda[] = [];
   form: FormGroup;
+<<<<<<< Updated upstream
 
   data: string ='';
   hora: string ='';
+=======
+  data!: string;
+  hora!: string;
+>>>>>>> Stashed changes
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor: number = 0;
   taxa: number = 0;
   resultado: number = 0;
+<<<<<<< Updated upstream
   conversoes: Conversao[] =[]
+=======
+  conversoes: Conversao[]=[];
+>>>>>>> Stashed changes
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
@@ -45,6 +54,7 @@ export class HomeComponent implements OnInit, Conversao {
   }
 
   converter() {
+<<<<<<< Updated upstream
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
       this.data = new Date().toLocaleString();
       this.hora = new Date().toLocaleDateString();
@@ -64,6 +74,14 @@ export class HomeComponent implements OnInit, Conversao {
        })
       });
       console.log(this.conversoes)
+=======
+      this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
+        this.resultado = res[ 'result' ];
+        this.taxa = res[ 'info' ][ 'rate' ];
+        return
+      });
+
+>>>>>>> Stashed changes
   }
 }
 

@@ -15,8 +15,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { NgbdNavBasic } from '../app/components/menu/nav-basic';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +36,8 @@ import { MoedaService } from './services/moeda.service';
     HistoricoComponent,
     MenuComponent,
     HomeComponent,
-    ListaComponent
+    ListaComponent,
+    NgbdNavBasic,
   ],
   providers: [ ConversorService, MoedaService ],
   bootstrap: [ AppComponent ],
@@ -63,6 +65,7 @@ import { MoedaService } from './services/moeda.service';
     MatDialogModule,
     MatAutocompleteModule,
     NgbCollapseModule,
+    NgxWebstorageModule.forRoot(),
   ]
 })
 export class AppModule { }
