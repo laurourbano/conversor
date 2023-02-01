@@ -17,12 +17,12 @@ export class HistoricoComponent {
   colunas: string[] = [
     'data',
     'hora',
-    'valor',
     'moedaSelecionada',
     'moedaConvertida',
+    'valor',
     'resultado',
     'taxa',
-    'acoes'
+    'excluir'
   ];
 
   title = "Conversor de Moedas";
@@ -32,11 +32,9 @@ export class HistoricoComponent {
   constructor(private conversaoService: ConversorService) { }
 
   ngOnInit(): void {
-    //novalista cria conversao
-    /*this.conversaoService.cotacaoAtual().subscribe((res) => {
-      this.lista.data = Object.values(res.symbols);
-      console.log(res.symbols)
-    })*/
+
+    //recebe as conversoes de HomeComponent
+
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -44,6 +42,12 @@ export class HistoricoComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  deleteItem(conversao:Conversao){
+
+    //retirar o item do array de objetos armazenado como json 
+
   }
 
 }

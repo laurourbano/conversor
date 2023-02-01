@@ -38,8 +38,8 @@
       </ng-container>
 
       <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ações </th>
-        <td> <button class="btn btn-danger">x</button> </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Excluir </th>
+        <td> <button class="btn btn-danger" (click)="deleteItem()">x</button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="colunas"></tr>

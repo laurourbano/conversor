@@ -1,10 +1,9 @@
 export interface Conversao {
-  from: string;
-  to: string;
-  amount: string;
-  rate: number;
-  date: string;
-  hour: string;
-  result: number;
-  actions: string;
+  data: string;
+  hora: string;
+  moedaSelecionada: string;
+  moedaConvertida: string;
+  valor: number;
+  taxa: number;
+  resultado: number;
 }
