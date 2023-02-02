@@ -16,7 +16,7 @@ export class HistoricoComponent {
   @SessionStorage() conversoes: Conversao[];
 
   displayedColumns: string[] = [ 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'acoes' ];
-  dataSource!: MatTableDataSource<Conversao>;
+  dataSource: MatTableDataSource<Conversao>;
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -26,6 +26,7 @@ export class HistoricoComponent {
   };
 
   ngOnInit() {
+    this.dataSource = new MatTableDataSource(this.conversoes)
     this.dataSource.sort = this.sort;
   };
 
