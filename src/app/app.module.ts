@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { NgbdNavBasic } from '../app/components/menu/nav-basic';
+import { SessionStorageModule } from 'ngx-store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -66,6 +67,7 @@ import { MoedaService } from './services/moeda.service';
     MatAutocompleteModule,
     NgbCollapseModule,
     NgxWebstorageModule.forRoot(),
+    SessionStorageModule,
   ]
 })
 export class AppModule { }

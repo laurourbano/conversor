@@ -11,26 +11,25 @@ export class MoedaService {
 
   private api = 'https://api.exchangerate.host';
 
-  @SessionStorage() moedaSelecionada: any;
-  @SessionStorage() moedaConvertida: any;
-  @SessionStorage() valor!: number;
-  @SessionStorage() taxa: any;
-  @SessionStorage() resultado: number = 0;
-  @SessionStorage() data: string = new Date().toDateString();
-  @SessionStorage() hora: string = new Date().toLocaleDateString();
-  private conversoes: Conversao[] = []
-  sessionStorage: any;
+  moedaSelecionada: any;
+  moedaConvertida: any;
+  valor!: number;
+  taxa: any;
+  resultado: number = 0;
+  data: string = new Date().toDateString();
+  hora: string = new Date().toLocaleDateString();
+  @SessionStorage() conversoes: Conversao[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { };
 
   public gerarCotacao(): Observable<any> {
     return this.http.get<any>(`${ this.api }/symbols`);
-  }
+  };
 
   public converter(moedaSelecionada: string, moedaConvertida: string, valor: number) {
     const url = `${ this.api }/convert?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }&places=2`;
     return this.http.get(url);
-  }
+  };
 
   obterCotacao(moedaSelecionada: string, moedaConvertida: string, valor: number) {
     this.http.get(`https://exchangerate.host/?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }`)
@@ -40,7 +39,6 @@ export class MoedaService {
         this.data = new Date().toDateString();
         this.hora = new Date().toLocaleTimeString();
       });
-  }
+  };
 
-
-}
+};

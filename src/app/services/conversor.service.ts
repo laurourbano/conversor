@@ -9,12 +9,12 @@ import { Observable } from 'rxjs';
 export class ConversorService {
 
   private readonly BaseUrl = 'https://api.exchangerate.host';
-  private readonly symbols = `${ this.BaseUrl }/symbols`
+  private readonly symbols = `${ this.BaseUrl }/symbols`;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { };
 
   cotacaoAtual(): Observable<any> {
     return (this.httpClient.get<any>(this.symbols));
-  }
+  };
 
-}
+};

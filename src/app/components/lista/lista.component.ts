@@ -12,26 +12,26 @@ import { MoedaService } from './../../services/moeda.service';
   templateUrl: './lista.component.html',
   styleUrls: [ './lista.component.css' ]
 })
+
 export class ListaComponent implements Moeda {
 
   colunas: string[] = [ 'code', 'description' ];
-
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
-
   dataSource = new MatTableDataSource<any>([]);
-
-  constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
-  getSortData(): string {
-    return '';
-  }
+  description: string = '';
+  code: string = '';
 
   id!: string;
   start!: SortDirection;
   disableClear!: boolean;
 
-  description: string = '';
-  code: string = '';
+
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+
+  constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
+  getSortData(): string {
+    return '';
+  };
 
   ngOnInit(): void {
     this.MoedaService.gerarCotacao().subscribe((res) => {
@@ -39,13 +39,14 @@ export class ListaComponent implements Moeda {
     });
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
+  };
+
   sortData(sort: Sort) {
     const data = this.dataSource.data.slice();
     if (!sort.active || sort.direction === '') {
       this.dataSource.data = data;
       return;
-    }
+    };
 
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
@@ -53,38 +54,39 @@ export class ListaComponent implements Moeda {
         case 'code': return this.compare(a.code, b.code, isAsc);
         case 'description': return this.compare(a.description, b.description, isAsc);
         default: return 0;
-      }
+      };
     });
-  }
+  };
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
+  };
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
-    }
-  }
+    };
+  };
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${ sortState.direction }ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
+    };
+  };
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes[ 'sort' ] && !changes[ 'sort' ].firstChange) {
       this.sortData(changes[ 'sort' ].currentValue);
-    }
-  }
+    };
+  };
 
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
+  };
 
-}
-
+};
