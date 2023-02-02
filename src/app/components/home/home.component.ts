@@ -1,7 +1,7 @@
-import { SessionStorage } from 'ngx-webstorage';
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Conversao } from 'src/app/interfaces/conversao';
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from 'src/app/services/moeda.service';
@@ -13,6 +13,8 @@ import { MoedaService } from 'src/app/services/moeda.service';
 })
 export class HomeComponent implements OnInit, Conversao {
 
+
+
   moedas: Moeda[] = [];
   form: FormGroup;
   data: string = '';
@@ -23,9 +25,11 @@ export class HomeComponent implements OnInit, Conversao {
   taxa: number = 0;
   resultado: number = 0;
   conversoes: Conversao[] = [];
-  sessionStorage:any;
+  sessionStorage: any;
 
-  constructor(private moedaService: MoedaService, private formBuilder: FormBuilder) {
+  dadosDoArray: any = this.conversoes;
+
+  constructor(private moedaService: MoedaService, private router: Router) {
     this.form = new FormGroup({
       moedaSelecionada: new FormControl(''),
       moedaConvertida: new FormControl(''),
@@ -42,10 +46,13 @@ export class HomeComponent implements OnInit, Conversao {
       });
       this.moedas = resultado
     })
+    this.router.navigate(['/destination'], { state: { dados: this.dadosDoArray } });
+    console.log(this.dadosDoArray)
 
   }
 
   converter() {
+    event?.preventDefault()
     if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
         this.data = new Date().toLocaleDateString();
@@ -66,7 +73,6 @@ export class HomeComponent implements OnInit, Conversao {
           resultado: this.resultado,
         })
       });
-      console.log(this.conversoes)
     } else {
       return console.error('Preencha os campos');
     };

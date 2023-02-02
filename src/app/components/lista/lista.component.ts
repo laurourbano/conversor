@@ -36,7 +36,6 @@ export class ListaComponent implements Moeda {
   ngOnInit(): void {
     this.MoedaService.gerarCotacao().subscribe((res) => {
       this.dataSource.data = Object.values(res.symbols);
-      console.log(this.dataSource)
     });
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
