@@ -39,9 +39,8 @@
 
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Excluir </th>
-        <td> <button class="btn btn-danger">x</button> </td>
+        <td> <button class="btn btn-danger" (click)="removeConversao()>x</button> </td>
       </ng-container>
-      <!--(click)="deleteItem()-->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

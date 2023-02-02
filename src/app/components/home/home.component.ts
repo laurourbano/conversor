@@ -1,4 +1,3 @@
-import { SessionStorage } from 'ngx-webstorage';
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -11,8 +10,8 @@ import { MoedaService } from 'src/app/services/moeda.service';
   templateUrl: './home.component.html',
   styleUrls: [ './home.component.css' ]
 })
-export class HomeComponent implements OnInit, Conversao {
 
+export class HomeComponent implements OnInit, Conversao {
   moedas: Moeda[] = [];
   form: FormGroup;
   data: string = '';
@@ -23,27 +22,25 @@ export class HomeComponent implements OnInit, Conversao {
   taxa: number = 0;
   resultado: number = 0;
   conversoes: Conversao[] = [];
-  sessionStorage:any;
 
   constructor(private moedaService: MoedaService, private formBuilder: FormBuilder) {
     this.form = new FormGroup({
       moedaSelecionada: new FormControl(''),
       moedaConvertida: new FormControl(''),
-      valor: new FormControl('')
+      valor: new FormControl(''),
     });
-    return
-  }
+    return;
+  };
 
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe((res: any) => {
       let resultado = Object.keys(res.symbols).map(function (moeda) {
-        let result = res.symbols[ moeda ]
-        return result
+        let result = res.symbols[ moeda ];
+        return result;
       });
-      this.moedas = resultado
-    })
-
-  }
+      this.moedas = resultado;
+    });
+  };
 
   converter() {
     if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
@@ -55,8 +52,7 @@ export class HomeComponent implements OnInit, Conversao {
         this.valor;
         this.taxa = res[ 'info' ][ 'rate' ];
         this.resultado = res[ 'result' ];
-
-        let conversoesArr = this.conversoes.push({
+        const conversao = this.conversoes.push({
           data: this.data,
           hora: this.hora,
           moedaSelecionada: this.moedaSelecionada,
@@ -64,14 +60,21 @@ export class HomeComponent implements OnInit, Conversao {
           valor: this.valor,
           taxa: this.taxa,
           resultado: this.resultado,
-        })
+        });
+        const conversoesString = sessionStorage.getItem('conversoes');
+        let conversoes = [];
+        if(conversoesString){
+          conversoes = JSON.parse(conversoesString);
+        };
+        conversoes.push(conversao);
+        sessionStorage.setItem('conversoes', JSON.stringify(conversoes));
       });
-      console.log(this.conversoes)
+      console.log(this.conversoes);
     } else {
       return console.error('Preencha os campos');
     };
-  }
-}
+  };
+};
 
 
 
