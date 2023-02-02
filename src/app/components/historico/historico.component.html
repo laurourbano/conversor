@@ -1,114 +1,52 @@
-<<<<<<< Updated upstream
-<div class="container-fluid bg-dark">
-  <div class="pt-5 overflow-auto container">
-    <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="container-fluid bg-dark d-flex overflow-x flex-column">
+  <div class="pt-5 container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort sort="matSort">
 
       <ng-container matColumnDef="data">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Data da conversão </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.data }} </td>
+        <td mat-cell *matCellDef="let row"> {{ row.data }} </td>
       </ng-container>
 
       <ng-container matColumnDef="hora">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora da Conversão </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.hora }} </td>
+        <td mat-cell *matCellDef="let row"> {{ row.hora }} </td>
       </ng-container>
 
       <ng-container matColumnDef="valor">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Informado </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.valor }} </td>
+        <td mat-cell *matCellDef="let row"> {{ row.valor }} </td>
       </ng-container>
 
       <ng-container matColumnDef="moedaSelecionada">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mconversao selecionada </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.moedaSelecionada }} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Moeda selecionada </th>
+        <td mat-cell *matCellDef="let row"> {{ row.moedaSelecionada }} </td>
       </ng-container>
 
       <ng-container matColumnDef="moedaConvertida">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> conversao convertida </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.moedaConvertida }} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Moeda convertida </th>
+        <td mat-cell *matCellDef="let row"> {{ row.moedaConvertida }} </td>
       </ng-container>
 
       <ng-container matColumnDef="resultado">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Resultado </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.resultado }} </td>
+        <td mat-cell *matCellDef="let row"> {{ row.resultado }} </td>
       </ng-container>
 
       <ng-container matColumnDef="taxa">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Taxa </th>
-        <td mat-cell *matCellDef="let conversao"> {{ conversao.taxa }} </td>
+        <td mat-cell *matCellDef="let row"> {{ row.taxa }} </td>
       </ng-container>
 
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Excluir </th>
-        <td> <button class="btn btn-danger" (click)="deleteItem()">x</button> </td>
+        <td> <button class="btn btn-danger">x</button> </td>
       </ng-container>
+      <!--(click)="deleteItem()-->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
-      <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Página de Conversoes">
     </mat-paginator>
-
   </div>
 </div>
-=======
-<table mat-table [dataSource]="dataSource" matSort #matSort="matSort">
-
-  <ng-container matColumnDef="data">
-    <th mat-header-cell *matHeaderCellDef> Data da Conversão </th>
-    <td mat-cell *matCellDef="let item"> {{item.data}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="hora">
-    <th mat-header-cell *matHeaderCellDef> Hora da Conversão </th>
-    <td mat-cell *matCellDef="let item"> {{item.hora}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="valor">
-    <th mat-header-cell *matHeaderCellDef> Valor Selecionado </th>
-    <td mat-cell *matCellDef="let item"> {{item.valor}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="moedaSelecionada">
-    <th mat-header-cell *matHeaderCellDef> Moeda Selecionada </th>
-    <td mat-cell *matCellDef="let item"> {{item.moedaSelecionada}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="moedaConvertida">
-    <th mat-header-cell *matHeaderCellDef> Moeda Convertida </th>
-    <td mat-cell *matCellDef="let item"> {{item.moedaConvertida}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="resultado">
-    <th mat-header-cell *matHeaderCellDef> Resultado </th>
-    <td mat-cell *matCellDef="let item"> {{item.resultado}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="taxa">
-    <th mat-header-cell *matHeaderCellDef> Taxa de Conversão </th>
-    <td mat-cell *matCellDef="let item"> {{item.taxa}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="acao">
-    <th mat-header-cell *matHeaderCellDef> Excluir </th>
-    <td mat-cell *matCellDef="let item; let index=index">
-      <button mat-icon-button (click)="removeFromconversoes(index)" class="bg-danger">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-<table mat-table [dataSource]="dataSource" *ngIf="conversoes.length > 0; else noData" matSort #matSort="matSort"
-  class="w-100 h-100 p-2">
-  ...
-</table>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
-
-<ng-template #noData>
-  <p class="bg-dark text-white-50 p-5 w-100 h-100 mb-0 d-flex">Não há itens na lista de histórico</p>
-</ng-template>
->>>>>>> Stashed changes

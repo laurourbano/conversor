@@ -1,6 +1,7 @@
+import { SessionStorage } from 'ngx-webstorage';
 import { Component, OnInit } from '@angular/core';
 
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Conversao } from 'src/app/interfaces/conversao';
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from 'src/app/services/moeda.service';
@@ -14,26 +15,17 @@ export class HomeComponent implements OnInit, Conversao {
 
   moedas: Moeda[] = [];
   form: FormGroup;
-<<<<<<< Updated upstream
-
-  data: string ='';
-  hora: string ='';
-=======
-  data!: string;
-  hora!: string;
->>>>>>> Stashed changes
+  data: string = '';
+  hora: string = '';
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor: number = 0;
   taxa: number = 0;
   resultado: number = 0;
-<<<<<<< Updated upstream
-  conversoes: Conversao[] =[]
-=======
-  conversoes: Conversao[]=[];
->>>>>>> Stashed changes
+  conversoes: Conversao[] = [];
+  sessionStorage:any;
 
-  constructor(private moedaService: MoedaService) {
+  constructor(private moedaService: MoedaService, private formBuilder: FormBuilder) {
     this.form = new FormGroup({
       moedaSelecionada: new FormControl(''),
       moedaConvertida: new FormControl(''),
@@ -41,9 +33,9 @@ export class HomeComponent implements OnInit, Conversao {
     });
     return
   }
-  
+
   ngOnInit(): void {
-    this.moedaService.gerarCotacao().subscribe((res:any) => {
+    this.moedaService.gerarCotacao().subscribe((res: any) => {
       let resultado = Object.keys(res.symbols).map(function (moeda) {
         let result = res.symbols[ moeda ]
         return result
@@ -54,34 +46,32 @@ export class HomeComponent implements OnInit, Conversao {
   }
 
   converter() {
-<<<<<<< Updated upstream
-    this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-      this.data = new Date().toLocaleString();
-      this.hora = new Date().toLocaleDateString();
-      this.moedaSelecionada = res['from'];
-      this.moedaConvertida = res ['to'];
-      this.valor = res['amount'];
-      this.taxa = res[ 'info' ][ 'rate' ];
-      this.resultado = res[ 'result' ];
-      this.conversoes.push({ 
-        data: this.data,
-        hora: this.hora,
-        moedaSelecionada: this.moedaSelecionada,
-        moedaConvertida: this.moedaConvertida,
-        valor: this.valor,
-        taxa: this.taxa,
-        resultado:this.resultado,
-       })
+    if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
+      this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
+        this.data = new Date().toLocaleDateString();
+        this.hora = new Date().toLocaleTimeString();
+        this.moedaSelecionada;
+        this.moedaConvertida;
+        this.valor;
+        this.taxa = res[ 'info' ][ 'rate' ];
+        this.resultado = res[ 'result' ];
+
+        let conversoesArr = this.conversoes.push({
+          data: this.data,
+          hora: this.hora,
+          moedaSelecionada: this.moedaSelecionada,
+          moedaConvertida: this.moedaConvertida,
+          valor: this.valor,
+          taxa: this.taxa,
+          resultado: this.resultado,
+        })
       });
       console.log(this.conversoes)
-=======
-      this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-        this.resultado = res[ 'result' ];
-        this.taxa = res[ 'info' ][ 'rate' ];
-        return
-      });
-
->>>>>>> Stashed changes
+    } else {
+      return console.error('Preencha os campos');
+    };
   }
 }
+
+
 
