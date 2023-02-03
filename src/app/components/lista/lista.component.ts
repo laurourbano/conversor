@@ -29,9 +29,6 @@ export class ListaComponent implements Moeda {
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
-  getSortData(): string {
-    return '';
-  };
 
   ngOnInit(): void {
     this.MoedaService.gerarCotacao().subscribe((res) => {

@@ -6,7 +6,7 @@
     </div>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
-      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+      <ul ngbNav nav="ngbNav" [(activeId)]="active" class="nav-tabs">
         <li [ngbNavItem]="'HOME'">
           <a ngbNavLink routerLink="" id="home" class="m-0" (click)="isMenuCollapsed = true">HOME</a>
         </li>

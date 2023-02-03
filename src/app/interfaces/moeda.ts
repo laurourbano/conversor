@@ -1,8 +1,4 @@
-import { MatSortable } from "@angular/material/sort";
-
-export interface Moeda extends MatSortable {
+export interface Moeda {
   description: string;
   code: string;
-
-  getSortData(): string;
 };
