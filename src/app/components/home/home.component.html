@@ -11,7 +11,7 @@
 
     <div class="row justify-content-start">
       <div class="col-md-4">
-        <mat-form-field form-field class="w-100" id="myForm" (ngSubmit)="converter()">
+        <mat-form-field form-field class="w-100" id="myForm" >
           <mat-label>Moeda selecionada</mat-label>
           <mat-select [(value)]="moedaSelecionada" required aria-required="true">
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
@@ -61,7 +61,7 @@
     <div class="row justify-content-start mb-1">
       <div class="col-md-4 d-flex justify-content-end">
         <button mat-button class="btn btn-success btn-lg d-flex justify-content-center mb-3"
-          type="submit">
+          type="submit" (click)="converter()">
           <mat-icon class="mat-18 m-1">currency_exchange</mat-icon>
           Converter
         </button>

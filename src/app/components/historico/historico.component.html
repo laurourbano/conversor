@@ -1,40 +1,68 @@
-<div class="container-fluid bg-dark d-flex overflow-x flex-column">
+<div class="container-fluid bg-dark d-flex overflow-auto flex-column">
   <div class="pt-5 container">
     <table mat-table [dataSource]="conversoes" class="mat-elevation-z8" matSort sort="matSort">
 
       <ng-container matColumnDef="data">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Data da conversão </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.data }} </td>
+=======
+        <td mat-cell *matCellDef="let item"> {{ item.data }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="hora">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora da Conversão </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.hora }} </td>
+=======
+        <td mat-cell *matCellDefO="let item"> {{ item.hora }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="valor">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Informado </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.valor }} </td>
+=======
+        <td mat-cell *matCellDef="let item"> {{ item.valor }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="moedaSelecionada">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Moeda selecionada </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.moedaSelecionada }} </td>
+=======
+        <td mat-cell *matCellDef="let item"> {{ item.moedaSelecionada }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="moedaConvertida">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Moeda convertida </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.moedaConvertida }} </td>
+=======
+        <td mat-cell *matCellDef="let item"> {{ item.moedaConvertida }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="resultado">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Resultado </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.resultado }} </td>
+=======
+        <td mat-cell *matCellDef="let item"> {{ item.resultado }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="taxa">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Taxa </th>
+<<<<<<< Updated upstream
         <td mat-cell *matCellDef="let row"> {{ row.taxa }} </td>
+=======
+        <td mat-cell *matCellDef="let item"> {{ item.taxa }} </td>
+>>>>>>> Stashed changes
       </ng-container>
 
       <ng-container matColumnDef="excluir">

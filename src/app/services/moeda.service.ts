@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SessionStorage } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { Conversao } from 'src/app/interfaces/conversao';
 
@@ -18,7 +17,8 @@ export class MoedaService {
   resultado: number = 0;
   data: string = new Date().toDateString();
   hora: string = new Date().toLocaleDateString();
-  @SessionStorage() conversoes: Conversao[] = [];
+
+  conversoes: Conversao[] = [];
 
   constructor(private http: HttpClient) { };
 

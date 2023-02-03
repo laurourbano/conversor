@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Conversao } from 'src/app/interfaces/conversao';
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from 'src/app/services/moeda.service';
@@ -12,17 +11,22 @@ import { MoedaService } from 'src/app/services/moeda.service';
   styleUrls: [ './home.component.css' ]
 })
 
-export class HomeComponent implements OnInit, Conversao {
-  moedas: Moeda[] = [];
+export class HomeComponent implements OnInit {
+
   form: FormGroup;
-  data: string = '';
-  hora: string = '';
+
+  moedas: Moeda[] = [];
+
+  data!: string;
+  hora!: string;
   moedaSelecionada!: string;
   moedaConvertida!: string;
-  valor: number = 0;
-  taxa: number = 0;
-  resultado: number = 0;
+  valor!: number;
+  taxa!: number;
+  resultado!: number;
+
   conversoes: Conversao[] = [];
+  conversao!: Conversao;
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
@@ -30,6 +34,7 @@ export class HomeComponent implements OnInit, Conversao {
       moedaConvertida: new FormControl(''),
       valor: new FormControl(''),
     });
+
     return;
   };
 
@@ -40,12 +45,10 @@ export class HomeComponent implements OnInit, Conversao {
         return result;
       });
       this.moedas = resultado;
-      console.log(this.moedas)
     });
   };
 
   converter() {
-    event?.preventDefault()
     if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
         this.data = new Date().toLocaleDateString();
@@ -55,14 +58,20 @@ export class HomeComponent implements OnInit, Conversao {
         this.valor;
         this.taxa = res[ 'info' ][ 'rate' ];
         this.resultado = res[ 'result' ];
+        let conversao = {
+          data: this.data,
+          hora: this.hora,
+          moedaSelecionada: this.moedaSelecionada,
+          moedaConvertida: this.moedaConvertida,
+          valor: this.valor,
+          taxa: this.taxa,
+          resultado: this.resultado,
+        };
+        this.conversoes.push(conversao);
+        console.log(conversao)
+        sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
 
-      });
-      console.log(this.conversoes);
-    } else {
-      return console.error('Preencha os campos');
-    };
-  };
-};
-
-
-
+      })
+    }
+  }
+}
