@@ -8,7 +8,9 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './historico.component.html',
   styleUrls: [ './historico.component.css' ]
 })
+
 export class AppComponent implements OnInit {
+
   displayedColumns: string[] = ['data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir'];
   conversoes: any[] = [];
   dataSource: MatTableDataSource<any>;
@@ -17,6 +19,7 @@ export class AppComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
+    
     const storedConversoes = sessionStorage.getItem('conversoes');
     if (storedConversoes) {
       this.conversoes = JSON.parse(storedConversoes);
@@ -30,4 +33,5 @@ export class AppComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 }
