@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,7 +43,7 @@ import { MoedaService } from './services/moeda.service';
   bootstrap: [ AppComponent ],
   exports: [
     FooterComponent,
-    HistoricoComponent,
+    MenuComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -64,6 +65,7 @@ import { MoedaService } from './services/moeda.service';
     MatDialogModule,
     MatAutocompleteModule,
     NgbCollapseModule,
+    MatButtonModule,
   ]
 })
 export class AppModule { }

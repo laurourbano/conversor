@@ -4,7 +4,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Conversao } from 'src/app/interfaces/conversao';
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from 'src/app/services/moeda.service';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -27,6 +26,7 @@ export class HomeComponent implements OnInit {
 
   conversoes: Conversao[] = [];
   conversao!: Conversao;
+formControl: any;
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
