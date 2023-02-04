@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Conversao } from './../../interfaces/conversao';
+import { Conversao } from 'src/app/interfaces/conversao';
 
 @Component({
   selector: 'app-historico',
@@ -25,9 +25,7 @@ export class HistoricoComponent implements OnInit {
     resultado: 0
   };
 
-  dataSource = new MatTableDataSource(this.conversoes);
-
-  /*dataSource?: MatTableDataSource<Conversao>;*/
+  dataSource = new MatTableDataSource<Conversao>();
 
   @ViewChild(MatSort, { static: true })
   sort!: MatSort;
@@ -40,29 +38,25 @@ export class HistoricoComponent implements OnInit {
     const storedConversoes = sessionStorage.getItem('conversoes');
     if (storedConversoes) {
       this.conversoes = JSON.parse(storedConversoes);
-
-      /*console log para ver o que tem em conversoes*/
-      console.log(this.conversoes);
-
     }
-    this.dataSource = new MatTableDataSource(this.conversoes);
-
-    console.log(this.dataSource.data);
-
+    this.dataSource.data = this.conversoes;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
   deleteItem(conversao: Conversao) {
-    this.conversoes = this.conversoes.filter(i => i !== conversao);
+    const index = this.dataSource.data.indexOf(conversao);
+    this.dataSource.data.splice(index, 1);
+    let storedConversoes = sessionStorage.getItem('conversoes')
+    sessionStorage.setItem('conversoes', JSON.stringify(this.dataSource.data));
+    if (storedConversoes) {
+      this.dataSource.data = JSON.parse(storedConversoes) || [];
+    }
   }
 
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource(this.conversoes);
-
-    console.log(this.conversoes)
-
     this.dataSource!.sort = this.sort;
+    console.log(this.conversoes)
   }
 
   announceSortChange(sortState: Sort): void {
@@ -71,7 +65,6 @@ export class HistoricoComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-
 
   }
 }
