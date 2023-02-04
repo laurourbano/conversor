@@ -70,13 +70,13 @@
         <th class="border p-2">excluir</th>
       </thead>
       <tbody>
-        <td class="border px-2 w-25">{{conversao.data | date: 'dd/MM/yy'}}</td>
-        <td class="border px-2 w-25">{{conversao.hora }}</td>
-        <td class="border px-2 w-25">{{conversao.moedaSelecionada}}</td>
-        <td class="border px-2 w-25">{{conversao.moedaConvertida}}</td>
-        <td class="border px-2 w-25">{{conversao.valor}}</td>
-        <td class="border px-2 w-25">{{conversao.resultado}}</td>
-        <td class="border px-2 w-25">{{conversao.taxa}}</td>
+        <td class="border px-2 w-25">{{ conversao.data | date: 'MM/dd/YY' }}</td>
+        <td class="border px-2 w-25">{{ conversao.hora }}</td>
+        <td class="border px-2 w-25">{{ conversao.moedaSelecionada }}</td>
+        <td class="border px-2 w-25">{{ conversao.moedaConvertida }}</td>
+        <td class="border px-2 w-25">{{ conversao.valor | currency }}</td>
+        <td class="border px-2 w-25">{{ conversao.resultado | currency }}</td>
+        <td class="border px-2 w-25">{{ conversao.taxa | percent }}</td>
         <td class="border px-2 w-25"><button class="btn btn-danger" (click)="deleteItem(conversao)">x</button></td>
       </tbody>
     </table>
