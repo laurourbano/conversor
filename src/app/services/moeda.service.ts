@@ -10,15 +10,18 @@ export class MoedaService {
 
   private api = 'https://api.exchangerate.host';
 
+  i!: boolean;
   moedaSelecionada: any;
   moedaConvertida: any;
   valor!: number;
   taxa: any;
   resultado: number = 0;
-  data: string = new Date().toDateString();
+  data: Date = new Date('pt-BR');
   hora: string = new Date().toLocaleDateString();
 
   conversoes: Conversao[] = [];
+  taxaDollar: any;
+  resultadoDollar!: number;
 
   constructor(private http: HttpClient) { };
 
@@ -36,9 +39,17 @@ export class MoedaService {
       .subscribe((dados: any) => {
         this.taxa = dados[ 'info' ][ 'rate' ];
         this.resultado = this.valor * this.taxa;
-        this.data = new Date().toDateString();
-        this.hora = new Date().toLocaleTimeString();
+        this.data = new Date();
+        console.log(this.data)
+
+        this.http.get(`https://exchangerate.host/?from=${ moedaSelecionada }&to=USD&amount=${ valor }`)
+          .subscribe((dadosDollar: any) => {
+            this.taxaDollar = dadosDollar[ 'info' ][ 'rate' ];
+            this.resultadoDollar = this.valor * this.taxaDollar;
+            if (this.resultadoDollar >= 10000) {
+              // ver como mostrar o ícone na tela
+            }
+          });
       });
   };
-
 };

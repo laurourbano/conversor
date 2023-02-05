@@ -16,8 +16,8 @@ export class HistoricoComponent implements OnInit {
   displayedColumns: string[] = [ 'i', 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
   conversoes: Conversao[] = [];
   conversao: Conversao = {
+    i: false,
     data: '',
-    hora: '',
     moedaSelecionada: '',
     moedaConvertida: '',
     valor: 0,
@@ -47,11 +47,8 @@ export class HistoricoComponent implements OnInit {
   deleteItem(conversao: Conversao) {
     const index = this.dataSource.data.indexOf(conversao);
     this.dataSource.data.splice(index, 1);
-    let storedConversoes = sessionStorage.getItem('conversoes')
+    this.dataSource.data = [ ...this.dataSource.data ];
     sessionStorage.setItem('conversoes', JSON.stringify(this.dataSource.data));
-    if (storedConversoes) {
-      this.dataSource.data = JSON.parse(storedConversoes) || [];
-    }
   }
 
   ngAfterViewInit() {

@@ -2,11 +2,9 @@
   width: 100%;
   min-height: 80vh;
 }
-.mat-mdc-table {
-  width: 100%;
-  max-height: 500px;
-  overflow: auto;
-}
-.mat-column-name {
-  height: 100px;
+mat-paginator
+{
+background-color: transparent;
+width: 100%;
+overflow: auto;
 }

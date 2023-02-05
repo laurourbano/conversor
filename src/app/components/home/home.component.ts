@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
 
   moedas: Moeda[] = [];
 
+  i!: boolean;
   data!: string;
-  hora!: string;
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor!: number;
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   conversoes: Conversao[] = [];
   conversao!: Conversao;
-formControl: any;
+  formControl: any;
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
@@ -51,16 +51,17 @@ formControl: any;
   converter() {
     if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-        this.data = new Date().toLocaleDateString();
-        this.hora = new Date().toLocaleTimeString();
+        this.i = false
+        this.data = String(new Date().toLocaleDateString('pt-BR'));
+        console.log(this.data)
         this.moedaSelecionada;
         this.moedaConvertida;
         this.valor;
         this.taxa = res[ 'info' ][ 'rate' ];
         this.resultado = res[ 'result' ];
         let conversao = {
+          i: false,
           data: this.data,
-          hora: this.hora,
           moedaSelecionada: this.moedaSelecionada,
           moedaConvertida: this.moedaConvertida,
           valor: this.valor,
