@@ -51,28 +51,34 @@ export class HomeComponent implements OnInit {
   converter() {
     if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-        this.i = false
         this.data = String(new Date().toLocaleDateString('pt-BR'));
-        console.log(this.data)
         this.moedaSelecionada;
         this.moedaConvertida;
         this.valor;
         this.taxa = res[ 'info' ][ 'rate' ];
         this.resultado = res[ 'result' ];
-        let conversao = {
-          i: false,
-          data: this.data,
-          moedaSelecionada: this.moedaSelecionada,
-          moedaConvertida: this.moedaConvertida,
-          valor: this.valor,
-          taxa: this.taxa,
-          resultado: this.resultado,
-        };
-        this.conversoes.push(conversao);
-        console.log(conversao)
-        sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
-
-      })
+        this.checkResultadoDollar(this.resultado);
+      });
     }
   }
+
+  checkResultadoDollar(resultado: number) {
+    this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
+      this.i = resDollar['result'] >= 10_000
+      let conversao = {
+        i: this.i,
+        data: this.data,
+        moedaSelecionada: this.moedaSelecionada,
+        moedaConvertida: this.moedaConvertida,
+        valor: this.valor,
+        taxa: this.taxa,
+        resultado: resultado,
+      };
+      console.log(resDollar[ 'result' ])
+      this.conversoes.push(conversao);
+      sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
+    });
+  }
+
+
 }

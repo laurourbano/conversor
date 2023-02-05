@@ -42,14 +42,6 @@ export class MoedaService {
         this.data = new Date();
         console.log(this.data)
 
-        this.http.get(`https://exchangerate.host/?from=${ moedaSelecionada }&to=USD&amount=${ valor }`)
-          .subscribe((dadosDollar: any) => {
-            this.taxaDollar = dadosDollar[ 'info' ][ 'rate' ];
-            this.resultadoDollar = this.valor * this.taxaDollar;
-            if (this.resultadoDollar >= 10000) {
-              // ver como mostrar o ícone na tela
-            }
-          });
       });
   };
 };
