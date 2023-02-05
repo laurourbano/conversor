@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Confirmação de exclusão</h1>
+<div mat-dialog-content>
+  Tem certeza de que deseja excluir este item?
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Não</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Sim</button>
+</div>
