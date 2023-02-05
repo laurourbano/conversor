@@ -17,7 +17,8 @@ export class HistoricoComponent implements OnInit {
   conversoes: Conversao[] = [];
   conversao: Conversao = {
     i: false,
-    data: '',
+    data: new Date(),
+    hora: new Date(),
     moedaSelecionada: '',
     moedaConvertida: '',
     valor: 0,
@@ -53,7 +54,6 @@ export class HistoricoComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource!.sort = this.sort;
-    console.log(this.conversoes)
   }
 
   announceSortChange(sortState: Sort): void {

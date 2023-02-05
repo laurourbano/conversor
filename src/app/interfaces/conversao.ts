@@ -1,6 +1,7 @@
 export interface Conversao {
   i: boolean;
-  data: string;
+  data: Date;
+  hora: Date;
   moedaSelecionada: string;
   moedaConvertida: string;
   valor: number;

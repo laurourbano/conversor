@@ -11,18 +11,22 @@ import { MoedaService } from 'src/app/services/moeda.service';
 })
 
 export class HomeComponent implements OnInit {
-
   form: FormGroup;
 
   moedas: Moeda[] = [];
 
   i!: boolean;
-  data!: string;
+  data!: Date;
+  hora!: Date;
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor!: number;
   taxa!: number;
   resultado!: number;
+
+  errorMessageMoedaSelecionada: string = '';
+  errorMessageMoedaConvertida: string = '';
+  erroMessageValor: string = '';
 
   conversoes: Conversao[] = [];
   conversao!: Conversao;
@@ -46,35 +50,37 @@ export class HomeComponent implements OnInit {
       });
       this.moedas = resultado;
     });
+
   };
 
   converter() {
-    if (this.moedaConvertida && this.moedaSelecionada && this.valor) {
+    if (this.moedaSelecionada && this.moedaConvertida && this.valor) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-        this.data = String(new Date().toLocaleDateString('pt-BR'));
+        this.data = new Date();
+        this.hora = new Date();
         this.moedaSelecionada;
         this.moedaConvertida;
         this.valor;
         this.taxa = res[ 'info' ][ 'rate' ];
         this.resultado = res[ 'result' ];
         this.checkResultadoDollar(this.resultado);
-      });
+      })
     }
   }
 
   checkResultadoDollar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
-      this.i = resDollar['result'] >= 10_000
+      this.i = resDollar[ 'result' ] >= 10_000
       let conversao = {
         i: this.i,
         data: this.data,
+        hora: this.hora,
         moedaSelecionada: this.moedaSelecionada,
         moedaConvertida: this.moedaConvertida,
         valor: this.valor,
         taxa: this.taxa,
         resultado: resultado,
       };
-      console.log(resDollar[ 'result' ])
       this.conversoes.push(conversao);
       sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
     });
