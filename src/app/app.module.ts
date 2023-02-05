@@ -28,7 +28,6 @@ import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ConversorService } from './services/conversor.service';
 import { MoedaService } from './services/moeda.service';
-import { ConfirmaExcluirComponent } from './components/confirma-excluir/confirma-excluir.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +38,6 @@ import { ConfirmaExcluirComponent } from './components/confirma-excluir/confirma
     HomeComponent,
     ListaComponent,
     NgbdNavBasic,
-    ConfirmaExcluirComponent,
   ],
   providers: [ ConversorService, MoedaService ],
   bootstrap: [ AppComponent ],
