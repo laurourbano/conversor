@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
 
   checkResultadoDollar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
-      this.i = resDollar[ 'result' ] >= 10_000
+      this.i = resDollar[ 'result' ] > 10_000
       let conversao = {
         i: this.i,
         data: this.data,
