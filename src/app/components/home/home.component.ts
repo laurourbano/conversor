@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
   };
 
   converter() {
-    if (this.moedaSelecionada && this.moedaConvertida && this.valor) {
+    if (this.moedaSelecionada && this.moedaConvertida && this.valor > 0) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
         this.data = new Date();
         this.hora = new Date();
