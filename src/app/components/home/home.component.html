@@ -10,7 +10,7 @@
     </div>
 
     <div class="row justify-content-start">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <mat-form-field form-field class="w-100" id="myForm">
           <mat-label>Moeda selecionada</mat-label>
           <mat-select [(ngModel)]="moedaSelecionada" aria-required="true" required>
@@ -21,7 +21,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Moeda convertida</mat-label>
           <mat-select [(ngModel)]="moedaConvertida" aria-required="true" required>
@@ -31,7 +31,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="row justify-content-start mb-1">
+      <div class="row justify-content-start mb-1 mr-2">
         <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Valor a ser convertido</mat-label>
@@ -39,14 +39,14 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-4">
           <mat-form-field class="w-100 ">
             <mat-label>Resultado</mat-label>
             <input matInput [(ngModel)]="resultado" type="number" readonly disabled>
           </mat-form-field>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Taxa aplicada</mat-label>
             <input matInput [(ngModel)]="taxa" type="number" readonly disabled>
@@ -56,7 +56,8 @@
 
       <div class="row justify-content-start mb-1">
         <div class="col-md-4 d-flex justify-content-end">
-          <button mat-fab type="submit" color="primary" (click)="converter()" title="converter">
+          <button mat-button type="submit" class="btn btn-success bg-success" (click)="converter()" title="converter">
+            Converter
             <mat-icon class="mat-18">currency_exchange</mat-icon>
           </button>
         </div>
