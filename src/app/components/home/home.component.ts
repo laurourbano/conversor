@@ -24,10 +24,6 @@ export class HomeComponent implements OnInit {
   taxa!: number;
   resultado!: number;
 
-  errorMessageMoedaSelecionada: string = '';
-  errorMessageMoedaConvertida: string = '';
-  erroMessageValor: string = '';
-
   conversoes: Conversao[] = [];
   conversao!: Conversao;
   formControl: any;
