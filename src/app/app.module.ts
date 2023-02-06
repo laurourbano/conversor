@@ -28,6 +28,7 @@ import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ConversorService } from './services/conversor.service';
 import { MoedaService } from './services/moeda.service';
+import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MoedaService } from './services/moeda.service';
     HomeComponent,
     ListaComponent,
     NgbdNavBasic,
+    DeleteConfirmationDialogComponent,
   ],
   providers: [ ConversorService, MoedaService ],
   bootstrap: [ AppComponent ],
@@ -66,6 +68,7 @@ import { MoedaService } from './services/moeda.service';
     MatAutocompleteModule,
     NgbCollapseModule,
     MatButtonModule,
+    MatDialogModule,
   ]
 })
 export class AppModule { }

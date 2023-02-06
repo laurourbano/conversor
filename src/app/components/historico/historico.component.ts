@@ -1,9 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+
 import { Conversao } from 'src/app/interfaces/conversao';
+import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-historico',
@@ -33,7 +36,7 @@ export class HistoricoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) { }
 
   ngOnInit() {
     const storedConversoes = sessionStorage.getItem('conversoes');
@@ -43,6 +46,18 @@ export class HistoricoComponent implements OnInit {
     this.dataSource.data = this.conversoes;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  openDeleteConfirmationDialog(conversao: Conversao) {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      data: { conversao }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteItem(conversao)
+      }
+    });
   }
 
   deleteItem(conversao: Conversao) {

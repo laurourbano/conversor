@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Confirmação de exclusão da conversão</h1>
+<div mat-dialog-content>
+  Você tem certeza de que quer excluir esta conversão?
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" class="bg-danger text-white m-2">Cancela</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onYesClick()"
+    class="bg-success text-white m-2">Confirma</button>
+</div>
