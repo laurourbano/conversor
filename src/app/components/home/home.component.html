@@ -1,5 +1,5 @@
 <div class="container-fluid bg-dark">
-  <form class="w-100 container" #form="ngForm" (ngSubmit)="submitForm(form.value)">
+  <div class="w-100 container">
     <div class="bg-dark border-rounded rounded-2 shadow p-3 mb-2">
       <h2 class="text-light">Aqui você poderá escolher entre diversas moedas e realizar a conversão destas
         moedas de maneira descomplicada:
@@ -11,32 +11,33 @@
 
     <div class="row justify-content-start">
       <div class="col-md-4">
-        <mat-form-field form-field class="w-100" id="myForm">
+        <mat-form-field form-field class="w-100" id="myForm" #form="ngForm" (ngSubmit)="submitForm(form.value)">
           <mat-label>Moeda selecionada</mat-label>
           <mat-selec [(ngModel)]="moedaSelecionada" aria-required="true" required name="moedaSelecionada" #moedaSelecionada="ngModel">
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
-          </mat-selec>
+          </mat-selec></div>
+          <ngIf></ngIf>
         </mat-form-field>
         <div *ngIf="moedaSelecionada.invalid && moedaSelecionada.touched" class="text-danger mb-4">
           Selecione uma moeda para ser convertida.
         </div>
       </div>
-    </div>
 
-    <div class="col-md-4">
-      <mat-form-field class="w-100">
-        <mat-label>Moeda convertida</mat-label>
-        <mat-select [(ngModel)]="moedaConvertida" aria-required="true" required name="moedaConvertida" #moedaConvertida="ngModel">
-          <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
-            {{moeda.code}} - {{moeda.description}}
-          </mat-option>
-        </mat-select>
+      <div class="col-md-4">
+        <mat-form-field class="w-100">
+          <mat-label>Moeda convertida</mat-label>
+          <mat-select [(ngModel)]="moedaConvertida" aria-required="true" required name="moedaConvertida" #moedaConvertida="ngModel">
+            <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
+              {{moeda.code}} - {{moeda.description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div *ngIf="moedaConvertida.invalid && moedaConvertida.touched" class="text-danger mb-4">
           Selecione para qual moeda será realizada a conversão.
         </div>
-      </mat-form-field>
+      </div>
     </div>
 
     <div class="row justify-content-start mb-1">
@@ -44,10 +45,11 @@
         <mat-form-field class="w-100">
           <mat-label>Valor a ser convertido</mat-label>
           <input matInput [(ngModel)]="valor" type="text" min="1" aria-required="true" required name="valor" pattern="[0-9]+" #valor="ngModel">
-          <div *ngIf="valor.invalid && valor.touched" class="text-danger mb-4">
-            <p *ngIf="valor.errors.pattern">O valor deve ser um número.</p>
-          </div>
         </mat-form-field>
+        <div *ngIf="valor.invalid && valor.touched" class="text-danger mb-4">
+          <p *ngIf="valor.errors.pattern">O valor deve ser um número.</p>
+        </div>
+      
       </div>
 
       <div class="col-md-4">
@@ -72,5 +74,5 @@
         </button>
       </div>
     </div>
-  </form>
+  </div>
 </div>
