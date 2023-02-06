@@ -11,21 +11,25 @@
 
     <div class="row justify-content-start">
       <div class="col-md-4">
-        <mat-form-field form-field class="w-100" id="myForm" #form="ngForm" (ngSubmit)="submitForm(form.value)">
+        <mat-form-field form-field class="w-100" id="myForm">
           <mat-label>Moeda selecionada</mat-label>
-          <mat-selec [(ngModel)]="moedaSelecionada" aria-required="true" required name="moedaSelecionada" #moedaSelecionada="ngModel">
+          <mat-select [(ngModel)]="moedaSelecionada" aria-required="true" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
+<<<<<<< HEAD
 <<<<<<< HEAD
           </mat-selec></div>
           <ngIf></ngIf>
 =======
           </mat-selec>
 >>>>>>> parent of 29ab78c (update)
+=======
+          </mat-select>
+>>>>>>> parent of d61b13b (aplicando as validações de formulário)
         </mat-form-field>
-        <div *ngIf="moedaSelecionada.invalid && moedaSelecionada.touched" class="text-danger mb-4">
-          Selecione uma moeda para ser convertida.
+        <div *ngIf="" class="text-danger mb-4">
+          {{ errorMessageMoedaSelecionada }}
         </div>
       </div>
 
@@ -33,12 +37,13 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Moeda convertida</mat-label>
-          <mat-select [(ngModel)]="moedaConvertida" aria-required="true" required name="moedaConvertida" #moedaConvertida="ngModel">
+          <mat-select [(ngModel)]="moedaConvertida" aria-required="true" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+<<<<<<< HEAD
 =======
     <div class="col-md-4">
       <mat-form-field class="w-100">
@@ -51,6 +56,10 @@
 >>>>>>> parent of 29ab78c (update)
         <div *ngIf="moedaConvertida.invalid && moedaConvertida.touched" class="text-danger mb-4">
           Selecione para qual moeda será realizada a conversão.
+=======
+        <div *ngIf="" class="text-danger mb-4">
+          {{ errorMessageMoedaConvertida }}
+>>>>>>> parent of d61b13b (aplicando as validações de formulário)
         </div>
       </div>
     </div>
@@ -59,6 +68,7 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Valor a ser convertido</mat-label>
+<<<<<<< HEAD
           <input matInput [(ngModel)]="valor" type="text" min="1" aria-required="true" required name="valor" pattern="[0-9]+" #valor="ngModel">
 <<<<<<< HEAD
 =======
@@ -66,11 +76,14 @@
             <p *ngIf="valor.errors.pattern">O valor deve ser um número.</p>
           </div>
 >>>>>>> parent of 29ab78c (update)
+=======
+          <input matInput [(ngModel)]="valor" type="number" min="1" aria-required="true" required>
+>>>>>>> parent of d61b13b (aplicando as validações de formulário)
         </mat-form-field>
-        <div *ngIf="valor.invalid && valor.touched" class="text-danger mb-4">
-          <p *ngIf="valor.errors.pattern">O valor deve ser um número.</p>
+        <div *ngIf="" class="text-danger mb-4">
+          {{ erroMessageValor }}
         </div>
-      
+
       </div>
 
       <div class="col-md-4">
@@ -90,7 +103,7 @@
 
     <div class="row justify-content-start mb-1">
       <div class="col-md-4 d-flex justify-content-end">
-        <button mat-fab type="submit" [disabled]="form.invalid" color="primary" (click)="converter()" title="converter">
+        <button mat-fab type="submit" color="primary" (click)="converter()" title="converter">
           <mat-icon class="mat-18">currency_exchange</mat-icon>
         </button>
       </div>
