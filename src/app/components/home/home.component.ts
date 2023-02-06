@@ -82,9 +82,5 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  submitForm(formData: any) {
-    console.log('Form submitted with data: ', formData);
-    // Additional logic to handle form submission goes here
-  }
 
 }
