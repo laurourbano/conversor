@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+<<<<<<< HEAD
 import { FormControl, FormGroup } from '@angular/forms';
+=======
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+>>>>>>> parent of 10df0b6 (adaptando o código para usar formulário reativo)
 import { Conversao } from 'src/app/interfaces/conversao';
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from 'src/app/services/moeda.service';
