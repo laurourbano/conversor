@@ -22,13 +22,13 @@ import { NgbdNavBasic } from '../app/components/menu/nav-basic';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { DeleteConfirmationDialogComponent } from './components/historico/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { HistoricoComponent } from './components/historico/historico.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ConversorService } from './services/conversor.service';
 import { MoedaService } from './services/moeda.service';
+import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @NgModule({
   declarations: [
