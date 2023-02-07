@@ -18,6 +18,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdNavBasic } from '../app/components/menu/nav-basic';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -69,6 +70,7 @@ import { MoedaService } from './services/moeda.service';
     NgbCollapseModule,
     MatButtonModule,
     MatDialogModule,
+    ReactiveFormsModule,
   ]
 })
 export class AppModule { }
