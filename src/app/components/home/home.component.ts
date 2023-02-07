@@ -24,6 +24,10 @@ export class HomeComponent implements OnInit {
   taxa!: number;
   resultado!: number;
 
+  errorMessageMoedaSelecionada: string = '';
+  errorMessageMoedaConvertida: string = '';
+  erroMessageValor: string = '';
+
   conversoes: Conversao[] = [];
   conversao!: Conversao;
   formControl: any;
@@ -50,7 +54,7 @@ export class HomeComponent implements OnInit {
   };
 
   converter() {
-    if (this.moedaSelecionada && this.moedaConvertida && this.valor) {
+    if (this.moedaSelecionada && this.moedaConvertida && this.valor > 0) {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
         this.data = new Date();
         this.hora = new Date();
@@ -66,7 +70,7 @@ export class HomeComponent implements OnInit {
 
   checkResultadoDollar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
-      this.i = resDollar[ 'result' ] >= 10_000
+      this.i = resDollar[ 'result' ] > 10_000
       let conversao = {
         i: this.i,
         data: this.data,
