@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Conversao } from 'src/app/interfaces/conversao';
 import { Moeda } from 'src/app/interfaces/moeda';
 import { MoedaService } from 'src/app/services/moeda.service';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -35,10 +34,12 @@ export class HomeComponent implements OnInit {
 
   constructor(private moedaService: MoedaService) {
     this.form = new FormGroup({
-      moedaSelecionada: new FormControl(null, Validators.required),
-      moedaConvertida: new FormControl(null, Validators.required),
-      valor: new FormControl(null, Validators.required),
+      moedaSelecionada: new FormControl(''),
+      moedaConvertida: new FormControl(''),
+      valor: new FormControl(''),
     });
+
+    return;
   };
 
   ngOnInit(): void {
@@ -57,11 +58,9 @@ export class HomeComponent implements OnInit {
       this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
         this.data = new Date();
         this.hora = new Date();
-        //parte alterada
-        this.form.value.moedaSelecionada;
-        this.form.value.moedaConvertida;
-        this.form.value.valor;
-        //parte alterada
+        this.moedaSelecionada;
+        this.moedaConvertida;
+        this.valor;
         this.taxa = res[ 'info' ][ 'rate' ];
         this.resultado = res[ 'result' ];
         this.checkResultadoDollar(this.resultado);
