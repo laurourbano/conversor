@@ -1,8 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex">
   <div class="container-fluid d-flex">
     <div class=" align-self-center m-0 text-white">
-      <h4>CONVERSOR DE MOEDAS</h4>
-      <small class="text-small">{{active}}</small>
+      <div class="d-flex flex-row">
+        <mat-icon class="mat-18 mx-2">currency_exchange</mat-icon>
+        <h4>CONVERSOR DE MOEDAS</h4>
+      </div>
+      <small class="text-small mx-2">{{active}}</small>
     </div>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
