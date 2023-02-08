@@ -38,7 +38,8 @@
             <mat-label>Valor a ser convertido</mat-label>
             <input matInput (blur)="isInputBlurred = true" [(ngModel)]="valor" type="number" min="1"
               aria-required="true" required>
-            <div *ngIf="!valor&&isInputBlurred||valor<=0" class="text-warning text-center">Insira um valor maior que zero.</div>
+            <div *ngIf="!valor&&isInputBlurred||valor<=0" class="text-warning text-center">Insira um valor maior que
+              zero.</div>
           </mat-form-field>
         </div>
 
@@ -58,13 +59,15 @@
       </div>
 
       <div class="row mb-1">
-        <div class="col-md-4 d-flex justify-content-end">
-          <button mat-button type="submit" class="btn btn-success bg-success" (click)="converter()" title="converter"
-            [disabled]="!moedaSelecionada||!moedaConvertida||!valor">
+        <div class="col-md-4 d-flex flex-column justify-content-end">
+          <button mat-button type="submit" class="btn btn-success bg-success p-4" (click)="converter()"
+            title="converter" [disabled]="!moedaSelecionada||!moedaConvertida||!valor">
             Converter
             <mat-icon class="mat-18">currency_exchange</mat-icon>
           </button>
+          <small class="text-white">* Preencha todos os campos</small>
         </div>
+
       </div>
 
     </div>
