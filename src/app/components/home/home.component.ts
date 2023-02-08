@@ -1,20 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
-<<<<<<< HEAD
-import { FormControl, FormGroup } from '@angular/forms';
-=======
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
->>>>>>> parent of 10df0b6 (adaptando o código para usar formulário reativo)
-import { Conversao } from 'src/app/interfaces/conversao';
-import { Moeda } from 'src/app/interfaces/moeda';
-import { MoedaService } from 'src/app/services/moeda.service';
+import {
+  FormControl,
+  FormGroup
+} from '@angular/forms';
+import {
+  Conversao
+} from 'src/app/interfaces/conversao';
+import {
+  Moeda
+} from 'src/app/interfaces/moeda';
+import {
+  MoedaService
+} from 'src/app/services/moeda.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: [ './home.component.css' ]
+  styleUrls: ['./home.component.css']
 })
 
 export class HomeComponent implements OnInit {
+  isInputBlurred = false;
   form: FormGroup;
 
   moedas: Moeda[] = [];
@@ -42,14 +52,12 @@ export class HomeComponent implements OnInit {
       moedaConvertida: new FormControl(''),
       valor: new FormControl(''),
     });
-
-    return;
   };
 
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe((res: any) => {
       let resultado = Object.keys(res.symbols).map(function (moeda) {
-        let result = res.symbols[ moeda ];
+        let result = res.symbols[moeda];
         return result;
       });
       this.moedas = resultado;
@@ -65,8 +73,8 @@ export class HomeComponent implements OnInit {
         this.moedaSelecionada;
         this.moedaConvertida;
         this.valor;
-        this.taxa = res[ 'info' ][ 'rate' ];
-        this.resultado = res[ 'result' ];
+        this.taxa = res['info']['rate'];
+        this.resultado = res['result'];
         this.checkResultadoDollar(this.resultado);
       })
     }
@@ -74,7 +82,7 @@ export class HomeComponent implements OnInit {
 
   checkResultadoDollar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
-      this.i = resDollar[ 'result' ] > 10_000
+      this.i = resDollar['result'] > 10000
       let conversao = {
         i: this.i,
         data: this.data,
