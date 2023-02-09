@@ -24,7 +24,10 @@ import {
 })
 
 export class HomeComponent implements OnInit {
-  isInputBlurred = false;
+  isInputBlurredMS = false;
+  isInputBlurredMC = false;
+  isInputBlurredV = false;
+
   form: FormGroup;
 
   moedas: Moeda[] = [];
@@ -76,6 +79,13 @@ export class HomeComponent implements OnInit {
         this.taxa = res['info']['rate'];
         this.resultado = res['result'];
         this.checkResultadoDollar(this.resultado);
+        let sucesso = document.querySelector('.sucesso');
+        sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversão realizada com sucesso!</strong></div>";
+        document.querySelector('.sucesso');
+        setTimeout(() => {
+          sucesso!.innerHTML = "";
+        }, 3 * 1000);
+
       })
     }
   }

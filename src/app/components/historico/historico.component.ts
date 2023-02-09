@@ -16,7 +16,7 @@ import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog
 
 export class HistoricoComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'i', 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
+  displayedColumns: string[] = [ 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
   conversoes: Conversao[] = [];
   conversao: Conversao = {
     i: false,
