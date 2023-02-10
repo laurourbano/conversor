@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ConversorService } from './conversor.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ConversorService', () => {
   let service: ConversorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule],
+      providers: [ ConversorService ]
+    });
     service = TestBed.inject(ConversorService);
   });
 

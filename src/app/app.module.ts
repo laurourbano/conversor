@@ -17,19 +17,18 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdNavBasic } from '../app/components/menu/nav-basic';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HistoricoComponent } from './components/historico/historico.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
+
 import { ConversorService } from './services/conversor.service';
 import { MoedaService } from './services/moeda.service';
-import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,13 +38,13 @@ import { DeleteConfirmationDialogComponent } from './components/delete-confirmat
     MenuComponent,
     HomeComponent,
     ListaComponent,
-    NgbdNavBasic,
     DeleteConfirmationDialogComponent,
   ],
   providers: [ ConversorService, MoedaService ],
   bootstrap: [ AppComponent ],
   exports: [
     FooterComponent,
+    MenuComponent,
     MenuComponent,
   ],
   imports: [
@@ -70,8 +69,6 @@ import { DeleteConfirmationDialogComponent } from './components/delete-confirmat
     NgbCollapseModule,
     MatButtonModule,
     MatDialogModule,
-    ReactiveFormsModule
-
   ]
 })
 export class AppModule { }

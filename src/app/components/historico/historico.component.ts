@@ -1,22 +1,41 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  LiveAnnouncer
+} from '@angular/cdk/a11y';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  MatDialog
+} from '@angular/material/dialog';
+import {
+  MatPaginator
+} from '@angular/material/paginator';
+import {
+  MatSort,
+  Sort
+} from '@angular/material/sort';
+import {
+  MatTableDataSource
+} from '@angular/material/table';
 
-import { Conversao } from 'src/app/interfaces/conversao';
-import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
+import {
+  Conversao
+} from 'src/app/interfaces/conversao';
+import {
+  DeleteConfirmationDialogComponent
+} from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-historico',
   templateUrl: './historico.component.html',
-  styleUrls: [ './historico.component.css' ]
+  styleUrls: ['./historico.component.css']
 })
 
 export class HistoricoComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
+  displayedColumns: string[] = ['data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir'];
   conversoes: Conversao[] = [];
   conversao: Conversao = {
     i: false,
@@ -29,14 +48,18 @@ export class HistoricoComponent implements OnInit {
     resultado: 0
   };
 
-  dataSource = new MatTableDataSource<Conversao>();
+  dataSource = new MatTableDataSource < Conversao > ();
 
-  @ViewChild(MatSort, { static: true })
+  @ViewChild(MatSort, {
+    static: true
+  })
   sort!: MatSort;
-  @ViewChild(MatPaginator, { static: true })
+  @ViewChild(MatPaginator, {
+    static: true
+  })
   paginator!: MatPaginator;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
 
   ngOnInit() {
     const storedConversoes = sessionStorage.getItem('conversoes');
@@ -50,7 +73,9 @@ export class HistoricoComponent implements OnInit {
 
   openDeleteConfirmationDialog(conversao: Conversao) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
-      data: { conversao }
+      data: {
+        conversao
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -63,7 +88,7 @@ export class HistoricoComponent implements OnInit {
   deleteItem(conversao: Conversao) {
     const index = this.dataSource.data.indexOf(conversao);
     this.dataSource.data.splice(index, 1);
-    this.dataSource.data = [ ...this.dataSource.data ];
+    this.dataSource.data = [...this.dataSource.data];
     sessionStorage.setItem('conversoes', JSON.stringify(this.dataSource.data));
   }
 

@@ -10,4 +10,5 @@ export class MenuComponent {
   titulos = [ 'Home', 'Histórico de Conversões' ]
   active = "HOME";
   isMenuCollapsed = true;
+  activeId: any;
 }
