@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,7 +20,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
-      imports: [ MatFormFieldModule, HttpClientModule, MatSelectModule, MatIconModule ],
+      imports: [ MatFormFieldModule, HttpClientModule, MatSelectModule, MatIconModule, FormsModule ],
       providers: [ MoedaService ]
     })
       .compileComponents();

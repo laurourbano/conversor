@@ -12,7 +12,7 @@
       <div class="col-md-6">
         <mat-form-field form-field class="w-100" id="myForm">
           <mat-label>Moeda selecionada</mat-label>
-          <mat-select (blur)="isInputBlurredMS = true" [(ngModel)]="moedaSelecionada" aria-required="true" required>
+          <mat-select matInput (blur)="isInputBlurredMS = true" [(ngModel)]="moedaSelecionada" aria-required="true" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
@@ -24,7 +24,7 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Moeda convertida</mat-label>
-          <mat-select (blur)="isInputBlurredMC = true" [(ngModel)]="moedaConvertida" aria-required="true" required>
+          <mat-select matInput (blur)="isInputBlurredMC = true" [(ngModel)]="moedaConvertida" aria-required="true" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>

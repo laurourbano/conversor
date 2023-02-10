@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: [ './menu.component.css' ]
 })
 export class MenuComponent {
+[x: string]: any;
   title = "Conversor de Moedas";
   titulos = [ 'Home', 'Histórico de Conversões' ]
   active = "HOME";

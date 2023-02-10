@@ -33,19 +33,23 @@ import { MoedaService } from './services/moeda.service';
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent,
-    HistoricoComponent,
     MenuComponent,
     HomeComponent,
     ListaComponent,
+    HistoricoComponent,
     DeleteConfirmationDialogComponent,
+    FooterComponent,
   ],
   providers: [ ConversorService, MoedaService ],
   bootstrap: [ AppComponent ],
   exports: [
+    AppComponent,
+    MenuComponent,
+    HomeComponent,
+    ListaComponent,
+    HistoricoComponent,
+    DeleteConfirmationDialogComponent,
     FooterComponent,
-    MenuComponent,
-    MenuComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -63,12 +67,13 @@ import { MoedaService } from './services/moeda.service';
     MatSortModule,
     MatTableModule,
     MatToolbarModule,
-    NgbModule,
     MatDialogModule,
     MatAutocompleteModule,
     NgbCollapseModule,
     MatButtonModule,
     MatDialogModule,
+    NgbCollapseModule,
+    NgbModule,
   ]
 })
 export class AppModule { }
