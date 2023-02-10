@@ -1,5 +1,6 @@
 <div class="container-fluid bg-dark d-flex overflow-auto flex-column">
   <div class="pt-5 container d-flex flex-column w-100">
+
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
       class="mat-elevation-z8">
 
@@ -55,7 +56,6 @@
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let conversao; columns: displayedColumns;"></tr>
-
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Página de Conversoes"
       class=" d-flex justify-content-end">

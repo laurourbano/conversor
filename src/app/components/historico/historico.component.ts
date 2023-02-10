@@ -30,12 +30,12 @@ import {
 @Component({
   selector: 'app-historico',
   templateUrl: './historico.component.html',
-  styleUrls: ['./historico.component.css']
+  styleUrls: [ './historico.component.css' ]
 })
 
 export class HistoricoComponent implements OnInit {
 
-  displayedColumns: string[] = ['data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir'];
+  displayedColumns: string[] = [ 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
   conversoes: Conversao[] = [];
   conversao: Conversao = {
     i: false,
@@ -47,8 +47,8 @@ export class HistoricoComponent implements OnInit {
     taxa: 0,
     resultado: 0
   };
-
-  dataSource = new MatTableDataSource < Conversao > ();
+  conteudo = false
+  dataSource = new MatTableDataSource<Conversao>();
 
   @ViewChild(MatSort, {
     static: true
@@ -59,7 +59,7 @@ export class HistoricoComponent implements OnInit {
   })
   paginator!: MatPaginator;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) { }
 
   ngOnInit() {
     const storedConversoes = sessionStorage.getItem('conversoes');
@@ -88,7 +88,7 @@ export class HistoricoComponent implements OnInit {
   deleteItem(conversao: Conversao) {
     const index = this.dataSource.data.indexOf(conversao);
     this.dataSource.data.splice(index, 1);
-    this.dataSource.data = [...this.dataSource.data];
+    this.dataSource.data = [ ...this.dataSource.data ];
     sessionStorage.setItem('conversoes', JSON.stringify(this.dataSource.data));
   }
 

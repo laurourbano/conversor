@@ -4,10 +4,6 @@ import {
 } from '@angular/core';
 
 import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
-import {
   Conversao
 } from 'src/app/interfaces/conversao';
 import {
@@ -20,7 +16,7 @@ import {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: [ './home.component.css' ]
 })
 
 export class HomeComponent implements OnInit {
@@ -28,7 +24,6 @@ export class HomeComponent implements OnInit {
   isInputBlurredMC = false;
   isInputBlurredV = false;
 
-  form: FormGroup;
 
   moedas: Moeda[] = [];
 
@@ -46,17 +41,13 @@ export class HomeComponent implements OnInit {
   formControl: any;
 
   constructor(private moedaService: MoedaService) {
-    this.form = new FormGroup({
-      moedaSelecionada: new FormControl(''),
-      moedaConvertida: new FormControl(''),
-      valor: new FormControl(''),
-    });
+
   };
 
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe((res: any) => {
       let resultado = Object.keys(res.symbols).map(function (moeda) {
-        let result = res.symbols[moeda];
+        let result = res.symbols[ moeda ];
         return result;
       });
       this.moedas = resultado;
@@ -72,8 +63,8 @@ export class HomeComponent implements OnInit {
         this.moedaSelecionada;
         this.moedaConvertida;
         this.valor;
-        this.taxa = res['info']['rate'];
-        this.resultado = res['result'];
+        this.taxa = res[ 'info' ][ 'rate' ];
+        this.resultado = res[ 'result' ];
         this.checkResultadoDollar(this.resultado);
         let sucesso = document.querySelector('.sucesso');
         sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversão realizada com sucesso!</strong></div>";
@@ -88,7 +79,7 @@ export class HomeComponent implements OnInit {
 
   checkResultadoDollar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
-      this.i = resDollar['result'] > 10000
+      this.i = resDollar[ 'result' ] > 10000
       let conversao = {
         i: this.i,
         data: this.data,

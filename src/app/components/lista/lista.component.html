@@ -2,7 +2,7 @@
   <div class="w-100 pt-2 container justify-content-center">
     <mat-form-field class="w-50">
       <mat-label>Filtro de Moedas</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. BRL" input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. BRL">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" matSort sort="matSort" class="mat-elevation-z8">
@@ -23,7 +23,8 @@
 
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Página de Moedas">
+    <mat-paginator class="bg-transparent" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+      aria-label="Página de Moedas">
     </mat-paginator>
   </div>
 </div>
