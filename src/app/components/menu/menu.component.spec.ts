@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MenuComponent } from './menu.component';
 
@@ -11,7 +11,7 @@ describe('MenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MenuComponent ],
-      imports: [ MatIconModule, NgbCollapseModule ]
+      imports: [ MatIconModule, NgbCollapseModule, NgbNavModule ]
     })
       .compileComponents();
 

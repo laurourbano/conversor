@@ -1,3 +1,5 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,7 +22,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
-      imports: [ MatFormFieldModule, HttpClientModule, MatSelectModule, MatIconModule, FormsModule ],
+      imports: [ MatFormFieldModule, HttpClientModule, MatSelectModule, MatIconModule, FormsModule, MatInputModule, BrowserAnimationsModule ],
       providers: [ MoedaService ]
     })
       .compileComponents();

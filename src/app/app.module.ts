@@ -26,6 +26,8 @@ import { HistoricoComponent } from './components/historico/historico.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 import { ConversorService } from './services/conversor.service';
 import { MoedaService } from './services/moeda.service';
@@ -51,6 +53,7 @@ import { MoedaService } from './services/moeda.service';
     DeleteConfirmationDialogComponent,
     FooterComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     AppRoutingModule,
     BrowserModule,

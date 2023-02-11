@@ -1,10 +1,14 @@
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MoedaService } from './../../services/moeda.service';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ListaComponent } from './lista.component';
 
 describe('ListaComponent', () => {
@@ -14,8 +18,9 @@ describe('ListaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ListaComponent ],
-      imports: [ MatFormFieldModule, MatTableModule, HttpClientModule, MatPaginatorModule ],
-      providers: [ MoedaService ]
+      imports: [ MatFormFieldModule, MatTableModule, HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatInputModule, MatSortModule ],
+      providers: [ MoedaService ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
       .compileComponents();
 
