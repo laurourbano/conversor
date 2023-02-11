@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
+import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { TestBed } from '@angular/core/testing';
@@ -13,7 +14,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AppComponent, MenuComponent, FooterComponent ],
       schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ],
-      imports: [ RouterOutlet, MatIconModule, MatToolbarModule ]
+      imports: [ RouterOutlet, MatIconModule, MatToolbarModule, MatInputModule ]
     }).compileComponents();
   });
 
@@ -23,18 +24,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  /*it(`should have as title 'conversor'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Conversor de moedas');
-  });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('conversor app is running!');
-  });*/
 });
 
 
