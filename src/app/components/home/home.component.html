@@ -10,10 +10,9 @@
     </div>
     <div class="row justify-content-start">
       <div class="col-md-6">
-        <mat-form-field class="w-100" id="myForm">
+        <mat-form-field form-field class="w-100" id="myForm">
           <mat-label>Moeda selecionada</mat-label>
-          <mat-select [(ngModel)]="moedaSelecionada" (blur)="isInputBlurredMS = true" name="moedaSelecionada"
-            aria-required="true" required>
+          <mat-select matInput (blur)="isInputBlurredMS = true" [(ngModel)]="moedaSelecionada" aria-required="true" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
@@ -25,8 +24,7 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Moeda convertida</mat-label>
-          <mat-select (blur)="isInputBlurredMC = true" [(ngModel)]="moedaConvertida" name="moedaConvertida"
-            aria-required="true" required>
+          <mat-select matInput (blur)="isInputBlurredMC = true" [(ngModel)]="moedaConvertida" aria-required="true" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
@@ -34,41 +32,36 @@
           <div *ngIf="!moedaConvertida&&isInputBlurredMC" class="text-warning text-center">Selecione a moeda.</div>
         </mat-form-field>
       </div>
-
       <div class="row justify-content-start mb-1 mr-2">
         <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Valor a ser convertido</mat-label>
-            <mat-input matInput (blur)="isInputBlurredV=true" [(ngModel)]="valor" type="number" min="1"
+            <input matInput (blur)="isInputBlurredV = true" [(ngModel)]="valor" type="number" min="1"
               aria-required="true" required>
-            </mat-input>
-            <div *ngIf="!valor&&isInputBlurredV||valor<=0" class="text-warning text-center">
-              Insira um valor maior que zero.
-            </div>
+            <div *ngIf="!valor&&isInputBlurredV||valor<=0" class="text-warning text-center">Insira um valor maior que
+              zero.</div>
           </mat-form-field>
         </div>
 
         <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Resultado</mat-label>
-            <mat-input matInput [(ngModel)]="resultado" type="number" readonly disabled valorInput="ngModel">
-            </mat-input>
+            <input matInput [(ngModel)]="resultado" type="number" readonly disabled>
           </mat-form-field>
         </div>
 
         <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Taxa aplicada</mat-label>
-            <mat-input matInput [(ngModel)]="taxa" type="number" readonly disabled valorInput="ngModel">
-            </mat-input>
+            <input matInput [(ngModel)]="taxa" type="number" readonly disabled>
           </mat-form-field>
         </div>
       </div>
 
       <div class="row mb-1">
         <div class="col-md-4 d-flex flex-column justify-content-end">
-          <button type="submit" class="btn btn-success bg-success p-4" (click)="converter()" title="converter"
-            [disabled]="!moedaSelecionada||!moedaConvertida||!valor">
+          <button mat-button type="submit" class="btn btn-success bg-success p-4" (click)="converter()"
+            title="converter" [disabled]="!moedaSelecionada||!moedaConvertida||!valor">
             Converter
             <mat-icon class="mat-18">currency_exchange</mat-icon>
           </button>

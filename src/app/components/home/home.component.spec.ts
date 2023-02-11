@@ -1,13 +1,12 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import {
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
 import { MoedaService } from './../../services/moeda.service';
 
 import {
@@ -21,7 +20,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
-      imports: [ MatFormFieldModule, HttpClientModule, MatIconModule, FormsModule, MatSelectModule, BrowserAnimationsModule ],
+      imports: [ MatFormFieldModule, HttpClientModule, MatSelectModule, MatIconModule, FormsModule ],
       providers: [ MoedaService ]
     })
       .compileComponents();
