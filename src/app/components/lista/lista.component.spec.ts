@@ -1,10 +1,10 @@
-import { MatSortModule } from '@angular/material/sort';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MoedaService } from './../../services/moeda.service';
 
@@ -18,7 +18,7 @@ describe('ListaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ListaComponent ],
-      imports: [ MatFormFieldModule, MatTableModule, HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatInputModule, MatSortModule ],
+      imports: [ MatFormFieldModule, MatTableModule, HttpClientTestingModule, MatPaginatorModule, BrowserAnimationsModule, MatInputModule, MatSortModule ],
       providers: [ MoedaService ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
@@ -28,8 +28,37 @@ describe('ListaComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ListaComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should used sortData', () => {
+    const dataSource = new MatTableDataSource();
+    dataSource.data = [
+      { code: 'BTN', description: 'Bhutanese Ngultrum' },
+      { code: 'USD', description: 'United States Dollar' },
+      { code: 'EGP', description: 'Egyptian Pound' },
+      { code: 'BRL', description: 'Brazilian Real' } ];
+    const sort: Sort = {
+      active: 'code',
+      direction: 'asc',
+    };
+
+    component.dataSource = dataSource;
+    component.sortData(sort);
+
+    expect(component.dataSource.data).toEqual([
+      { code: 'BRL', description: 'Brazilian Real' },
+      { code: 'BTN', description: 'Bhutanese Ngultrum' },
+      { code: 'EGP', description: 'Egyptian Pound' },
+      { code: 'USD', description: 'United States Dollar' }
+    ])
+  })
 });
