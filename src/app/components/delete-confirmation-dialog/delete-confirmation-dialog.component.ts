@@ -10,14 +10,14 @@ import {
 @Component({
   selector: 'app-delete-confirmation-dialog',
   templateUrl: './delete-confirmation-dialog.component.html',
-  styleUrls: ['./delete-confirmation-dialog.component.css']
+  styleUrls: [ './delete-confirmation-dialog.component.css' ]
 })
 export class DeleteConfirmationDialogComponent {
   historicoComponent: any;
   constructor(
-    public dialogRef: MatDialogRef < DeleteConfirmationDialogComponent > ,
+    public dialogRef: MatDialogRef<DeleteConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   onNoClick(): void {
     this.dialogRef.close();

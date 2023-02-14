@@ -2,13 +2,11 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { Moeda } from './../../interfaces/moeda';
 
 import {
   Conversao
 } from 'src/app/interfaces/conversao';
-import {
-  Moeda
-} from 'src/app/interfaces/moeda';
 import {
   MoedaService
 } from 'src/app/services/moeda.service';
@@ -48,7 +46,7 @@ export class HomeComponent implements OnInit {
     this.moedaService.gerarCotacao().subscribe((res: any) => {
       let resultado = Object.keys(res.symbols).map(function (moeda) {
         let result = res.symbols[ moeda ];
-        return result;
+        return result
       });
       this.moedas = resultado;
     });

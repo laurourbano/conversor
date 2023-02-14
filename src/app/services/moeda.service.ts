@@ -34,14 +34,4 @@ export class MoedaService {
     return this.http.get(url);
   };
 
-  obterCotacao(moedaSelecionada: string, moedaConvertida: string, valor: number) {
-    this.http.get(`https://exchangerate.host/?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }`)
-      .subscribe((dados: any) => {
-        this.taxa = dados[ 'info' ][ 'rate' ];
-        this.resultado = this.valor * this.taxa;
-        this.data = new Date();
-        console.log(this.data)
-
-      });
-  };
 };
