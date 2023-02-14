@@ -37,7 +37,5 @@ describe('MoedaService', () => {
     req.flush(dubleResult);
   });
 
-  it('should execute obterCotacao return ', ()=>{
 
-  })
 });

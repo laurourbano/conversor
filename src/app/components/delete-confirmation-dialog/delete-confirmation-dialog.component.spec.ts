@@ -8,7 +8,8 @@ describe('DeleteConfirmationDialogComponent', () => {
   let component: DeleteConfirmationDialogComponent;
   let fixture: ComponentFixture<DeleteConfirmationDialogComponent>;
   let dialogRef: MatDialogRef<DeleteConfirmationDialogComponent>;
-  let historicoComponent = jasmine.createSpyObj('HistoricoComponent', [ 'deleteItem' ])
+  let historicoComponent = jasmine.createSpyObj('HistoricoComponent', [ 'deleteItem' ]);
+  let data = { item: { id: 1 } }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -16,7 +17,7 @@ describe('DeleteConfirmationDialogComponent', () => {
       imports: [ MatDialogModule ],
       providers: [
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy('close') } },
-        { provide: MAT_DIALOG_DATA, useValue: { id: 1 } },
+        { provide: MAT_DIALOG_DATA, useValue: data },
         { provide: HistoricoComponent, useValue: historicoComponent }
       ]
     }).compileComponents()
@@ -35,5 +36,6 @@ describe('DeleteConfirmationDialogComponent', () => {
     component.onNoClick();
     expect(dialogRef.close).toHaveBeenCalled();
   });
+
 
 });

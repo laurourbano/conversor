@@ -61,4 +61,6 @@ describe('HomeComponent', () => {
     expect(component.resultado).toEqual(1500);
   })
 
+
+
 });

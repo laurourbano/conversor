@@ -22,9 +22,11 @@ export class DeleteConfirmationDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
   onYesClick(): void {
     if (this.historicoComponent && this.historicoComponent.deleteItem) {
-      this.historicoComponent.deleteItem(this.data.item.id).subscribe(() => {
+      const itemId = this.data.item.id;
+      this.historicoComponent.deleteItem(itemId).subscribe(() => {
         this.dialogRef.close();
       });
     }
