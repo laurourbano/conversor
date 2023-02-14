@@ -12,24 +12,26 @@
       <div class="col-md-6">
         <mat-form-field form-field class="w-100" id="myForm">
           <mat-label>Moeda selecionada</mat-label>
-          <mat-select matInput (blur)="isInputBlurredMS = true" [(ngModel)]="moedaSelecionada" aria-required="true" required>
+          <mat-select matInput (blur)="isInputBlurredMS = true" [(ngModel)]="moedaSelecionada" aria-required="true"
+            required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
           </mat-select>
-          <div *ngIf="!moedaSelecionada&&isInputBlurredMS" class="text-warning text-center">Selecione a moeda.</div>
+          <div *ngIf="!moedaSelecionada&&isInputBlurredMS" class="text-warning">Selecione a moeda.</div>
         </mat-form-field>
       </div>
 
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Moeda convertida</mat-label>
-          <mat-select matInput (blur)="isInputBlurredMC = true" [(ngModel)]="moedaConvertida" aria-required="true" required>
+          <mat-select matInput (blur)="isInputBlurredMC = true" [(ngModel)]="moedaConvertida" aria-required="true"
+            required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
               {{moeda.code}} - {{moeda.description}}
             </mat-option>
           </mat-select>
-          <div *ngIf="!moedaConvertida&&isInputBlurredMC" class="text-warning text-center">Selecione a moeda.</div>
+          <div *ngIf="!moedaConvertida&&isInputBlurredMC" class="text-warning">Selecione a moeda.</div>
         </mat-form-field>
       </div>
       <div class="row justify-content-start mb-1 mr-2">
@@ -38,7 +40,7 @@
             <mat-label>Valor a ser convertido</mat-label>
             <input matInput (blur)="isInputBlurredV = true" [(ngModel)]="valor" type="number" min="1"
               aria-required="true" required>
-            <div *ngIf="!valor&&isInputBlurredV||valor<=0" class="text-warning text-center">Insira um valor maior que
+            <div *ngIf="!valor&&isInputBlurredV||valor<=0" class="text-warning">Insira um valor maior que
               zero.</div>
           </mat-form-field>
         </div>
