@@ -2,21 +2,26 @@
   <div class="container-fluid d-flex">
     <div class=" align-self-center m-0 text-white">
       <div class="d-flex flex-row">
-        <mat-icon class="mat-18 mx-2">currency_exchange</mat-icon>
-        <h4>{{title}}</h4>
+        <mat-icon class="mat-18 mx-2 text-warning">currency_exchange</mat-icon>
+        <h4 class="text-warning">{{title}}</h4>
       </div>
+      <small class="text-warning px-3">{{ currentRoute }}</small>
+
     </div>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
-      <ul ngbNav nav="ngbNav" class="nav-tabs">
+      <ul ngbNav nav="ngbNav" class="nav-tabs d-flex flex-column">
         <li [ngbNavItem]="'HOME'">
-          <a ngbNavLink routerLink="" id="home" class="m-0" (click)="isMenuCollapsed = true">HOME</a>
+          <a ngbNavLink routerLink="" id="home" class="m-0"
+            (click)="isMenuCollapsed = true; currentRoute='HOME'">HOME</a>
         </li>
         <li [ngbNavItem]="'LISTA DE MOEDAS'">
-          <a ngbNavLink routerLink="lista" class="m-0" (click)="isMenuCollapsed = true">LISTA DE MOEDAS</a>
+          <a ngbNavLink routerLink="lista" class="m-0"
+            (click)="isMenuCollapsed = true; currentRoute='LISTA DE MOEDAS'">LISTA DE MOEDAS</a>
         </li>
         <li [ngbNavItem]="'HISTORICO DE CONVERSÕES'">
-          <a ngbNavLink routerLink="historico" class="m-0" (click)="isMenuCollapsed = true">HISTORICO</a>
+          <a ngbNavLink routerLink="historico" class="m-0"
+            (click)="isMenuCollapsed = true; currentRoute='HISTÓRICO DE CONVERSÕES'">HISTORICO</a>
         </li>
       </ul>
     </div>

@@ -6,10 +6,10 @@ import { ListaComponent } from './components/lista/lista.component';
 
 const routes: Routes = [
 
-  { path: '', component: HomeComponent },
-  { path: 'historico', component: HistoricoComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'lista', component: ListaComponent },
-  { path: '**', redirectTo: '' }
+  { path: 'historico', component: HistoricoComponent }
 
 ];
 

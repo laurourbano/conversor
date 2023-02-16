@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -6,10 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: [ './menu.component.css' ]
 })
 export class MenuComponent {
-[x: string]: any;
   title = "Conversor de Moedas";
   titulos = [ 'Home', 'Histórico de Conversões' ]
-  active = "HOME";
   isMenuCollapsed = true;
-  activeId: any;
+  currentRoute: string = 'HOME';
+
+  constructor(private router: Router) {
+  }
+
+  ngOnInit(): void {
+
+
+  }
 }
