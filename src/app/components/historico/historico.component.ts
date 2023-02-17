@@ -38,7 +38,7 @@ export class HistoricoComponent implements OnInit {
   displayedColumns: string[] = [ 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
   conversoes: Conversao[] = [];
   conversao: Conversao = {
-    i: false,
+    resultadoEmDolar: 0,
     data: new Date(),
     hora: new Date(),
     moedaSelecionada: '',

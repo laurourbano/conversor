@@ -1,5 +1,4 @@
 export interface Conversao {
-  i: boolean;
   data: Date;
   hora: Date;
   moedaSelecionada: string;
@@ -7,4 +6,5 @@ export interface Conversao {
   valor: number;
   taxa: number;
   resultado: number;
+  resultadoEmDolar: number;
 }
