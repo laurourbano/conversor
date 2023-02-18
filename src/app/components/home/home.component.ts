@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   moedas: Moeda[] = [];
 
-  i!: boolean;
+  resultadoEmDolar!: number;
   data!: Date;
   hora!: Date;
   moedaSelecionada!: string;
@@ -44,54 +44,50 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe((res: any) => {
-      let resultado = Object.keys(res.symbols).map(function (moeda) {
-        let result = res.symbols[ moeda ];
-        return result
+      this.moedas = Object.keys(res.symbols).map(function (moeda) {
+        return res.symbols[ moeda ];
       });
-      this.moedas = resultado;
     });
 
   };
 
-  converter() {
-    if (this.moedaSelecionada && this.moedaConvertida && this.valor > 0) {
-      this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-        this.data = new Date();
-        this.hora = new Date();
-        this.moedaSelecionada;
-        this.moedaConvertida;
-        this.valor;
-        this.taxa = res[ 'info' ][ 'rate' ];
-        this.resultado = res[ 'result' ];
-        this.checkResultadoDollar(this.resultado);
-        let sucesso = document.querySelector('.sucesso');
-        sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversão realizada com sucesso!</strong></div>";
-        document.querySelector('.sucesso');
-        setTimeout(() => {
-          sucesso!.innerHTML = "";
-        }, 3 * 1000);
-
-      })
+  realizaConversao() {
+    if (!this.moedaSelecionada || !this.moedaConvertida || this.valor <= 0) {
+      return
     }
+    this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
+      this.taxa = res.info.rate;
+      this.resultado = res.result;
+      this.checkResultadoEmDolar(this.resultado);
+      this.mostraMensagemDeSucesso();
+    })
   }
 
-  checkResultadoDollar(resultado: number) {
-    this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resDollar: any) => {
-      this.i = resDollar[ 'result' ] > 10000
+  mostraMensagemDeSucesso() {
+    let sucesso = document.querySelector('.sucesso');
+    sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversão realizada com sucesso!</strong></div>";
+    document.querySelector('.sucesso');
+    setTimeout(() => {
+      sucesso!.innerHTML = "";
+    }, 3 * 1000);
+  }
+
+
+  checkResultadoEmDolar(resultado: number) {
+    this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resultadoEmDolar: any) => {
+      this.resultadoEmDolar = resultadoEmDolar.result;
       let conversao = {
-        i: this.i,
-        data: this.data,
-        hora: this.hora,
+        data: new Date(),
+        hora: new Date(),
         moedaSelecionada: this.moedaSelecionada,
         moedaConvertida: this.moedaConvertida,
         valor: this.valor,
         taxa: this.taxa,
         resultado: resultado,
+        resultadoEmDolar: this.resultadoEmDolar,
       };
       this.conversoes.push(conversao);
       sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
     });
   }
-
-
 }

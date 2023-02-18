@@ -38,16 +38,15 @@ export class HistoricoComponent implements OnInit {
   displayedColumns: string[] = [ 'data', 'hora', 'moedaSelecionada', 'moedaConvertida', 'valor', 'taxa', 'resultado', 'excluir' ];
   conversoes: Conversao[] = [];
   conversao: Conversao = {
-    resultadoEmDolar: 0,
     data: new Date(),
     hora: new Date(),
     moedaSelecionada: '',
     moedaConvertida: '',
     valor: 0,
     taxa: 0,
-    resultado: 0
+    resultado: 0,
+    resultadoEmDolar: 0,
   };
-  conteudo = false
   dataSource = new MatTableDataSource<Conversao>();
 
   @ViewChild(MatSort, {
@@ -62,16 +61,25 @@ export class HistoricoComponent implements OnInit {
   constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.carregaConversoes();
+    this.configuraTabela()
+
+  }
+
+  carregaConversoes() {
     const storedConversoes = sessionStorage.getItem('conversoes');
     if (storedConversoes) {
       this.conversoes = JSON.parse(storedConversoes);
     }
+  }
+
+  configuraTabela() {
     this.dataSource.data = this.conversoes;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  openDeleteConfirmationDialog(conversao: Conversao) {
+  abrirDeleteDialogDeConfirmacao(conversao: Conversao) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
       data: {
         conversao
@@ -96,7 +104,7 @@ export class HistoricoComponent implements OnInit {
     this.dataSource!.sort = this.sort;
   }
 
-  announceSortChange(sortState: Sort): void {
+  anunciarMudancaDeOrdenacao(sortState: Sort): void {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${ sortState.direction }ending`);
     } else {

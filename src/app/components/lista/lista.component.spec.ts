@@ -52,7 +52,7 @@ describe('ListaComponent', () => {
     };
 
     component.dataSource = dataSource;
-    component.sortData(sort);
+    component.ordenaDados(sort);
 
     expect(component.dataSource.data).toEqual([
       { code: 'BRL', description: 'Brazilian Real' },

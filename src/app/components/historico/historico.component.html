@@ -2,7 +2,7 @@
   <div class="pt-5 container d-flex flex-column">
 
     <div class="overflow-auto">
-      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="anunciarMudancaDeOrdenacao($event)"
         class="mat-elevation-z8 ">
 
         <ng-container matColumnDef="data">
@@ -51,7 +51,7 @@
         <ng-container matColumnDef="excluir">
           <th mat-header-cell *matHeaderCellDef> Excluir </th>
           <td *matCellDef="let conversao">
-            <button mat-icon-button (click)="openDeleteConfirmationDialog(conversao)">
+            <button mat-icon-button (click)="abrirDeleteDialogDeConfirmacao(conversao)">
               <mat-icon class="mat-18" color="warn">delete</mat-icon>
             </button>
           </td>

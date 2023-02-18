@@ -24,21 +24,28 @@ export class ListaComponent implements Moeda {
   start!: SortDirection;
   disableClear!: boolean;
 
-
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   constructor(private MoedaService: MoedaService, private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
+    this.buscaDadosDeMoedas();
+    this.configuraPaginadorEClassificador()
+  };
+
+  buscaDadosDeMoedas() {
     this.MoedaService.gerarCotacao().subscribe((res) => {
       this.dataSource.data = Object.values(res.symbols);
     });
+  }
+
+  configuraPaginadorEClassificador() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  };
+  }
 
-  sortData(sort: Sort) {
+  ordenaDados(sort: Sort) {
     const data = this.dataSource.data.slice();
     if (!sort.active || sort.direction === '') {
       this.dataSource.data = data;
@@ -60,7 +67,7 @@ export class ListaComponent implements Moeda {
     this.dataSource.sort = this.sort;
   };
 
-  applyFilter(event: Event) {
+  aplicaFiltro(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -68,7 +75,7 @@ export class ListaComponent implements Moeda {
     };
   };
 
-  announceSortChange(sortState: Sort) {
+  anunciarMudancaDeOrdenacao(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${ sortState.direction }ending`);
     } else {
@@ -78,7 +85,7 @@ export class ListaComponent implements Moeda {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes[ 'sort' ] && !changes[ 'sort' ].firstChange) {
-      this.sortData(changes[ 'sort' ].currentValue);
+      this.ordenaDados(changes[ 'sort' ].currentValue);
     };
   };
 

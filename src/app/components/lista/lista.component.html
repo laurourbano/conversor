@@ -2,7 +2,7 @@
   <div class="w-100 pt-2 container justify-content-center">
     <mat-form-field class="w-50">
       <mat-label>Filtro de Moedas</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. BRL">
+      <input matInput (keyup)="aplicaFiltro($event)" placeholder="Ex. BRL">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" matSort sort="matSort" class="mat-elevation-z8">
