@@ -44,7 +44,7 @@ describe('HomeComponent', () => {
     component.moedaConvertida = 'BRL';
     component.valor = 1000;
 
-    component.converter();
+    component.realizaConversao();
 
     expect(moedaService.converter).toHaveBeenCalledWith('USD', 'BRL', 1000);
   });
@@ -54,7 +54,7 @@ describe('HomeComponent', () => {
     component.moedaSelecionada = 'USD';
     component.moedaConvertida = 'BRL';
     component.valor = 1000;
-    component.converter()
+    component.realizaConversao()
     fixture.detectChanges();
     fixture.debugElement.query(By.css('.btn-success')).triggerEventHandler('click, null');
     expect(moedaService.converter).toHaveBeenCalledWith('USD', 'BRL', 1000);
