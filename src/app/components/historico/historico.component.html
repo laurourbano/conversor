@@ -1,7 +1,7 @@
 <div class="container-fluid bg-dark d-flex  flex-column">
   <div class="pt-5 container d-flex flex-column">
 
-    <div class="overflow-auto" *ngIf="conversoes.length > 0; else listaVazia">
+    <div class="overflow-auto">
       <table mat-table [dataSource]="dataSource" matSort (matSortChange)="anunciarMudancaDeOrdenacao($event)"
         class="mat-elevation-z8 ">
 
@@ -58,16 +58,26 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let conversao; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow class="text-start">
+          <td class="mat-cell" colspan="4" class="text-light text-end m-1">
+            <h1>Não há items no histórico.</h1>
+          </td>
+          <td class="mat-cell" colspan="2">
+            <a class="btn btn-outline-light m-2" href="/home">Ir para o conversor</a>
+          </td>
+        </tr>
+
       </table>
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Página de Conversoes"
       class=" d-flex justify-content-end w-100">
     </mat-paginator>
 
-    <ng-template #listaVazia class="col-12">
+    <!--<ng-template #listaVazia class="col-12">
       <h1 class="text-warning col-6">Você ainda não realizou nenhuma conversão.</h1>
       <a class="btn btn-primary col-6" href="/home">Ir para o conversor</a>
-    </ng-template>
+    </ng-template>-->
 
     <span class="text-light pb-4">
       <mat-icon class="text-danger">priority_high</mat-icon>
