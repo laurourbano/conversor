@@ -98,6 +98,7 @@ export class HistoricoComponent implements OnInit {
     this.dataSource.data.splice(index, 1);
     this.dataSource.data = [ ...this.dataSource.data ];
     sessionStorage.setItem('conversoes', JSON.stringify(this.dataSource.data));
+    
   }
 
   ngAfterViewInit() {

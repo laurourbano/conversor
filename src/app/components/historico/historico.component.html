@@ -1,7 +1,7 @@
 <div class="container-fluid bg-dark d-flex  flex-column">
   <div class="pt-5 container d-flex flex-column">
 
-    <div class="overflow-auto">
+    <div class="overflow-auto" *ngIf="conversoes.length > 0; else listaVazia">
       <table mat-table [dataSource]="dataSource" matSort (matSortChange)="anunciarMudancaDeOrdenacao($event)"
         class="mat-elevation-z8 ">
 
@@ -63,6 +63,11 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Página de Conversoes"
       class=" d-flex justify-content-end w-100">
     </mat-paginator>
+
+    <ng-template #listaVazia class="col-12">
+      <h1 class="text-warning col-6">Você ainda não realizou nenhuma conversão.</h1>
+      <a class="btn btn-primary col-6" href="/home">Ir para o conversor</a>
+    </ng-template>
 
     <span class="text-light pb-4">
       <mat-icon class="text-danger">priority_high</mat-icon>
