@@ -28,5 +28,5 @@ Você pode conseguir mais ajuda no Angular CLI usando `ng help` ou verificando a
 
 ## Tecnologias utilizadas
 
-Para este projeto foram utilizadas as bibliotecas do [Angular Material](https://material.angular.io/guide/getting-started), [Angular Bootstrap](https://ng-bootstrap.github.io/#/getting-started) e [Google Fonts](https://exchangerate.host/#/docs). Também foi utilizada a API externa [EXCHANGERATEAPI](https://exchangerate.host/#/docs) página.
+Para este projeto foram utilizadas as bibliotecas do [Angular Material](https://material.angular.io/guide/getting-started), [Angular Bootstrap](https://ng-bootstrap.github.io/#/getting-started) e [Google Fonts](https://exchangerate.host/#/docs). Também foi utilizada a API externa [exchangerate.host](https://exchangerate.host/#/docs) página.
 
