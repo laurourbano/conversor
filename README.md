@@ -25,3 +25,8 @@ Run `ng e2e` para executar os testes end-to-end através da plataforma de sua es
 ## Mais ajuda?
 
 Você pode conseguir mais ajuda no Angular CLI usando `ng help` ou verificando a documentação oficial em [Angular CLI Overview and Command Reference](https://angular.io/cli) página.
+
+## Tecnologias utilizadas
+
+Para este projeto foram utilizadas as bibliotecas do [Angular Material](https://material.angular.io/guide/getting-started), [Angular Bootstrap](https://ng-bootstrap.github.io/#/getting-started) e [Google Fonts](https://exchangerate.host/#/docs). Também foi utilizada a API externa [EXCHANGERATEAPI](https://exchangerate.host/#/docs) página.
+
