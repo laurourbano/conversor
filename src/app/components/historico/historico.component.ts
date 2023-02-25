@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  MatDialog
+  MatDialog, MatDialogRef
 } from '@angular/material/dialog';
 import {
   MatPaginator
@@ -58,7 +58,7 @@ export class HistoricoComponent implements OnInit {
   })
   paginator!: MatPaginator;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) { }
+  constructor(public _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.carregaConversoes();
@@ -80,7 +80,7 @@ export class HistoricoComponent implements OnInit {
   }
 
   abrirDeleteDialogDeConfirmacao(conversao: Conversao) {
-    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+    const dialogRef: MatDialogRef<DeleteConfirmationDialogComponent, boolean>  = this.dialog.open(DeleteConfirmationDialogComponent, {
       data: {
         conversao
       }
@@ -98,7 +98,7 @@ export class HistoricoComponent implements OnInit {
     this.dataSource.data.splice(index, 1);
     this.dataSource.data = [ ...this.dataSource.data ];
     sessionStorage.setItem('conversoes', JSON.stringify(this.dataSource.data));
-    
+
   }
 
   ngAfterViewInit() {
