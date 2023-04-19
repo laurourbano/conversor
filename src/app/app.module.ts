@@ -1,3 +1,4 @@
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +19,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
@@ -26,7 +28,6 @@ import { HistoricoComponent } from './components/historico/historico.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 import { ConversorService } from './services/conversor.service';
@@ -42,7 +43,8 @@ import { MoedaService } from './services/moeda.service';
     DeleteConfirmationDialogComponent,
     FooterComponent,
   ],
-  providers: [ ConversorService, MoedaService ],
+  providers: [ ConversorService, MoedaService, [ { provide: LocationStrategy, useClass: HashLocationStrategy } ]
+  ],
   bootstrap: [ AppComponent ],
   exports: [
     AppComponent,
@@ -53,7 +55,7 @@ import { MoedaService } from './services/moeda.service';
     DeleteConfirmationDialogComponent,
     FooterComponent,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [
     AppRoutingModule,
     BrowserModule,
