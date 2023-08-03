@@ -1,32 +1,83 @@
 # Conversor de Moedas
 
-Este projeto foi gerado usando [Angular CLI](https://github.com/angular/angular-cli) versão 15.1.2.
+Este é um projeto de um Conversor de Moedas desenvolvido usando Angular CLI versão 15.1.2.
 
-## Servidor de desenvolvimento
+## Como executar o projeto
 
-Run `ng serve` para um servidor de desenvolvimento. Navegar para `http://localhost:4200/`. A aplicação será automaticamente atualizada se você mudar qualquer coisa em seus arquivos.
+Para executar o projeto localmente, siga os seguintes passos:
+
+1. Certifique-se de ter o Node.js instalado em sua máquina. Caso não tenha, você pode baixá-lo e instalá-lo a partir do site oficial do Node.js (https://nodejs.org).
+
+2. Abra o terminal ou prompt de comando na raiz do projeto e execute o seguinte comando para instalar as dependências do projeto:
+
+```
+npm install
+```
+
+3. Em seguida, execute o seguinte comando para iniciar o servidor de desenvolvimento:
+
+```
+ng serve
+```
+
+4. O servidor de desenvolvimento estará rodando em http://localhost:4200/. Abra o seu navegador e navegue até essa URL para acessar a aplicação. Ela será automaticamente atualizada sempre que você modificar os arquivos do projeto.
 
 ## Estrutura de códigos
 
-Run `ng generate component component-name` para gerar um novo componente. Você também pode usar `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+O projeto segue a estrutura padrão do Angular. Para gerar um novo componente, você pode usar o seguinte comando:
+
+```
+ng generate component component-name
+```
+
+Você também pode gerar outros artefatos, como diretivas, pipes, serviços, classes, guards, interfaces, enums e módulos usando comandos similares ao acima.
 
 ## Construção da build
 
-Run `ng build` para gerar a build do projeto. A build será gerada na pasta `dist/` do diretório.
+Para gerar a build do projeto, execute o seguinte comando:
+
+```
+ng build
+```
+
+A build será gerada na pasta `dist/` do diretório.
 
 ## Rodando testes unitários
 
-Run `ng test` para executar os testes com [Karma](https://karma-runner.github.io).
+Para executar os testes unitários com Karma, utilize o seguinte comando:
 
-## Rodando end-to-end testes
+```
+ng test
+```
 
-Run `ng e2e` para executar os testes end-to-end através da plataforma de sua escolha. Para usar este comando, primeiro você deve implementar as capacidades de teste end-to-end.
+## Rodando testes end-to-end
 
-## Mais ajuda?
+Para executar os testes end-to-end através da plataforma de sua escolha, utilize o seguinte comando:
 
-Você pode conseguir mais ajuda no Angular CLI usando `ng help` ou verificando a documentação oficial em [Angular CLI Overview and Command Reference](https://angular.io/cli) página.
+```
+ng e2e
+```
+
+Antes de usar este comando, você deve implementar as capacidades de teste end-to-end no projeto.
 
 ## Tecnologias utilizadas
 
-Para este projeto foram utilizadas as bibliotecas do [`Angular Material`](https://material.angular.io/guide/getting-started), [`Angular Bootstrap`](https://ng-bootstrap.github.io/#/getting-started) e [`Google Fonts`](https://exchangerate.host/#/docs). Também foi utilizada a API externa [`exchangerate.host`](https://exchangerate.host/#/docs) página.
+Para este projeto, foram utilizadas as seguintes bibliotecas:
 
+- Angular Material: Biblioteca de UI para o Angular, que fornece componentes prontos e estilizados para a criação de interfaces de usuário modernas e responsivas.
+
+- Angular Bootstrap: Biblioteca que integra o Bootstrap ao Angular, oferecendo recursos adicionais de estilização e layout.
+
+- Google Fonts: API do Google Fonts utilizada para importar fontes personalizadas e estilizar o projeto.
+
+- API externa exchangerate.host: Foi utilizada como fonte de dados para realizar as conversões de moedas.
+
+## Contribuindo
+
+Se você deseja contribuir com o projeto, fique à vontade para abrir pull requests ou issues. Sua colaboração será muito bem-vinda!
+
+## Mais ajuda?
+
+Caso precise de mais ajuda com o Angular CLI, você pode usar o comando `ng help` ou verificar a documentação oficial na página Angular CLI Overview and Command Reference.
+
+Espero que este README atenda às suas expectativas de um profissional de tecnologia. Se houver alguma sugestão ou melhoria que você gostaria de adicionar, sinta-se à vontade para fazê-lo. Obrigado!
