@@ -42,14 +42,19 @@ export class HomeComponent implements OnInit {
 
   };
 
-  ngOnInit(): void {
-    this.moedaService.gerarCotacao().subscribe((res: any) => {
-      this.moedas = Object.keys(res.symbols).map(function (moeda) {
-        return res.symbols[ moeda ];
-      });
-    });
+ngOnInit(): void {
+  this.moedaService.gerarCotacao().subscribe({
+    next: (res: any) => {
+      const symbols = res?.symbols ?? {};
 
-  };
+      this.moedas = Object.keys(symbols).map((moeda) => symbols[moeda]);
+    },
+    error: (err) => {
+      console.error('Erro na API:', err);
+      this.moedas = [];
+    }
+  });
+}
 
   realizaConversao() {
     if (!this.moedaSelecionada || !this.moedaConvertida || this.valor <= 0) {
