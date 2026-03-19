@@ -8,8 +8,8 @@ import { Conversao } from 'src/app/interfaces/conversao';
 })
 export class MoedaService {
 
-  private api = 'https://api.exchangerate.host';
-
+private api = 'https://api.frankfurter.app';
+  
   i!: boolean;
   moedaSelecionada: any;
   moedaConvertida: any;
