@@ -45,12 +45,18 @@ export class HomeComponent implements OnInit {
 ngOnInit(): void {
   this.moedaService.gerarCotacao().subscribe({
     next: (res: any) => {
-      const symbols = res?.symbols ?? {};
+      console.log('RES:', res);
 
-      this.moedas = Object.keys(symbols).map((moeda) => symbols[moeda]);
+      if (!res?.symbols) {
+        console.error('API não retornou symbols:', res);
+        this.moedas = [];
+        return;
+      }
+
+      this.moedas = Object.keys(res.symbols).map((moeda) => res.symbols[moeda]);
     },
     error: (err) => {
-      console.error('Erro na API:', err);
+      console.error('Erro HTTP:', err);
       this.moedas = [];
     }
   });
