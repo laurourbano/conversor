@@ -11,7 +11,7 @@ const REQUEST_TIMEOUT_MS = 15000;
 })
 export class MoedaService {
   private readonly baseUrl = 'https://economia.awesomeapi.com.br/json';
-  private paresValidos: Set<string> | null = null;
+  private paresComCotacao: Set<string> | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +34,7 @@ export class MoedaService {
   }
 
   cachePares(disponiveis: Record<string, string>): void {
-    this.paresValidos = new Set(Object.keys(disponiveis));
+    this.paresComCotacao = new Set(Object.keys(disponiveis));
   }
 
   converter(
@@ -46,14 +46,20 @@ export class MoedaService {
     }
 
     const par = `${moedaSelecionada}-${moedaConvertida}`;
-    if (this.paresValidos && !this.paresValidos.has(par)) {
+
+    if (this.paresComCotacao && !this.paresComCotacao.has(par)) {
       return of({});
     }
 
     const url = `${this.baseUrl}/last/${par}`;
     return this.http.get<CotacaoResponse>(url).pipe(
       timeout(REQUEST_TIMEOUT_MS),
-      catchError(() => of({})),
+      catchError(() => {
+        if (this.paresComCotacao) {
+          this.paresComCotacao.delete(par);
+        }
+        return of({});
+      }),
     );
   }
 }
