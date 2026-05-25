@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, timeout, tap } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, of, timeout } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { MoedasDisponiveis, CotacaoResponse } from '../interfaces/api';
 
 const REQUEST_TIMEOUT_MS = 15000;
@@ -11,7 +11,7 @@ const REQUEST_TIMEOUT_MS = 15000;
 })
 export class MoedaService {
   private readonly baseUrl = 'https://economia.awesomeapi.com.br/json';
-  private paresDisponiveis: Record<string, string[]> | null = null;
+  private moedasValidas: Set<string> = new Set();
 
   constructor(private http: HttpClient) {}
 
@@ -24,39 +24,19 @@ export class MoedaService {
       );
   }
 
-  carregarPares(): Observable<void> {
-    return this.http
-      .get<Record<string, string>>(`${this.baseUrl}/available`)
-      .pipe(
-        timeout(REQUEST_TIMEOUT_MS),
-        map((res) => {
-          this.paresDisponiveis = {};
-          Object.keys(res).forEach((par) => {
-            const [de, para] = par.split('-');
-            if (!this.paresDisponiveis![de]) {
-              this.paresDisponiveis![de] = [];
-            }
-            this.paresDisponiveis![de].push(para);
-          });
-        }),
-        catchError(() => {
-          this.paresDisponiveis = null;
-          return of(undefined);
-        }),
-      );
+  cacheMoedas(moedas: string[]): void {
+    this.moedasValidas = new Set(moedas);
   }
 
   converter(
     moedaSelecionada: string,
     moedaConvertida: string,
   ): Observable<CotacaoResponse> {
-    if (moedaSelecionada === moedaConvertida) {
-      return of({});
-    }
-
     if (
-      this.paresDisponiveis &&
-      !this.parExiste(moedaSelecionada, moedaConvertida)
+      moedaSelecionada === moedaConvertida ||
+      (this.moedasValidas.size > 0 &&
+        (!this.moedasValidas.has(moedaSelecionada) ||
+          !this.moedasValidas.has(moedaConvertida)))
     ) {
       return of({});
     }
@@ -66,9 +46,5 @@ export class MoedaService {
       timeout(REQUEST_TIMEOUT_MS),
       catchError(() => of({})),
     );
-  }
-
-  private parExiste(de: string, para: string): boolean {
-    return this.paresDisponiveis?.[de]?.includes(para) ?? true;
   }
 }

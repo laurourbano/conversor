@@ -39,8 +39,6 @@ export class ListaComponent {
     this.carregando = true;
     this.erro = false;
 
-    this.moedaService.carregarPares().subscribe();
-
     this.moedaService.gerarCotacao().subscribe({
       next: (res: MoedasDisponiveis) => {
         this.carregando = false;
@@ -52,6 +50,7 @@ export class ListaComponent {
           code,
           description: res[code],
         }));
+        this.moedaService.cacheMoedas(Object.keys(res));
       },
       error: () => {
         this.carregando = false;
