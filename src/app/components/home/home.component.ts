@@ -55,7 +55,12 @@ export class HomeComponent implements OnInit {
   }
 
   realizaConversao() {
-    if (!this.moedaSelecionada || !this.moedaConvertida || this.valor <= 0) {
+    if (
+      !this.moedaSelecionada ||
+      !this.moedaConvertida ||
+      !this.valor ||
+      this.valor <= 0
+    ) {
       return;
     }
     this.moedaService
@@ -67,9 +72,14 @@ export class HomeComponent implements OnInit {
           if (data) {
             this.taxa = parseFloat(data.bid);
             this.resultado = this.valor * this.taxa;
+            this.checkResultadoEmDolar(this.resultado);
+            this.mostraMensagemDeSucesso();
+          } else {
+            console.error('Par de moedas nao encontrado na resposta:', res);
+            this.resultado = 0;
+            this.taxa = 0;
+            this.mostraMensagemDeErro();
           }
-          this.checkResultadoEmDolar(this.resultado);
-          this.mostraMensagemDeSucesso();
         },
         error: (err) => {
           console.error('Erro ao converter:', err);
@@ -100,6 +110,12 @@ export class HomeComponent implements OnInit {
   }
 
   checkResultadoEmDolar(resultado: number) {
+    if (this.moedaConvertida === 'USD') {
+      this.resultadoEmDolar = resultado;
+      this.salvarConversao(resultado);
+      return;
+    }
+
     this.moedaService
       .converter(this.moedaConvertida, 'USD', resultado)
       .subscribe({
@@ -107,7 +123,9 @@ export class HomeComponent implements OnInit {
           const key = this.moedaConvertida + 'USD';
           const data = resultadoEmDolar[key];
           if (data) {
-            this.resultadoEmDolar = parseFloat(data.bid) * resultado;
+            this.resultadoEmDolar = resultado * parseFloat(data.bid);
+          } else {
+            this.resultadoEmDolar = 0;
           }
           this.salvarConversao(resultado);
         },
@@ -125,11 +143,16 @@ export class HomeComponent implements OnInit {
       hora: new Date(),
       moedaSelecionada: this.moedaSelecionada,
       moedaConvertida: this.moedaConvertida,
-      valor: this.valor,
+      valor: Number(this.valor),
       taxa: this.taxa,
       resultado: resultado,
       resultadoEmDolar: this.resultadoEmDolar,
     };
+
+    const stored = sessionStorage.getItem('conversoes');
+    if (stored) {
+      this.conversoes = JSON.parse(stored);
+    }
     this.conversoes.push(conversao);
     sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
   }

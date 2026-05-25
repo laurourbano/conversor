@@ -29,7 +29,6 @@ import { HomeComponent } from './components/home/home.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
 
-
 import { ConversorService } from './services/conversor.service';
 import { MoedaService } from './services/moeda.service';
 
@@ -43,9 +42,12 @@ import { MoedaService } from './services/moeda.service';
     DeleteConfirmationDialogComponent,
     FooterComponent,
   ],
-  providers: [ ConversorService, MoedaService, [ { provide: LocationStrategy, useClass: HashLocationStrategy } ]
+  providers: [
+    ConversorService,
+    MoedaService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   exports: [
     AppComponent,
     MenuComponent,
@@ -55,7 +57,7 @@ import { MoedaService } from './services/moeda.service';
     DeleteConfirmationDialogComponent,
     FooterComponent,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -74,11 +76,9 @@ import { MoedaService } from './services/moeda.service';
     MatToolbarModule,
     MatDialogModule,
     MatAutocompleteModule,
-    NgbCollapseModule,
     MatButtonModule,
-    MatDialogModule,
     NgbCollapseModule,
     NgbModule,
-  ]
+  ],
 })
-export class AppModule { }
+export class AppModule {}
