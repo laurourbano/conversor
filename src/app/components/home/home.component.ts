@@ -48,6 +48,7 @@ ngOnInit(): void {
       console.log('RES:', res);
 
       if (!res) {
+      if (!res) {
         console.error('API não retornou symbols:', res);
         this.moedas = [];
         return;
@@ -69,6 +70,8 @@ ngOnInit(): void {
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
       this.taxa = res.rates[this.moedaConvertida] / this.valor;
       this.resultado = res.rates[this.moedaConvertida];
+      this.taxa = res.rates[this.moedaConvertida] / this.valor;
+      this.resultado = res.rates[this.moedaConvertida];
       this.checkResultadoEmDolar(this.resultado);
       this.mostraMensagemDeSucesso();
     })
@@ -86,6 +89,7 @@ ngOnInit(): void {
 
   checkResultadoEmDolar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resultadoEmDolar: any) => {
+      this.resultadoEmDolar = resultadoEmDolar.rates['USD'];
       this.resultadoEmDolar = resultadoEmDolar.rates['USD'];
       let conversao = {
         data: new Date(),
