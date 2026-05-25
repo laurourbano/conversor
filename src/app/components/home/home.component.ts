@@ -3,6 +3,7 @@ import { forkJoin } from 'rxjs';
 import { Moeda } from '../../interfaces/moeda';
 import { Conversao } from '../../interfaces/conversao';
 import { MoedasDisponiveis, CotacaoResponse } from '../../interfaces/api';
+import { obterPais } from '../../interfaces/paises';
 import { MoedaService } from '../../services/moeda.service';
 import { HistoricoService } from '../../services/historico.service';
 
@@ -53,10 +54,13 @@ export class HomeComponent implements OnInit {
         }
 
         this.moedaService.cachePares(paresRes);
-        this.moedas = Object.keys(moedasRes).map((code) => ({
-          code,
-          description: moedasRes[code],
-        }));
+        this.moedas = Object.keys(moedasRes)
+          .map((code) => ({
+            code,
+            description: moedasRes[code],
+            pais: obterPais(code, moedasRes[code]),
+          }))
+          .sort((a, b) => a.pais.localeCompare(b.pais, 'pt-BR'));
       },
       error: () => {
         this.moedas = [];

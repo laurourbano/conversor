@@ -6,7 +6,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin } from 'rxjs';
 
 import { MoedasDisponiveis } from '../../interfaces/api';
+import { obterPais } from '../../interfaces/paises';
 import { MoedaService } from '../../services/moeda.service';
+
+interface MoedaLinha {
+  code: string;
+  pais: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-lista',
@@ -14,10 +21,8 @@ import { MoedaService } from '../../services/moeda.service';
   styleUrls: ['./lista.component.css'],
 })
 export class ListaComponent {
-  colunas: string[] = ['code', 'description'];
-  dataSource = new MatTableDataSource<{ code: string; description: string }>(
-    [],
-  );
+  colunas: string[] = ['code', 'pais', 'description'];
+  dataSource = new MatTableDataSource<MoedaLinha>([]);
 
   carregando = true;
   erro = false;
@@ -53,10 +58,13 @@ export class ListaComponent {
         }
 
         this.moedaService.cachePares(paresRes);
-        this.dataSource.data = Object.keys(moedasRes).map((code) => ({
-          code,
-          description: moedasRes[code],
-        }));
+        this.dataSource.data = Object.keys(moedasRes)
+          .map((code) => ({
+            code,
+            pais: obterPais(code, moedasRes[code]),
+            description: moedasRes[code],
+          }))
+          .sort((a, b) => a.pais.localeCompare(b.pais, 'pt-BR'));
       },
       error: () => {
         this.carregando = false;

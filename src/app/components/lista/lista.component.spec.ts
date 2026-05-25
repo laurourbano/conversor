@@ -72,8 +72,12 @@ describe('ListaComponent', () => {
 
   it('should apply filter to dataSource', () => {
     component.dataSource.data = [
-      { code: 'USD', description: 'United States Dollar' },
-      { code: 'BRL', description: 'Brazilian Real' },
+      {
+        code: 'USD',
+        pais: 'Estados Unidos',
+        description: 'United States Dollar',
+      },
+      { code: 'BRL', pais: 'Brasil', description: 'Brazilian Real' },
     ];
     const event = { target: { value: 'USD' } } as unknown as Event;
     component.aplicarFiltro(event);

@@ -52,7 +52,7 @@
           <mat-label>Moeda selecionada</mat-label>
           <mat-select [(ngModel)]="moedaSelecionada" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
-              {{ moeda.code }} - {{ moeda.description }}
+              {{ moeda.code }} - {{ moeda.pais }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -75,7 +75,7 @@
           <mat-label>Moeda convertida</mat-label>
           <mat-select [(ngModel)]="moedaConvertida" required>
             <mat-option *ngFor="let moeda of moedas" [value]="moeda.code">
-              {{ moeda.code }} - {{ moeda.description }}
+              {{ moeda.code }} - {{ moeda.pais }}
             </mat-option>
           </mat-select>
         </mat-form-field>
