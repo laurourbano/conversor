@@ -1,22 +1,14 @@
-﻿import {
-  Component,
-  OnInit
-} from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Moeda } from './../../interfaces/moeda';
 
-import {
-  Conversao
-} from 'src/app/interfaces/conversao';
-import {
-  MoedaService
-} from 'src/app/services/moeda.service';
+import { Conversao } from 'src/app/interfaces/conversao';
+import { MoedaService } from 'src/app/services/moeda.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: [ './home.component.css' ]
+  styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
   isInputBlurredMS = false;
   isInputBlurredMC = false;
@@ -37,7 +29,7 @@ export class HomeComponent implements OnInit {
   conversao!: Conversao;
   formControl: any;
 
-  constructor(private moedaService: MoedaService) { };
+  constructor(private moedaService: MoedaService) {}
 
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe({
@@ -50,59 +42,95 @@ export class HomeComponent implements OnInit {
           return;
         }
 
-        this.moedas = Object.keys(res).map((code) => ({ code: code, description: res[code] }));
+        this.moedas = Object.keys(res).map((code) => ({
+          code: code,
+          description: res[code],
+        }));
       },
       error: (err) => {
         console.error('Erro HTTP:', err);
         this.moedas = [];
-      }
+      },
     });
   }
 
   realizaConversao() {
     if (!this.moedaSelecionada || !this.moedaConvertida || this.valor <= 0) {
-      return
+      return;
     }
-    this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-      const key = this.moedaSelecionada + this.moedaConvertida;
-      const data = res[key];
-      if (data) {
-        this.taxa = parseFloat(data.bid);
-        this.resultado = this.valor * this.taxa;
-      }
-      this.checkResultadoEmDolar(this.resultado);
-      this.mostraMensagemDeSucesso();
-    })
+    this.moedaService
+      .converter(this.moedaSelecionada, this.moedaConvertida, this.valor)
+      .subscribe({
+        next: (res: any) => {
+          const key = this.moedaSelecionada + this.moedaConvertida;
+          const data = res[key];
+          if (data) {
+            this.taxa = parseFloat(data.bid);
+            this.resultado = this.valor * this.taxa;
+          }
+          this.checkResultadoEmDolar(this.resultado);
+          this.mostraMensagemDeSucesso();
+        },
+        error: (err) => {
+          console.error('Erro ao converter:', err);
+          this.resultado = 0;
+          this.taxa = 0;
+          this.mostraMensagemDeErro();
+        },
+      });
   }
 
   mostraMensagemDeSucesso() {
     let sucesso = document.querySelector('.sucesso');
-    sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversao realizada com sucesso!</strong></div>";
+    sucesso!.innerHTML =
+      "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversao realizada com sucesso!</strong></div>";
     document.querySelector('.sucesso');
     setTimeout(() => {
-      sucesso!.innerHTML = "";
+      sucesso!.innerHTML = '';
     }, 3 * 1000);
   }
 
+  mostraMensagemDeErro() {
+    let sucesso = document.querySelector('.sucesso');
+    sucesso!.innerHTML =
+      "<div class='alert alert-danger shadow border border-danger' role='alert'><strong>Erro: Cotação não disponível para o par selecionado.</strong></div>";
+    setTimeout(() => {
+      sucesso!.innerHTML = '';
+    }, 5 * 1000);
+  }
+
   checkResultadoEmDolar(resultado: number) {
-    this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resultadoEmDolar: any) => {
-      const key = this.moedaConvertida + 'USD';
-      const data = resultadoEmDolar[key];
-      if (data) {
-        this.resultadoEmDolar = parseFloat(data.bid) * resultado;
-      }
-      let conversao = {
-        data: new Date(),
-        hora: new Date(),
-        moedaSelecionada: this.moedaSelecionada,
-        moedaConvertida: this.moedaConvertida,
-        valor: this.valor,
-        taxa: this.taxa,
-        resultado: resultado,
-        resultadoEmDolar: this.resultadoEmDolar,
-      };
-      this.conversoes.push(conversao);
-      sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
-    });
+    this.moedaService
+      .converter(this.moedaConvertida, 'USD', resultado)
+      .subscribe({
+        next: (resultadoEmDolar: any) => {
+          const key = this.moedaConvertida + 'USD';
+          const data = resultadoEmDolar[key];
+          if (data) {
+            this.resultadoEmDolar = parseFloat(data.bid) * resultado;
+          }
+          this.salvarConversao(resultado);
+        },
+        error: (err) => {
+          console.error('Erro ao converter para USD:', err);
+          this.resultadoEmDolar = 0;
+          this.salvarConversao(resultado);
+        },
+      });
+  }
+
+  private salvarConversao(resultado: number) {
+    let conversao = {
+      data: new Date(),
+      hora: new Date(),
+      moedaSelecionada: this.moedaSelecionada,
+      moedaConvertida: this.moedaConvertida,
+      valor: this.valor,
+      taxa: this.taxa,
+      resultado: resultado,
+      resultadoEmDolar: this.resultadoEmDolar,
+    };
+    this.conversoes.push(conversao);
+    sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
   }
 }
