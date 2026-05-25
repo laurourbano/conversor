@@ -1,4 +1,7 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MoedaService } from './moeda.service';
 
@@ -7,14 +10,15 @@ describe('MoedaService', () => {
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ MoedaService ]
-
+      imports: [HttpClientTestingModule],
     });
-    service = TestBed.get(MoedaService);
-    httpTestingController = TestBed.get(HttpTestingController)
+    service = TestBed.inject(MoedaService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
   });
 
   it('should be created', () => {
@@ -24,11 +28,10 @@ describe('MoedaService', () => {
   it('should execute converter', () => {
     const moedaSelecionada = 'USD';
     const moedaConvertida = 'BRL';
-    const valor = 10;
-    const url = `https://api.exchangerate.host/convert?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }&places=2`;
-    const dubleResult = { rate: 5.43 };
+    const url = `https://economia.awesomeapi.com.br/json/last/USD-BRL`;
+    const dubleResult = { USDBRL: { bid: '5.43' } } as any;
 
-    service.converter(moedaSelecionada, moedaConvertida, valor).subscribe(result => {
+    service.converter(moedaSelecionada, moedaConvertida).subscribe((result) => {
       expect(result).toEqual(dubleResult);
     });
 
@@ -37,5 +40,17 @@ describe('MoedaService', () => {
     req.flush(dubleResult);
   });
 
+  it('should execute gerarCotacao', () => {
+    const dubleResult = { USD: 'United States Dollar', BRL: 'Brazilian Real' };
 
+    service.gerarCotacao().subscribe((result) => {
+      expect(result).toEqual(dubleResult);
+    });
+
+    const req = httpTestingController.expectOne(
+      'https://economia.awesomeapi.com.br/json/available/uniq',
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(dubleResult);
+  });
 });

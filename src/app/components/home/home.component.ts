@@ -1,8 +1,9 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Moeda } from './../../interfaces/moeda';
-
-import { Conversao } from 'src/app/interfaces/conversao';
-import { MoedaService } from 'src/app/services/moeda.service';
+import { Moeda } from '../../interfaces/moeda';
+import { Conversao } from '../../interfaces/conversao';
+import { MoedasDisponiveis, CotacaoResponse } from '../../interfaces/api';
+import { MoedaService } from '../../services/moeda.service';
+import { HistoricoService } from '../../services/historico.service';
 
 @Component({
   selector: 'app-home',
@@ -10,150 +11,128 @@ import { MoedaService } from 'src/app/services/moeda.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  isInputBlurredMS = false;
-  isInputBlurredMC = false;
-  isInputBlurredV = false;
-
   moedas: Moeda[] = [];
-
-  resultadoEmDolar!: number;
-  data!: Date;
-  hora!: Date;
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor!: number;
   taxa!: number;
   resultado!: number;
+  resultadoEmDolar!: number;
 
-  conversoes: Conversao[] = [];
-  conversao!: Conversao;
-  formControl: any;
+  mensagem: { tipo: 'sucesso' | 'erro'; texto: string } | null = null;
 
-  constructor(private moedaService: MoedaService) {}
+  constructor(
+    private moedaService: MoedaService,
+    private historicoService: HistoricoService,
+  ) {}
 
   ngOnInit(): void {
     this.moedaService.gerarCotacao().subscribe({
-      next: (res: any) => {
-        console.log('RES:', res);
-
+      next: (res: MoedasDisponiveis) => {
         if (!res) {
-          console.error('API nao retornou dados:', res);
           this.moedas = [];
           return;
         }
-
         this.moedas = Object.keys(res).map((code) => ({
-          code: code,
+          code,
           description: res[code],
         }));
       },
-      error: (err) => {
-        console.error('Erro HTTP:', err);
+      error: () => {
         this.moedas = [];
       },
     });
   }
 
-  realizaConversao() {
-    if (
+  get formInvalido(): boolean {
+    return (
       !this.moedaSelecionada ||
       !this.moedaConvertida ||
       !this.valor ||
       this.valor <= 0
-    ) {
+    );
+  }
+
+  realizaConversao(): void {
+    if (this.formInvalido) {
       return;
     }
+
     this.moedaService
-      .converter(this.moedaSelecionada, this.moedaConvertida, this.valor)
+      .converter(this.moedaSelecionada, this.moedaConvertida)
       .subscribe({
-        next: (res: any) => {
+        next: (res: CotacaoResponse) => {
           const key = this.moedaSelecionada + this.moedaConvertida;
           const data = res[key];
-          if (data) {
-            this.taxa = parseFloat(data.bid);
-            this.resultado = this.valor * this.taxa;
-            this.checkResultadoEmDolar(this.resultado);
-            this.mostraMensagemDeSucesso();
-          } else {
-            console.error('Par de moedas nao encontrado na resposta:', res);
+
+          if (!data?.bid) {
             this.resultado = 0;
             this.taxa = 0;
-            this.mostraMensagemDeErro();
+            this.exibirMensagem(
+              'erro',
+              'Cotação não disponível para o par selecionado.',
+            );
+            return;
           }
+
+          this.taxa = parseFloat(data.bid);
+          this.resultado = this.valor * this.taxa;
+          this.exibirMensagem('sucesso', 'Conversão realizada com sucesso!');
+          this.calcularResultadoEmDolar();
         },
-        error: (err) => {
-          console.error('Erro ao converter:', err);
+        error: () => {
           this.resultado = 0;
           this.taxa = 0;
-          this.mostraMensagemDeErro();
+          this.exibirMensagem(
+            'erro',
+            'Erro: Cotação não disponível para o par selecionado.',
+          );
         },
       });
   }
 
-  mostraMensagemDeSucesso() {
-    let sucesso = document.querySelector('.sucesso');
-    sucesso!.innerHTML =
-      "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversao realizada com sucesso!</strong></div>";
-    document.querySelector('.sucesso');
-    setTimeout(() => {
-      sucesso!.innerHTML = '';
-    }, 3 * 1000);
-  }
-
-  mostraMensagemDeErro() {
-    let sucesso = document.querySelector('.sucesso');
-    sucesso!.innerHTML =
-      "<div class='alert alert-danger shadow border border-danger' role='alert'><strong>Erro: Cotação não disponível para o par selecionado.</strong></div>";
-    setTimeout(() => {
-      sucesso!.innerHTML = '';
-    }, 5 * 1000);
-  }
-
-  checkResultadoEmDolar(resultado: number) {
+  private calcularResultadoEmDolar(): void {
     if (this.moedaConvertida === 'USD') {
-      this.resultadoEmDolar = resultado;
-      this.salvarConversao(resultado);
+      this.resultadoEmDolar = this.resultado;
+      this.salvarConversao();
       return;
     }
 
-    this.moedaService
-      .converter(this.moedaConvertida, 'USD', resultado)
-      .subscribe({
-        next: (resultadoEmDolar: any) => {
-          const key = this.moedaConvertida + 'USD';
-          const data = resultadoEmDolar[key];
-          if (data) {
-            this.resultadoEmDolar = resultado * parseFloat(data.bid);
-          } else {
-            this.resultadoEmDolar = 0;
-          }
-          this.salvarConversao(resultado);
-        },
-        error: (err) => {
-          console.error('Erro ao converter para USD:', err);
-          this.resultadoEmDolar = 0;
-          this.salvarConversao(resultado);
-        },
-      });
+    this.moedaService.converter(this.moedaConvertida, 'USD').subscribe({
+      next: (res: CotacaoResponse) => {
+        const key = this.moedaConvertida + 'USD';
+        const data = res[key];
+        this.resultadoEmDolar = data?.bid
+          ? this.resultado * parseFloat(data.bid)
+          : 0;
+        this.salvarConversao();
+      },
+      error: () => {
+        this.resultadoEmDolar = 0;
+        this.salvarConversao();
+      },
+    });
   }
 
-  private salvarConversao(resultado: number) {
-    let conversao = {
+  private salvarConversao(): void {
+    const conversao: Conversao = {
       data: new Date(),
       hora: new Date(),
       moedaSelecionada: this.moedaSelecionada,
       moedaConvertida: this.moedaConvertida,
       valor: Number(this.valor),
       taxa: this.taxa,
-      resultado: resultado,
+      resultado: this.resultado,
       resultadoEmDolar: this.resultadoEmDolar,
     };
+    this.historicoService.save(conversao);
+  }
 
-    const stored = sessionStorage.getItem('conversoes');
-    if (stored) {
-      this.conversoes = JSON.parse(stored);
-    }
-    this.conversoes.push(conversao);
-    sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
+  private exibirMensagem(tipo: 'sucesso' | 'erro', texto: string): void {
+    this.mensagem = { tipo, texto };
+    const timeout = tipo === 'sucesso' ? 3000 : 5000;
+    setTimeout(() => {
+      this.mensagem = null;
+    }, timeout);
   }
 }

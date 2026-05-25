@@ -1,28 +1,35 @@
-import { Conversao } from './../../interfaces/conversao';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Sort } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { of } from 'rxjs';
+import { HistoricoService } from '../../services/historico.service';
 import { HistoricoComponent } from './historico.component';
 
 describe('HistoricoComponent', () => {
   let component: HistoricoComponent;
   let fixture: ComponentFixture<HistoricoComponent>;
+  let historicoService: HistoricoService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HistoricoComponent ],
-      imports: [ MatTableModule, MatDialogModule, MatPaginatorModule, MatIconModule, BrowserAnimationsModule, ]
-    })
-      .compileComponents();
+      declarations: [HistoricoComponent],
+      imports: [
+        MatTableModule,
+        MatDialogModule,
+        MatPaginatorModule,
+        MatIconModule,
+        BrowserAnimationsModule,
+      ],
+      providers: [HistoricoService],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HistoricoComponent);
     component = fixture.componentInstance;
+    historicoService = TestBed.inject(HistoricoService);
     fixture.detectChanges();
   });
 
@@ -30,25 +37,22 @@ describe('HistoricoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
-  it('should configure table', () => {
-    component.conversoes = [ { data: new Date(), hora: new Date(), moedaSelecionada: 'USD', moedaConvertida: 'BRL', valor: 100, taxa: 5.2, resultado: 520, resultadoEmDolar: 100 } ];
-    component.configuraTabela();
-    expect(component.dataSource.data).toEqual(component.conversoes);
-    expect(component.dataSource.sort).toEqual(component.sort);
-    expect(component.dataSource.paginator).toEqual(component.paginator);
+  it('should load conversoes from historico service', () => {
+    spyOn(historicoService, 'getAll').and.returnValue([]);
+    component.carregarConversoes();
+    expect(historicoService.getAll).toHaveBeenCalled();
+    expect(component.dataSource.data).toEqual([]);
   });
-
-
 
   it('should announce sort state change', () => {
-    spyOn(component._liveAnnouncer, 'announce');
+    spyOn(component['liveAnnouncer'], 'announce');
     component.anunciarMudancaDeOrdenacao({ direction: 'asc' } as Sort);
-    expect(component._liveAnnouncer.announce).toHaveBeenCalledWith('Sorted ascending');
-    component.anunciarMudancaDeOrdenacao({ direction: 'desc' } as Sort);
-    expect(component._liveAnnouncer.announce).toHaveBeenCalledWith('Sorted descending');
+    expect(component['liveAnnouncer'].announce).toHaveBeenCalledWith(
+      'Sorted ascending',
+    );
     component.anunciarMudancaDeOrdenacao({ direction: '' } as Sort);
-    expect(component._liveAnnouncer.announce).toHaveBeenCalledWith('Sorting cleared');
+    expect(component['liveAnnouncer'].announce).toHaveBeenCalledWith(
+      'Sorting cleared',
+    );
   });
-
 });

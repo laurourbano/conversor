@@ -17,9 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
@@ -28,9 +27,6 @@ import { HistoricoComponent } from './components/historico/historico.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { MenuComponent } from './components/menu/menu.component';
-
-import { ConversorService } from './services/conversor.service';
-import { MoedaService } from './services/moeda.service';
 
 @NgModule({
   declarations: [
@@ -42,28 +38,17 @@ import { MoedaService } from './services/moeda.service';
     DeleteConfirmationDialogComponent,
     FooterComponent,
   ],
-  providers: [
-    ConversorService,
-    MoedaService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-  ],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
-  exports: [
-    AppComponent,
-    MenuComponent,
-    HomeComponent,
-    ListaComponent,
-    HistoricoComponent,
-    DeleteConfirmationDialogComponent,
-    FooterComponent,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -74,10 +59,6 @@ import { MoedaService } from './services/moeda.service';
     MatSortModule,
     MatTableModule,
     MatToolbarModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    NgbCollapseModule,
     NgbModule,
   ],
 })

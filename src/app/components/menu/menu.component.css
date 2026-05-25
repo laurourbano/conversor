@@ -1,9 +1,7 @@
 .container-fluid {
   width: 100%;
-  min-height: 20vh;
   min-height: 10vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-

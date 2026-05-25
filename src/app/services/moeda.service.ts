@@ -1,28 +1,25 @@
 import { HttpClient } from '@angular/common/http';
-
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { MoedasDisponiveis, CotacaoResponse } from '../interfaces/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MoedaService {
-  private api = 'https://economia.awesomeapi.com.br/json';
+  private readonly baseUrl = 'https://economia.awesomeapi.com.br/json';
 
   constructor(private http: HttpClient) {}
 
-  public gerarCotacao(): Observable<any> {
-    return this.http.get<any>(
-      `https://economia.awesomeapi.com.br/json/available/uniq`,
-    );
+  gerarCotacao(): Observable<MoedasDisponiveis> {
+    return this.http.get<MoedasDisponiveis>(`${this.baseUrl}/available/uniq`);
   }
 
-  public converter(
+  converter(
     moedaSelecionada: string,
     moedaConvertida: string,
-    valor: number,
-  ): Observable<any> {
-    const url = `${this.api}/last/${moedaSelecionada}-${moedaConvertida}`;
-    return this.http.get(url);
+  ): Observable<CotacaoResponse> {
+    const url = `${this.baseUrl}/last/${moedaSelecionada}-${moedaConvertida}`;
+    return this.http.get<CotacaoResponse>(url);
   }
 }
