@@ -38,6 +38,8 @@ export class HomeComponent implements OnInit {
     this.carregandoMoedas = true;
     this.erroMoedas = false;
 
+    this.moedaService.carregarPares().subscribe();
+
     this.moedaService.gerarCotacao().subscribe({
       next: (res: MoedasDisponiveis) => {
         this.carregandoMoedas = false;
