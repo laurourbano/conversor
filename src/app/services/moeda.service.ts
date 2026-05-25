@@ -29,8 +29,8 @@ private api = 'https://api.frankfurter.app';
     return this.http.get<any>(`${ this.api }/symbols`);
   };
 
-  public converter(moedaSelecionada: string, moedaConvertida: string, valor: number) {
-    const url = `${ this.api }/convert?from=${ moedaSelecionada }&to=${ moedaConvertida }&amount=${ valor }&places=2`;
+  public converter(moedaSelecionada: string, moedaConvertida: string, valor: number): Observable<any> {
+    const url = `${ this.api }/latest?amount=${ valor }&from=${ moedaSelecionada }&to=${ moedaConvertida }`;
     return this.http.get(url);
   };
 

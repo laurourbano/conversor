@@ -36,7 +36,10 @@ export class ListaComponent implements Moeda {
 
   buscaDadosDeMoedas() {
     this.MoedaService.gerarCotacao().subscribe((res) => {
-      this.dataSource.data = Object.values(res.symbols);
+      this.dataSource.data = Object.keys(res).map(code => ({
+        code: code,
+        description: res[code]
+      }));
     });
   }
 
