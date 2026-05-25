@@ -1,4 +1,4 @@
-import {
+﻿import {
   Component,
   OnInit
 } from '@angular/core';
@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   isInputBlurredMC = false;
   isInputBlurredV = false;
 
-
   moedas: Moeda[] = [];
 
   resultadoEmDolar!: number;
@@ -38,38 +37,33 @@ export class HomeComponent implements OnInit {
   conversao!: Conversao;
   formControl: any;
 
-  constructor(private moedaService: MoedaService) {
+  constructor(private moedaService: MoedaService) { };
 
-  };
+  ngOnInit(): void {
+    this.moedaService.gerarCotacao().subscribe({
+      next: (res: any) => {
+        console.log('RES:', res);
 
-ngOnInit(): void {
-  this.moedaService.gerarCotacao().subscribe({
-    next: (res: any) => {
-      console.log('RES:', res);
+        if (!res) {
+          console.error('API não retornou dados:', res);
+          this.moedas = [];
+          return;
+        }
 
-      if (!res) {
-      if (!res) {
-        console.error('API não retornou symbols:', res);
+        this.moedas = Object.keys(res).map((code) => ({ code: code, description: res[code] }));
+      },
+      error: (err) => {
+        console.error('Erro HTTP:', err);
         this.moedas = [];
-        return;
       }
-
-      this.moedas = Object.keys(res).map((code) => ({ code: code, description: res[code] }));
-    },
-    error: (err) => {
-      console.error('Erro HTTP:', err);
-      this.moedas = [];
-    }
-  });
-}
+    });
+  }
 
   realizaConversao() {
     if (!this.moedaSelecionada || !this.moedaConvertida || this.valor <= 0) {
       return
     }
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-      this.taxa = res.rates[this.moedaConvertida] / this.valor;
-      this.resultado = res.rates[this.moedaConvertida];
       this.taxa = res.rates[this.moedaConvertida] / this.valor;
       this.resultado = res.rates[this.moedaConvertida];
       this.checkResultadoEmDolar(this.resultado);
@@ -86,10 +80,8 @@ ngOnInit(): void {
     }, 3 * 1000);
   }
 
-
   checkResultadoEmDolar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resultadoEmDolar: any) => {
-      this.resultadoEmDolar = resultadoEmDolar.rates['USD'];
       this.resultadoEmDolar = resultadoEmDolar.rates['USD'];
       let conversao = {
         data: new Date(),
