@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Conversao } from 'src/app/interfaces/conversao';
@@ -26,7 +27,7 @@ private api = 'https://api.frankfurter.app';
   constructor(private http: HttpClient) { };
 
   public gerarCotacao(): Observable<any> {
-    return this.http.get<any>(`${ this.api }/symbols`);
+    return this.http.get<any>(`${ this.api }/currencies`);
   };
 
   public converter(moedaSelecionada: string, moedaConvertida: string, valor: number): Observable<any> {
