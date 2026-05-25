@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
         console.log('RES:', res);
 
         if (!res) {
-          console.error('API não retornou dados:', res);
+          console.error('API nao retornou dados:', res);
           this.moedas = [];
           return;
         }
@@ -64,8 +64,12 @@ export class HomeComponent implements OnInit {
       return
     }
     this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-      this.taxa = res.rates[this.moedaConvertida] / this.valor;
-      this.resultado = res.rates[this.moedaConvertida];
+      const key = this.moedaSelecionada + this.moedaConvertida;
+      const data = res[key];
+      if (data) {
+        this.taxa = parseFloat(data.bid);
+        this.resultado = this.valor * this.taxa;
+      }
       this.checkResultadoEmDolar(this.resultado);
       this.mostraMensagemDeSucesso();
     })
@@ -73,7 +77,7 @@ export class HomeComponent implements OnInit {
 
   mostraMensagemDeSucesso() {
     let sucesso = document.querySelector('.sucesso');
-    sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversão realizada com sucesso!</strong></div>";
+    sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversao realizada com sucesso!</strong></div>";
     document.querySelector('.sucesso');
     setTimeout(() => {
       sucesso!.innerHTML = "";
@@ -82,7 +86,11 @@ export class HomeComponent implements OnInit {
 
   checkResultadoEmDolar(resultado: number) {
     this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resultadoEmDolar: any) => {
-      this.resultadoEmDolar = resultadoEmDolar.rates['USD'];
+      const key = this.moedaConvertida + 'USD';
+      const data = resultadoEmDolar[key];
+      if (data) {
+        this.resultadoEmDolar = parseFloat(data.bid) * resultado;
+      }
       let conversao = {
         data: new Date(),
         hora: new Date(),

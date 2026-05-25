@@ -9,7 +9,7 @@ import { Conversao } from 'src/app/interfaces/conversao';
 })
 export class MoedaService {
 
-private api = 'https://api.frankfurter.app';
+private api = 'https://economia.awesomeapi.com.br/json';
   
   i!: boolean;
   moedaSelecionada: any;
@@ -27,11 +27,11 @@ private api = 'https://api.frankfurter.app';
   constructor(private http: HttpClient) { };
 
   public gerarCotacao(): Observable<any> {
-    return this.http.get<any>(`${ this.api }/currencies`);
+    return this.http.get<any>(`https://economia.awesomeapi.com.br/json/available/uniq`);
   };
 
   public converter(moedaSelecionada: string, moedaConvertida: string, valor: number): Observable<any> {
-    const url = `${ this.api }/latest?amount=${ valor }&from=${ moedaSelecionada }&to=${ moedaConvertida }`;
+    const url = `${this.api}/last/${moedaSelecionada}-${moedaConvertida}`;
     return this.http.get(url);
   };
 
