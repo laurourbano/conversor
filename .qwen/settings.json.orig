@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Agent(Explore)",
-      "Bash(npx *)"
+      "Bash(npx *)",
+      "Bash(npm run *)",
+      "Bash(set *)",
+      "Bash(git restore *)",
+      "Bash(git commit *)"
     ]
   },
   "$version": 4
