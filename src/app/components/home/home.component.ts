@@ -75,6 +75,13 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  inverterMoedas(): void {
+    [this.moedaSelecionada, this.moedaConvertida] = [
+      this.moedaConvertida,
+      this.moedaSelecionada,
+    ];
+  }
+
   realizaConversao(): void {
     if (this.formInvalido) {
       return;

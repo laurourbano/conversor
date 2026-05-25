@@ -47,7 +47,7 @@
       class="row justify-content-start"
       *ngIf="!carregandoMoedas && !erroMoedas"
     >
-      <div class="col-md-6">
+      <div class="col-md-5">
         <mat-form-field class="w-100">
           <mat-label>Moeda selecionada</mat-label>
           <mat-select [(ngModel)]="moedaSelecionada" required>
@@ -58,7 +58,19 @@
         </mat-form-field>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-2 d-flex align-items-center justify-content-center">
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="inverterMoedas()"
+          title="Inverter moedas"
+          [disabled]="!moedaSelecionada || !moedaConvertida"
+        >
+          <mat-icon>swap_horiz</mat-icon>
+        </button>
+      </div>
+
+      <div class="col-md-5">
         <mat-form-field class="w-100">
           <mat-label>Moeda convertida</mat-label>
           <mat-select [(ngModel)]="moedaConvertida" required>
