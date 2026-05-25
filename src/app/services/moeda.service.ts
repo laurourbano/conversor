@@ -11,7 +11,7 @@ const REQUEST_TIMEOUT_MS = 15000;
 })
 export class MoedaService {
   private readonly baseUrl = 'https://economia.awesomeapi.com.br/json';
-  private moedasValidas: Set<string> = new Set();
+  private paresValidos: Set<string> | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -24,24 +24,33 @@ export class MoedaService {
       );
   }
 
-  cacheMoedas(moedas: string[]): void {
-    this.moedasValidas = new Set(moedas);
+  carregarPares(): Observable<Record<string, string>> {
+    return this.http
+      .get<Record<string, string>>(`${this.baseUrl}/available`)
+      .pipe(
+        timeout(REQUEST_TIMEOUT_MS),
+        catchError(() => of({} as Record<string, string>)),
+      );
+  }
+
+  cachePares(disponiveis: Record<string, string>): void {
+    this.paresValidos = new Set(Object.keys(disponiveis));
   }
 
   converter(
     moedaSelecionada: string,
     moedaConvertida: string,
   ): Observable<CotacaoResponse> {
-    if (
-      moedaSelecionada === moedaConvertida ||
-      (this.moedasValidas.size > 0 &&
-        (!this.moedasValidas.has(moedaSelecionada) ||
-          !this.moedasValidas.has(moedaConvertida)))
-    ) {
+    if (moedaSelecionada === moedaConvertida) {
       return of({});
     }
 
-    const url = `${this.baseUrl}/last/${moedaSelecionada}-${moedaConvertida}`;
+    const par = `${moedaSelecionada}-${moedaConvertida}`;
+    if (this.paresValidos && !this.paresValidos.has(par)) {
+      return of({});
+    }
+
+    const url = `${this.baseUrl}/last/${par}`;
     return this.http.get<CotacaoResponse>(url).pipe(
       timeout(REQUEST_TIMEOUT_MS),
       catchError(() => of({})),

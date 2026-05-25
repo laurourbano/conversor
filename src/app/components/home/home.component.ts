@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { Moeda } from '../../interfaces/moeda';
 import { Conversao } from '../../interfaces/conversao';
 import { MoedasDisponiveis, CotacaoResponse } from '../../interfaces/api';
@@ -38,19 +39,24 @@ export class HomeComponent implements OnInit {
     this.carregandoMoedas = true;
     this.erroMoedas = false;
 
-    this.moedaService.gerarCotacao().subscribe({
-      next: (res: MoedasDisponiveis) => {
+    forkJoin([
+      this.moedaService.gerarCotacao(),
+      this.moedaService.carregarPares(),
+    ]).subscribe({
+      next: ([moedasRes, paresRes]) => {
         this.carregandoMoedas = false;
-        if (!res || Object.keys(res).length === 0) {
+
+        if (!moedasRes || Object.keys(moedasRes).length === 0) {
           this.moedas = [];
           this.erroMoedas = true;
           return;
         }
-        this.moedas = Object.keys(res).map((code) => ({
+
+        this.moedaService.cachePares(paresRes);
+        this.moedas = Object.keys(moedasRes).map((code) => ({
           code,
-          description: res[code],
+          description: moedasRes[code],
         }));
-        this.moedaService.cacheMoedas(Object.keys(res));
       },
       error: () => {
         this.moedas = [];

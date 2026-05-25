@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { forkJoin } from 'rxjs';
 
 import { MoedasDisponiveis } from '../../interfaces/api';
 import { MoedaService } from '../../services/moeda.service';
@@ -39,18 +40,23 @@ export class ListaComponent {
     this.carregando = true;
     this.erro = false;
 
-    this.moedaService.gerarCotacao().subscribe({
-      next: (res: MoedasDisponiveis) => {
+    forkJoin([
+      this.moedaService.gerarCotacao(),
+      this.moedaService.carregarPares(),
+    ]).subscribe({
+      next: ([moedasRes, paresRes]) => {
         this.carregando = false;
-        if (!res || Object.keys(res).length === 0) {
+
+        if (!moedasRes || Object.keys(moedasRes).length === 0) {
           this.erro = true;
           return;
         }
-        this.dataSource.data = Object.keys(res).map((code) => ({
+
+        this.moedaService.cachePares(paresRes);
+        this.dataSource.data = Object.keys(moedasRes).map((code) => ({
           code,
-          description: res[code],
+          description: moedasRes[code],
         }));
-        this.moedaService.cacheMoedas(Object.keys(res));
       },
       error: () => {
         this.carregando = false;

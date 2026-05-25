@@ -37,8 +37,9 @@ describe('ListaComponent', () => {
     component = fixture.componentInstance;
     moedaService = TestBed.inject(MoedaService);
     spyOn(moedaService, 'gerarCotacao').and.returnValue(
-      of({ USD: 'US Dollar', BRL: 'Brazilian Real' }),
+      of({ USD: 'US Dollar', BRL: 'Brazilian Real' } as any),
     );
+    spyOn(moedaService, 'carregarPares').and.returnValue(of({} as any));
     fixture.detectChanges();
   });
 
@@ -46,17 +47,17 @@ describe('ListaComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set erro to true when gerarCotacao fails', () => {
-    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
-      throwError(() => new Error('Network error')),
-    );
+  it('should set erro to true when gerarCotacao returns empty', () => {
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(of({} as any));
     component.buscarMoedas();
     expect(component.erro).toBeTrue();
     expect(component.carregando).toBeFalse();
   });
 
-  it('should set erro to true when gerarCotacao returns empty', () => {
-    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(of({}));
+  it('should set erro to true when gerarCotacao fails', () => {
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
+      throwError(() => new Error('Network error')),
+    );
     component.buscarMoedas();
     expect(component.erro).toBeTrue();
     expect(component.carregando).toBeFalse();

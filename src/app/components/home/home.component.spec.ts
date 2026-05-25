@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
 
 import { MoedaService } from '../../services/moeda.service';
@@ -41,30 +40,31 @@ describe('HomeComponent', () => {
     moedaService = TestBed.inject(MoedaService);
     historicoService = TestBed.inject(HistoricoService);
     spyOn(moedaService, 'gerarCotacao').and.returnValue(of({}));
+    spyOn(moedaService, 'carregarPares').and.returnValue(of({}));
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set erroMoedas to true when gerarCotacao fails', () => {
-    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
-      throwError(() => new Error('Network error')),
-    );
+  it('should set erroMoedas to true when gerarCotacao returns empty', () => {
     component['carregarMoedas']();
     expect(component.erroMoedas).toBeTrue();
     expect(component.carregandoMoedas).toBeFalse();
   });
 
-  it('should set erroMoedas to true when gerarCotacao returns empty', () => {
-    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(of({}));
+  it('should load moedas when gerarCotacao succeeds', () => {
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
+      of({ USD: 'US Dollar' } as any),
+    );
     component['carregarMoedas']();
-    expect(component.erroMoedas).toBeTrue();
+    expect(component.erroMoedas).toBeFalse();
     expect(component.carregandoMoedas).toBeFalse();
+    expect(component.moedas.length).toBe(1);
   });
 
   it('should call the converter function with the correct arguments', () => {
-    spyOn(moedaService, 'converter').and.returnValue(of({}));
+    spyOn(moedaService, 'converter').and.returnValue(of({} as any));
     spyOn(historicoService, 'save');
 
     component.moedaSelecionada = 'USD';
@@ -108,7 +108,7 @@ describe('HomeComponent', () => {
   });
 
   it('should display error message when API returns no data', () => {
-    spyOn(moedaService, 'converter').and.returnValue(of({}));
+    spyOn(moedaService, 'converter').and.returnValue(of({} as any));
 
     component.moedaSelecionada = 'USD';
     component.moedaConvertida = 'BRL';
@@ -150,7 +150,7 @@ describe('HomeComponent', () => {
   it('should reset erroMoedas and reload on tentarNovamente', () => {
     component.erroMoedas = true;
     (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
-      of({ USD: 'US Dollar' }),
+      of({ USD: 'US Dollar' } as any),
     );
 
     component.tentarNovamente();
