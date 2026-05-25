@@ -60,6 +60,7 @@ export class HomeComponent implements OnInit {
             description: moedasRes[code],
             pais: obterPais(code, moedasRes[code]),
           }))
+          .filter((m) => this.moedaService.moedaTemCotacao(m.code))
           .sort((a, b) => a.pais.localeCompare(b.pais, 'pt-BR'));
       },
       error: () => {

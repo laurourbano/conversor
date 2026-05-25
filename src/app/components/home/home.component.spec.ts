@@ -57,6 +57,9 @@ describe('HomeComponent', () => {
     (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
       of({ USD: 'US Dollar' } as any),
     );
+    (moedaService.carregarPares as jasmine.Spy).and.returnValue(
+      of({ 'USD-BRL': 'Dólar Americano/Real Brasileiro' } as any),
+    );
     component['carregarMoedas']();
     expect(component.erroMoedas).toBeFalse();
     expect(component.carregandoMoedas).toBeFalse();
@@ -151,6 +154,9 @@ describe('HomeComponent', () => {
     component.erroMoedas = true;
     (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
       of({ USD: 'US Dollar' } as any),
+    );
+    (moedaService.carregarPares as jasmine.Spy).and.returnValue(
+      of({ 'USD-BRL': 'Dólar Americano/Real Brasileiro' } as any),
     );
 
     component.tentarNovamente();

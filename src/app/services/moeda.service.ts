@@ -37,6 +37,19 @@ export class MoedaService {
     this.paresComCotacao = new Set(Object.keys(disponiveis));
   }
 
+  moedaTemCotacao(code: string): boolean {
+    if (!this.paresComCotacao) {
+      return true;
+    }
+    for (const par of this.paresComCotacao) {
+      const [de, para] = par.split('-');
+      if (de === code || para === code) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   converter(
     moedaSelecionada: string,
     moedaConvertida: string,

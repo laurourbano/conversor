@@ -64,6 +64,7 @@ export class ListaComponent {
             pais: obterPais(code, moedasRes[code]),
             description: moedasRes[code],
           }))
+          .filter((m) => this.moedaService.moedaTemCotacao(m.code))
           .sort((a, b) => a.pais.localeCompare(b.pais, 'pt-BR'));
       },
       error: () => {

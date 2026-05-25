@@ -39,7 +39,12 @@ describe('ListaComponent', () => {
     spyOn(moedaService, 'gerarCotacao').and.returnValue(
       of({ USD: 'US Dollar', BRL: 'Brazilian Real' } as any),
     );
-    spyOn(moedaService, 'carregarPares').and.returnValue(of({} as any));
+    spyOn(moedaService, 'carregarPares').and.returnValue(
+      of({
+        'USD-BRL': 'Dólar Americano/Real Brasileiro',
+        'BRL-USD': 'Real Brasileiro/Dólar Americano',
+      } as any),
+    );
     fixture.detectChanges();
   });
 
