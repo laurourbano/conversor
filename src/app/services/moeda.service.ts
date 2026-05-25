@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, timeout } from 'rxjs';
 import { MoedasDisponiveis, CotacaoResponse } from '../interfaces/api';
+
+const REQUEST_TIMEOUT_MS = 15000;
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,9 @@ export class MoedaService {
   constructor(private http: HttpClient) {}
 
   gerarCotacao(): Observable<MoedasDisponiveis> {
-    return this.http.get<MoedasDisponiveis>(`${this.baseUrl}/available/uniq`);
+    return this.http
+      .get<MoedasDisponiveis>(`${this.baseUrl}/available/uniq`)
+      .pipe(timeout(REQUEST_TIMEOUT_MS));
   }
 
   converter(
@@ -20,6 +24,8 @@ export class MoedaService {
     moedaConvertida: string,
   ): Observable<CotacaoResponse> {
     const url = `${this.baseUrl}/last/${moedaSelecionada}-${moedaConvertida}`;
-    return this.http.get<CotacaoResponse>(url);
+    return this.http
+      .get<CotacaoResponse>(url)
+      .pipe(timeout(REQUEST_TIMEOUT_MS));
   }
 }

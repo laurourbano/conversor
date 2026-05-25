@@ -18,6 +18,9 @@ export class ListaComponent {
     [],
   );
 
+  carregando = true;
+  erro = false;
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
@@ -27,21 +30,30 @@ export class ListaComponent {
   ) {}
 
   ngOnInit(): void {
-    this.buscarMoedas();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.buscarMoedas();
   }
 
   buscarMoedas(): void {
+    this.carregando = true;
+    this.erro = false;
+
     this.moedaService.gerarCotacao().subscribe({
       next: (res: MoedasDisponiveis) => {
+        this.carregando = false;
+        if (!res || Object.keys(res).length === 0) {
+          this.erro = true;
+          return;
+        }
         this.dataSource.data = Object.keys(res).map((code) => ({
           code,
           description: res[code],
         }));
       },
       error: () => {
-        this.dataSource.data = [];
+        this.carregando = false;
+        this.erro = true;
       },
     });
   }

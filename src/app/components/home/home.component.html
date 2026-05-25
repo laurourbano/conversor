@@ -11,7 +11,42 @@
         em converter e obter o resultado em segundos
       </p>
     </div>
-    <div class="row justify-content-start">
+
+    <!-- Fallback: erro ao carregar moedas -->
+    <div
+      *ngIf="erroMoedas"
+      class="alert alert-warning shadow border text-center mb-3"
+      role="alert"
+    >
+      <mat-icon class="align-middle">warning</mat-icon>
+      <strong>Não foi possível carregar a lista de moedas.</strong>
+      <p class="mb-2 mt-1">
+        Verifique sua conexão com a internet e tente novamente.
+      </p>
+      <button
+        mat-button
+        class="btn btn-outline-warning"
+        (click)="tentarNovamente()"
+      >
+        <mat-icon class="mat-18">refresh</mat-icon> Tentar novamente
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div
+      *ngIf="carregandoMoedas && !erroMoedas"
+      class="text-center text-light mb-3"
+    >
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Carregando moedas...</span>
+      </div>
+      <p class="mt-2">Carregando moedas disponíveis...</p>
+    </div>
+
+    <div
+      class="row justify-content-start"
+      *ngIf="!carregandoMoedas && !erroMoedas"
+    >
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Moeda selecionada</mat-label>
@@ -75,10 +110,17 @@
             type="submit"
             class="btn btn-success bg-success p-4"
             (click)="realizaConversao()"
-            [disabled]="formInvalido"
+            [disabled]="formInvalido || convertendo"
           >
-            Converter
-            <mat-icon class="mat-18">currency_exchange</mat-icon>
+            <span
+              *ngIf="convertendo"
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+            ></span>
+            <mat-icon class="mat-18" *ngIf="!convertendo"
+              >currency_exchange</mat-icon
+            >
+            {{ convertendo ? 'Convertendo...' : 'Converter' }}
           </button>
           <small class="text-white"
             >*Para habilitar o envio, preencha todos os campos</small

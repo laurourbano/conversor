@@ -1,41 +1,72 @@
 <div class="container-fluid d-flex bg-dark justify-content-center">
   <div class="w-100 pt-2 container justify-content-center">
-    <mat-form-field class="w-50">
-      <mat-label>Filtro de Moedas</mat-label>
-      <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ex. BRL" />
-    </mat-form-field>
-
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      (matSortChange)="anunciarMudancaDeOrdenacao($event)"
-      class="mat-elevation-z8"
+    <!-- Fallback: erro ao carregar moedas -->
+    <div
+      *ngIf="erro"
+      class="alert alert-warning shadow border text-center mt-3"
+      role="alert"
     >
-      <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-50">
-          Sigla
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row.code }}</td>
-      </ng-container>
+      <mat-icon class="align-middle">warning</mat-icon>
+      <strong>Não foi possível carregar a lista de moedas.</strong>
+      <p class="mb-2 mt-1">
+        Verifique sua conexão com a internet e tente novamente.
+      </p>
+      <button
+        mat-button
+        class="btn btn-outline-warning"
+        (click)="buscarMoedas()"
+      >
+        <mat-icon class="mat-18">refresh</mat-icon> Tentar novamente
+      </button>
+    </div>
 
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-50">
-          Descrição
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row.description }}</td>
-      </ng-container>
+    <!-- Loading -->
+    <div *ngIf="carregando && !erro" class="text-center text-light mt-3">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Carregando moedas...</span>
+      </div>
+      <p class="mt-2">Carregando moedas disponíveis...</p>
+    </div>
 
-      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
-      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
-    </table>
+    <!-- Conteúdo principal -->
+    <ng-container *ngIf="!carregando && !erro">
+      <mat-form-field class="w-50">
+        <mat-label>Filtro de Moedas</mat-label>
+        <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ex. BRL" />
+      </mat-form-field>
 
-    <mat-paginator
-      class="bg-transparent"
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      aria-label="Página de Moedas"
-    >
-    </mat-paginator>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        (matSortChange)="anunciarMudancaDeOrdenacao($event)"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-50">
+            Sigla
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-50">
+            Descrição
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      </table>
+
+      <mat-paginator
+        class="bg-transparent"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Página de Moedas"
+      >
+      </mat-paginator>
+    </ng-container>
   </div>
 </div>

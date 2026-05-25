@@ -12,6 +12,9 @@ import { HistoricoService } from '../../services/historico.service';
 })
 export class HomeComponent implements OnInit {
   moedas: Moeda[] = [];
+  carregandoMoedas = true;
+  erroMoedas = false;
+
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor!: number;
@@ -19,6 +22,7 @@ export class HomeComponent implements OnInit {
   resultado!: number;
   resultadoEmDolar!: number;
 
+  convertendo = false;
   mensagem: { tipo: 'sucesso' | 'erro'; texto: string } | null = null;
 
   constructor(
@@ -27,10 +31,19 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.carregarMoedas();
+  }
+
+  private carregarMoedas(): void {
+    this.carregandoMoedas = true;
+    this.erroMoedas = false;
+
     this.moedaService.gerarCotacao().subscribe({
       next: (res: MoedasDisponiveis) => {
-        if (!res) {
+        this.carregandoMoedas = false;
+        if (!res || Object.keys(res).length === 0) {
           this.moedas = [];
+          this.erroMoedas = true;
           return;
         }
         this.moedas = Object.keys(res).map((code) => ({
@@ -40,6 +53,8 @@ export class HomeComponent implements OnInit {
       },
       error: () => {
         this.moedas = [];
+        this.carregandoMoedas = false;
+        this.erroMoedas = true;
       },
     });
   }
@@ -58,10 +73,14 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    this.convertendo = true;
+    this.mensagem = null;
+
     this.moedaService
       .converter(this.moedaSelecionada, this.moedaConvertida)
       .subscribe({
         next: (res: CotacaoResponse) => {
+          this.convertendo = false;
           const key = this.moedaSelecionada + this.moedaConvertida;
           const data = res[key];
 
@@ -81,14 +100,19 @@ export class HomeComponent implements OnInit {
           this.calcularResultadoEmDolar();
         },
         error: () => {
+          this.convertendo = false;
           this.resultado = 0;
           this.taxa = 0;
           this.exibirMensagem(
             'erro',
-            'Erro: Cotação não disponível para o par selecionado.',
+            'Não foi possível realizar a conversão. Verifique sua conexão e tente novamente.',
           );
         },
       });
+  }
+
+  tentarNovamente(): void {
+    this.carregarMoedas();
   }
 
   private calcularResultadoEmDolar(): void {
