@@ -1,64 +1,99 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MoedaService } from './../../services/moeda.service';
+import { of, throwError } from 'rxjs';
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MoedaService } from '../../services/moeda.service';
 import { ListaComponent } from './lista.component';
 
 describe('ListaComponent', () => {
   let component: ListaComponent;
   let fixture: ComponentFixture<ListaComponent>;
+  let moedaService: MoedaService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListaComponent ],
-      imports: [ MatFormFieldModule, MatTableModule, HttpClientTestingModule, MatPaginatorModule, BrowserAnimationsModule, MatInputModule, MatSortModule ],
-      providers: [ MoedaService ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-    })
-      .compileComponents();
+      declarations: [ListaComponent],
+      imports: [
+        MatFormFieldModule,
+        MatTableModule,
+        HttpClientTestingModule,
+        MatPaginatorModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        MatSortModule,
+        MatIconModule,
+      ],
+      providers: [MoedaService],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ListaComponent);
     component = fixture.componentInstance;
+    moedaService = TestBed.inject(MoedaService);
+    spyOn(moedaService, 'gerarCotacao').and.returnValue(
+      of({ USD: 'US Dollar', BRL: 'Brazilian Real' } as any),
+    );
+    spyOn(moedaService, 'carregarPares').and.returnValue(
+      of({
+        'USD-BRL': 'Dólar Americano/Real Brasileiro',
+        'BRL-USD': 'Real Brasileiro/Dólar Americano',
+      } as any),
+    );
     fixture.detectChanges();
   });
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ListaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should used sortData', () => {
-    const dataSource = new MatTableDataSource();
-    dataSource.data = [
-      { code: 'BTN', description: 'Bhutanese Ngultrum' },
-      { code: 'USD', description: 'United States Dollar' },
-      { code: 'EGP', description: 'Egyptian Pound' },
-      { code: 'BRL', description: 'Brazilian Real' } ];
-    const sort: Sort = {
-      active: 'code',
-      direction: 'asc',
-    };
+  it('should set erro to true when gerarCotacao returns empty', () => {
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(of({} as any));
+    component.buscarMoedas();
+    expect(component.erro).toBeTrue();
+    expect(component.carregando).toBeFalse();
+  });
 
-    component.dataSource = dataSource;
-    component.ordenaDados(sort);
+  it('should set erro to true when gerarCotacao fails', () => {
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
+      throwError(() => new Error('Network error')),
+    );
+    component.buscarMoedas();
+    expect(component.erro).toBeTrue();
+    expect(component.carregando).toBeFalse();
+  });
 
-    expect(component.dataSource.data).toEqual([
-      { code: 'BRL', description: 'Brazilian Real' },
-      { code: 'BTN', description: 'Bhutanese Ngultrum' },
-      { code: 'EGP', description: 'Egyptian Pound' },
-      { code: 'USD', description: 'United States Dollar' }
-    ])
-  })
+  it('should populate dataSource on successful load', () => {
+    component.buscarMoedas();
+    expect(component.carregando).toBeFalse();
+    expect(component.erro).toBeFalse();
+    expect(component.dataSource.data.length).toBe(2);
+  });
+
+  it('should apply filter to dataSource', () => {
+    component.dataSource.data = [
+      {
+        code: 'USD',
+        pais: 'Estados Unidos',
+        description: 'United States Dollar',
+      },
+      { code: 'BRL', pais: 'Brasil', description: 'Brazilian Real' },
+    ];
+    const event = { target: { value: 'USD' } } as unknown as Event;
+    component.aplicarFiltro(event);
+    expect(component.dataSource.filter).toBe('usd');
+  });
+
+  it('should announce sort changes', () => {
+    spyOn(component['liveAnnouncer'], 'announce');
+    component.anunciarMudancaDeOrdenacao({ active: 'code', direction: 'asc' });
+    expect(component['liveAnnouncer'].announce).toHaveBeenCalledWith(
+      'Sorted ascending',
+    );
+  });
 });

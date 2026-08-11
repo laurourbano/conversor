@@ -1,104 +1,181 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import { Moeda } from './../../interfaces/moeda';
-
-import {
-  Conversao
-} from 'src/app/interfaces/conversao';
-import {
-  MoedaService
-} from 'src/app/services/moeda.service';
+﻿import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
+import { Moeda } from '../../interfaces/moeda';
+import { Conversao } from '../../interfaces/conversao';
+import { MoedasDisponiveis, CotacaoResponse } from '../../interfaces/api';
+import { obterPais } from '../../interfaces/paises';
+import { MoedaService } from '../../services/moeda.service';
+import { HistoricoService } from '../../services/historico.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: [ './home.component.css' ]
+  styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
-  isInputBlurredMS = false;
-  isInputBlurredMC = false;
-  isInputBlurredV = false;
-
-
   moedas: Moeda[] = [];
+  carregandoMoedas = true;
+  erroMoedas = false;
 
-  resultadoEmDolar!: number;
-  data!: Date;
-  hora!: Date;
   moedaSelecionada!: string;
   moedaConvertida!: string;
   valor!: number;
   taxa!: number;
   resultado!: number;
+  resultadoEmDolar!: number;
 
-  conversoes: Conversao[] = [];
-  conversao!: Conversao;
-  formControl: any;
+  convertendo = false;
+  mensagem: { tipo: 'sucesso' | 'erro'; texto: string } | null = null;
 
-  constructor(private moedaService: MoedaService) {
+  constructor(
+    private moedaService: MoedaService,
+    private historicoService: HistoricoService,
+  ) {}
 
-  };
+  ngOnInit(): void {
+    this.carregarMoedas();
+  }
 
-ngOnInit(): void {
-  this.moedaService.gerarCotacao().subscribe({
-    next: (res: any) => {
-      console.log('RES:', res);
+  private carregarMoedas(): void {
+    this.carregandoMoedas = true;
+    this.erroMoedas = false;
 
-      if (!res?.symbols) {
-        console.error('API não retornou symbols:', res);
+    forkJoin([
+      this.moedaService.gerarCotacao(),
+      this.moedaService.carregarPares(),
+    ]).subscribe({
+      next: ([moedasRes, paresRes]) => {
+        this.carregandoMoedas = false;
+
+        if (!moedasRes || Object.keys(moedasRes).length === 0) {
+          this.moedas = [];
+          this.erroMoedas = true;
+          return;
+        }
+
+        this.moedaService.cachePares(paresRes);
+        this.moedas = Object.keys(moedasRes)
+          .map((code) => ({
+            code,
+            description: moedasRes[code],
+            pais: obterPais(code, moedasRes[code]),
+          }))
+          .filter((m) => this.moedaService.moedaTemCotacao(m.code))
+          .sort((a, b) => a.pais.localeCompare(b.pais, 'pt-BR'));
+      },
+      error: () => {
         this.moedas = [];
-        return;
-      }
-
-      this.moedas = Object.keys(res.symbols).map((moeda) => res.symbols[moeda]);
-    },
-    error: (err) => {
-      console.error('Erro HTTP:', err);
-      this.moedas = [];
-    }
-  });
-}
-
-  realizaConversao() {
-    if (!this.moedaSelecionada || !this.moedaConvertida || this.valor <= 0) {
-      return
-    }
-    this.moedaService.converter(this.moedaSelecionada, this.moedaConvertida, this.valor).subscribe((res: any) => {
-      this.taxa = res.info.rate;
-      this.resultado = res.result;
-      this.checkResultadoEmDolar(this.resultado);
-      this.mostraMensagemDeSucesso();
-    })
-  }
-
-  mostraMensagemDeSucesso() {
-    let sucesso = document.querySelector('.sucesso');
-    sucesso!.innerHTML = "<div class='alert alert-success shadow border border-info' role='alert'><strong>Conversão realizada com sucesso!</strong></div>";
-    document.querySelector('.sucesso');
-    setTimeout(() => {
-      sucesso!.innerHTML = "";
-    }, 3 * 1000);
-  }
-
-
-  checkResultadoEmDolar(resultado: number) {
-    this.moedaService.converter(this.moedaConvertida, 'USD', resultado).subscribe((resultadoEmDolar: any) => {
-      this.resultadoEmDolar = resultadoEmDolar.result;
-      let conversao = {
-        data: new Date(),
-        hora: new Date(),
-        moedaSelecionada: this.moedaSelecionada,
-        moedaConvertida: this.moedaConvertida,
-        valor: this.valor,
-        taxa: this.taxa,
-        resultado: resultado,
-        resultadoEmDolar: this.resultadoEmDolar,
-      };
-      this.conversoes.push(conversao);
-      sessionStorage.setItem('conversoes', JSON.stringify(this.conversoes));
+        this.carregandoMoedas = false;
+        this.erroMoedas = true;
+      },
     });
+  }
+
+  get formInvalido(): boolean {
+    return (
+      !this.moedaSelecionada ||
+      !this.moedaConvertida ||
+      !this.valor ||
+      this.valor <= 0
+    );
+  }
+
+  inverterMoedas(): void {
+    [this.moedaSelecionada, this.moedaConvertida] = [
+      this.moedaConvertida,
+      this.moedaSelecionada,
+    ];
+  }
+
+  realizaConversao(): void {
+    if (this.formInvalido) {
+      return;
+    }
+
+    this.convertendo = true;
+    this.mensagem = null;
+
+    this.moedaService
+      .converter(this.moedaSelecionada, this.moedaConvertida)
+      .subscribe({
+        next: (res: CotacaoResponse) => {
+          this.convertendo = false;
+          const key = this.moedaSelecionada + this.moedaConvertida;
+          const data = res[key];
+
+          if (!data?.bid) {
+            this.resultado = 0;
+            this.taxa = 0;
+            this.exibirMensagem(
+              'erro',
+              'Cotação não disponível para o par selecionado.',
+            );
+            return;
+          }
+
+          this.taxa = parseFloat(data.bid);
+          this.resultado = this.valor * this.taxa;
+          this.exibirMensagem('sucesso', 'Conversão realizada com sucesso!');
+          this.calcularResultadoEmDolar();
+        },
+        error: () => {
+          this.convertendo = false;
+          this.resultado = 0;
+          this.taxa = 0;
+          this.exibirMensagem(
+            'erro',
+            'Não foi possível realizar a conversão. Verifique sua conexão e tente novamente.',
+          );
+        },
+      });
+  }
+
+  tentarNovamente(): void {
+    this.carregarMoedas();
+  }
+
+  private calcularResultadoEmDolar(): void {
+    if (this.moedaConvertida === 'USD') {
+      this.resultadoEmDolar = this.resultado;
+      this.salvarConversao();
+      return;
+    }
+
+    this.moedaService.converter(this.moedaConvertida, 'USD').subscribe({
+      next: (res: CotacaoResponse) => {
+        const key = this.moedaConvertida + 'USD';
+        const data = res[key];
+        this.resultadoEmDolar = data?.bid
+          ? this.resultado * parseFloat(data.bid)
+          : 0;
+        this.salvarConversao();
+      },
+      error: () => {
+        this.resultadoEmDolar = 0;
+        this.salvarConversao();
+      },
+    });
+  }
+
+  private salvarConversao(): void {
+    const conversao: Conversao = {
+      data: new Date(),
+      hora: new Date(),
+      moedaSelecionada: this.moedaSelecionada,
+      moedaConvertida: this.moedaConvertida,
+      valor: Number(this.valor),
+      taxa: this.taxa,
+      resultado: this.resultado,
+      resultadoEmDolar: this.resultadoEmDolar,
+    };
+    this.historicoService.save(conversao);
+  }
+
+  private exibirMensagem(tipo: 'sucesso' | 'erro', texto: string): void {
+    this.mensagem = { tipo, texto };
+    const timeout = tipo === 'sucesso' ? 3000 : 5000;
+    setTimeout(() => {
+      this.mensagem = null;
+    }, timeout);
   }
 }

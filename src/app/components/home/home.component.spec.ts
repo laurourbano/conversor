@@ -6,61 +6,163 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MoedaService } from './../../services/moeda.service';
+import { of, throwError } from 'rxjs';
 
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs/internal/observable/of';
-import {
-  HomeComponent
-} from './home.component';
+import { MoedaService } from '../../services/moeda.service';
+import { HistoricoService } from '../../services/historico.service';
+import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
-  let moedaService: MoedaService
+  let moedaService: MoedaService;
+  let historicoService: HistoricoService;
   let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ],
-      imports: [ MatFormFieldModule, HttpClientTestingModule, MatSelectModule, MatIconModule, FormsModule, MatInputModule, BrowserAnimationsModule ],
-      providers: [ MoedaService ]
-    })
-      .compileComponents();
+      declarations: [HomeComponent],
+      imports: [
+        MatFormFieldModule,
+        HttpClientTestingModule,
+        MatSelectModule,
+        MatIconModule,
+        FormsModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+      ],
+      providers: [MoedaService, HistoricoService],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     moedaService = TestBed.inject(MoedaService);
-    spyOn(moedaService, 'converter').and.returnValue(of({ 'info': 1.5, 'result': 1500 }))
-  })
+    historicoService = TestBed.inject(HistoricoService);
+    spyOn(moedaService, 'gerarCotacao').and.returnValue(of({}));
+    spyOn(moedaService, 'carregarPares').and.returnValue(of({}));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should set erroMoedas to true when gerarCotacao returns empty', () => {
+    component['carregarMoedas']();
+    expect(component.erroMoedas).toBeTrue();
+    expect(component.carregandoMoedas).toBeFalse();
+  });
+
+  it('should load moedas when gerarCotacao succeeds', () => {
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
+      of({ USD: 'US Dollar' } as any),
+    );
+    (moedaService.carregarPares as jasmine.Spy).and.returnValue(
+      of({ 'USD-BRL': 'Dólar Americano/Real Brasileiro' } as any),
+    );
+    component['carregarMoedas']();
+    expect(component.erroMoedas).toBeFalse();
+    expect(component.carregandoMoedas).toBeFalse();
+    expect(component.moedas.length).toBe(1);
+  });
+
   it('should call the converter function with the correct arguments', () => {
+    spyOn(moedaService, 'converter').and.returnValue(of({} as any));
+    spyOn(historicoService, 'save');
+
     component.moedaSelecionada = 'USD';
     component.moedaConvertida = 'BRL';
     component.valor = 1000;
 
     component.realizaConversao();
 
-    expect(moedaService.converter).toHaveBeenCalledWith('USD', 'BRL', 1000);
+    expect(moedaService.converter).toHaveBeenCalledWith('USD', 'BRL');
   });
 
+  it('should set convertendo to true while converting', () => {
+    spyOn(moedaService, 'converter').and.returnValue(
+      of({ USDBRL: { bid: '5.20' } } as any),
+    );
+    spyOn(historicoService, 'save');
 
-  it('should call converter of moedas when submit button was clicked', () => {
     component.moedaSelecionada = 'USD';
     component.moedaConvertida = 'BRL';
     component.valor = 1000;
-    component.realizaConversao()
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('.btn-success')).triggerEventHandler('click, null');
-    expect(moedaService.converter).toHaveBeenCalledWith('USD', 'BRL', 1000);
-    expect(component.resultado).toEqual(1500);
-  })
 
+    component.realizaConversao();
 
+    expect(component.convertendo).toBeFalse();
+  });
 
+  it('should set resultado and taxa when conversion succeeds', () => {
+    spyOn(moedaService, 'converter').and.returnValue(
+      of({ USDBRL: { bid: '5.20' } } as any),
+    );
+    spyOn(historicoService, 'save');
+
+    component.moedaSelecionada = 'USD';
+    component.moedaConvertida = 'BRL';
+    component.valor = 1000;
+
+    component.realizaConversao();
+
+    expect(component.taxa).toEqual(5.2);
+    expect(component.resultado).toEqual(5200);
+  });
+
+  it('should display error message when API returns no data', () => {
+    spyOn(moedaService, 'converter').and.returnValue(of({} as any));
+
+    component.moedaSelecionada = 'USD';
+    component.moedaConvertida = 'BRL';
+    component.valor = 1000;
+
+    component.realizaConversao();
+
+    expect(component.resultado).toEqual(0);
+    expect(component.taxa).toEqual(0);
+    expect(component.mensagem?.tipo).toBe('erro');
+  });
+
+  it('should display error message when API call fails', () => {
+    spyOn(moedaService, 'converter').and.returnValue(
+      throwError(() => new Error('Network error')),
+    );
+
+    component.moedaSelecionada = 'USD';
+    component.moedaConvertida = 'BRL';
+    component.valor = 1000;
+
+    component.realizaConversao();
+
+    expect(component.resultado).toEqual(0);
+    expect(component.taxa).toEqual(0);
+    expect(component.mensagem?.tipo).toBe('erro');
+    expect(component.convertendo).toBeFalse();
+  });
+
+  it('should have formInvalido return true when fields are empty', () => {
+    expect(component.formInvalido).toBeTrue();
+
+    component.moedaSelecionada = 'USD';
+    component.moedaConvertida = 'BRL';
+    component.valor = 100;
+    expect(component.formInvalido).toBeFalse();
+  });
+
+  it('should reset erroMoedas and reload on tentarNovamente', () => {
+    component.erroMoedas = true;
+    (moedaService.gerarCotacao as jasmine.Spy).and.returnValue(
+      of({ USD: 'US Dollar' } as any),
+    );
+    (moedaService.carregarPares as jasmine.Spy).and.returnValue(
+      of({ 'USD-BRL': 'Dólar Americano/Real Brasileiro' } as any),
+    );
+
+    component.tentarNovamente();
+
+    expect(component.erroMoedas).toBeFalse();
+    expect(component.carregandoMoedas).toBeFalse();
+    expect(component.moedas.length).toBe(1);
+  });
 });

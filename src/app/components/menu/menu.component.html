@@ -1,31 +1,58 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex border-bottom">
-  <div class="container-fluid d-flex ">
-    <div class=" align-self-center m-0 text-white ">
+  <div class="container-fluid d-flex">
+    <div class="align-self-center m-0 text-white">
       <div class="d-flex flex-row">
-
-        <h4 class="text-warning"><a class="text-warning m-2 text-decoration-none" href="/conversor/#/home">
-            <mat-icon class="mat-18 mx-2 text-warning">currency_exchange</mat-icon>
-            {{title}}
+        <h4 class="text-warning">
+          <a class="text-warning m-2 text-decoration-none" routerLink="/home">
+            <mat-icon class="mat-18 mx-2 text-warning"
+              >currency_exchange</mat-icon
+            >
+            {{ title }}
           </a>
         </h4>
       </div>
       <small class="text-warning px-3">{{ currentRoute }}</small>
-
     </div>
-    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
-    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end ">
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="isMenuCollapsed = !isMenuCollapsed"
+    >
+      <mat-icon class="text-white">menu</mat-icon>
+    </button>
+    <div
+      [ngbCollapse]="isMenuCollapsed"
+      class="collapse navbar-collapse justify-content-end"
+    >
       <ul ngbNav nav="ngbNav" class="nav-tabs row border-0">
-        <li [ngbNavItem]="'HOME'" class="col-sm-12 col-md-12 col-lg-auto">
-          <a ngbNavLink routerLink="" id="home" class="m-0"
-            (click)="isMenuCollapsed = true; currentRoute='HOME'">HOME</a>
+        <li [ngbNavItem]="1" class="col-sm-12 col-md-12 col-lg-auto">
+          <a
+            ngbNavLink
+            routerLink="/home"
+            class="m-0"
+            (click)="isMenuCollapsed = true; currentRoute = 'HOME'"
+            >HOME</a
+          >
         </li>
-        <li [ngbNavItem]="'LISTA DE MOEDAS'" class="col-sm-12 col-md-12 col-lg-auto">
-          <a ngbNavLink routerLink="lista" class="m-0 "
-            (click)="isMenuCollapsed = true; currentRoute='LISTA DE MOEDAS'">LISTA DE MOEDAS</a>
+        <li [ngbNavItem]="2" class="col-sm-12 col-md-12 col-lg-auto">
+          <a
+            ngbNavLink
+            routerLink="/lista"
+            class="m-0"
+            (click)="isMenuCollapsed = true; currentRoute = 'LISTA DE MOEDAS'"
+            >LISTA DE MOEDAS</a
+          >
         </li>
-        <li [ngbNavItem]="'HISTORICO DE CONVERSÕES'" class="col-sm-12 col-md-12 col-lg-auto">
-          <a ngbNavLink routerLink="historico" class="m-0 "
-            (click)="isMenuCollapsed = true; currentRoute='HISTÓRICO DE CONVERSÕES'">HISTORICO</a>
+        <li [ngbNavItem]="3" class="col-sm-12 col-md-12 col-lg-auto">
+          <a
+            ngbNavLink
+            routerLink="/historico"
+            class="m-0"
+            (click)="
+              isMenuCollapsed = true; currentRoute = 'HISTÓRICO DE CONVERSÕES'
+            "
+            >HISTORICO</a
+          >
         </li>
       </ul>
     </div>

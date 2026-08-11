@@ -1,4 +1,5 @@
 export interface Moeda {
-  description: string;
   code: string;
-};
+  description: string;
+  pais: string;
+}
